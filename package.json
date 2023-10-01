@@ -23,6 +23,7 @@
     "eslint": "^8.34.0",
     "postcss": "8.4.27",
     "prettier": "^2.8.4",
+    "prisma": "5.3.1",
     "rakkasjs": "0.7.0-next.21",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "1.0.6",
@@ -33,6 +34,9 @@
   },
   "dependencies": {
     "@hattip/cookie": "^0.0.35",
+    "@hattip/response": "^0.0.35",
+    "@lucia-auth/adapter-prisma": "^3.0.2",
+    "@prisma/client": "5.3.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@tanem/react-nprogress": "^5.0.51",
     "class-variance-authority": "^0.7.0",
