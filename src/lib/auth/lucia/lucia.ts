@@ -14,10 +14,27 @@ export const auth = lucia({
     sessionCookie: {
         expires: false
     },
-    getUserAttributes: ({ id, name, username }) => ({
+    getUserAttributes: ({ id, username,email }) => ({
         userId: id,
-        name,
-        username
+        username,
+        email
     }),
 
 });
+
+
+// export async function getLuciaEmailkey(){
+//     try {
+//         const key = await auth.createKey({
+//             userId,
+//             providerId: "email",
+//             providerUserId: "user@example.com",
+//             password: "123456"
+//         });
+//     } catch (e) {
+//         if (e instanceof LuciaError && e.message === "AUTH_DUPLICATE_KEY_ID") {
+//             // key already exists
+//         }
+//         // unexpected database errors
+//     }
+// }

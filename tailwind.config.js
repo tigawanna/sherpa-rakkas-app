@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -27,8 +26,6 @@ export default {
           accent: "#a3e635",
 
           neutral: "#ffe4e6",
-
-          "base-100": "#ffffff",
 
           info: "#62c2d5",
 

@@ -3,6 +3,7 @@ CREATE TABLE "User" (
     "_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("_id")
 );
@@ -28,6 +29,9 @@ CREATE TABLE "Key" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE INDEX "Session_user_id_idx" ON "Session"("user_id");

@@ -14,10 +14,13 @@ model User {
   // this is for lucia auth
   id String @id @map("_id")
 
-  // we add this fields to the User model - we can add more fields, roles, etc.
-  name     String
   // this is require for auth
   username String @unique
+
+  // we add this fields to the User model - we can add more fields, roles, etc.
+  
+  email String @unique 
+
 
   // this is require for lucia auth
   auth_session Session[]
