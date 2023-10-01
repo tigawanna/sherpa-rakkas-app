@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center ">
-      <Nprogress isAnimating={location?.pending ? true : false} />
+      <Nprogress isAnimating={(location&&location?.pending) ? true : false} />
       <header
         className="w-full flex gap-4 justify-between  text-primary-content bg-primary
       t  px-2 py-1 sticky top-0 z-50"
