@@ -1,19 +1,19 @@
 import { signinFormSchema } from "@/lib/auth/schema";
 import { SignInForm } from "./components/SignInForm";
-import { ActionHandler, Head, PageProps } from "rakkasjs";
+import { ActionHandler,PageProps,Head } from "rakkasjs";
 import { emailPasswordLogin } from "../api/auth/helpers/auth-methods";
 export default function Page({ actionData }: PageProps) {
-    console.log({actionData})
+
   return (
     <div className="w-full min-h-screen h-full flex items-center justify-center">
+        <Head title="Sign in" description={"Sign in to your account"}/>
       <SignInForm actionData={actionData} />
     </div>
   );
 }
 
 export const action: ActionHandler = async (ctx) => {
-console.log("sign in user action")
-  const formData = await ctx.requestContext.request.formData();
+const formData = await ctx.requestContext.request.formData();
   try {
     const { password, email } = signinFormSchema.parse({
       email: formData.get("email"),

@@ -16,65 +16,51 @@ interface SignInFormProps {
 
 
 export function SignInForm({actionData}: SignInFormProps) {
-// const mutation = useSSM<unknown,TUserSigninFormFields>(async(ctx,vars) => {
-//     try {
-//       const res = await emailPasswordLogin(vars.email, vars.password);
-//       ctx.request.headers.set("Set-Cookie", res.sessionCookie.serialize());
-//       ctx.request.headers.set("Location", "/");
-//       console.log(res);
-//      // return json(res)
-//     } catch (error:any) {
-//       console.log({error:error.message})
-//     }
-//   })
+return (
+  <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-3">
+    <div className="w-full h-full md:w-[60%] flex flex-col gap-4">
+      <form
+        className="w-full h-full  flex flex-col items-center justify-center gap-4"
+        method="POST"
+      >
+        <h1 className="text-2xl font-bold">Sign in</h1>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="email" className="fint-bold">
+            Email
+          </Label>
+          <Input
+            type="email"
+            name="email"
+            about="Email"
+            defaultValue={actionData?.email}
+          />
+        </div>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="password" className="fint-bold">
+            Password
+          </Label>
+          <Input
+            name="password"
+            type="password"
+            about="Password"
+            defaultValue={actionData?.password}
+          />
+        </div>
 
-//   const submit = useSubmit({
+        {actionData && <p style={{ color: "red" }}>{actionData.message}</p>}
+        <Button type="submit">Submit</Button>
+      </form>
 
-//   })
-
-
-
-
-  return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-3">
-      <div className="w-full h-full md:w-[60%] flex flex-col gap-4">
-        <form
-          className="w-full h-full  flex flex-col items-center justify-center gap-4"
-          method="POST"
-        >
-          <h1 className="text-2xl font-bold">Sign in</h1>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="email" className="fint-bold">
-              Email
-            </Label>
-            <Input
-              type="email"
-              name="email"
-              about="Email"
-              defaultValue={actionData?.email}
-            />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="password" className="fint-bold">
-              Password
-            </Label>
-            <Input
-              name="password"
-              type="password"
-              about="Password"
-     
-              defaultValue={actionData?.password}
-            />
-          </div>
-
-          {actionData && <p style={{ color: "red" }}>{actionData.message}</p>}
-          <Button type="submit">Submit</Button>
-        </form>
-
-        <OAuthproviders />
-      </div>
+      <OAuthproviders />
     </div>
-  );
+    <p className=" text-sm">
+      New here ? Create an account ?{" "}
+      <Link href="/auth/signup" className="text-accent">
+        Sign up
+      </Link>
+    </p>
+  </div>
+);
 }
 
 

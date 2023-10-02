@@ -23,6 +23,31 @@ export async function emailPasswordLogin(email:string,password:string) {
     throw new Error(error)
   }
 }
+export async function emailPasswordSignup(email:string,password:string,username:string) {
+  try {
+    const user = await auth.createUser({
+      key: {
+        providerId: "email", // auth method
+        providerUserId: email.toLowerCase(), // unique id when using "username" auth method
+        password, // hashed by Lucia
+      },
+      attributes: {
+        username,
+        email,
+      },
+    });
+    const session = await auth.createSession({
+      userId: user.userId,
+      attributes: {},
+    });
+    const sessionCookie = auth.createSessionCookie(session);
+    return {session,sessionCookie}
+    return {session,sessionCookie}
+  } catch (error:any) {
+    throw new Error(error)
+  }
+}
+
 
 /**
  * Logs in a user with email and password using lucia auth.
@@ -40,13 +65,7 @@ export async function loginUserWithEmailandPassword(ctx: RequestContext,input?:T
       email: formData.get("email"),
       password: formData.get("password"),
     });
-    
-    const key = await auth.useKey("email", email?.toLowerCase(), password);
-    const session = await auth.createSession({
-      userId: key.userId,
-      attributes: {},
-    });
-    const sessionCookie = auth.createSessionCookie(session);
+    const {session,sessionCookie} = await emailPasswordLogin(email,password);
     return json(session, {
       headers: {
         // Location: "/", // redirect to profile page
@@ -109,22 +128,7 @@ export async function createUserWithEmailandPassword(ctx: RequestContext,input?:
         password: formData.get("password"),
       },
       );
-    const user = await auth.createUser({
-      key: {
-        providerId: "email", // auth method
-        providerUserId: email.toLowerCase(), // unique id when using "username" auth method
-        password, // hashed by Lucia
-      },
-      attributes: {
-        username,
-        email,
-      },
-    });
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-    const sessionCookie = auth.createSessionCookie(session);
+     const {session,sessionCookie} = await emailPasswordSignup(email,password,username)
 
     return json(session, {
       headers: {
