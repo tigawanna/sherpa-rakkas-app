@@ -1,91 +1,80 @@
 import AutoForm, { AutoFormSubmit } from "@/components/shadcn/ui/auto-form";
 import { signinFormSchema, TUserSigninFormFields, TUserSignUpFormFields } from "@/lib/auth/schema";
-import { Link, useMutation, useSSM, useSubmit } from "rakkasjs";
+import { ActionHandler, Link, useMutation, useSSM, useSubmit } from "rakkasjs";
 import { OAuthproviders } from "./OAuthProviders";
 import { emailPasswordLogin } from "@/routes/api/auth/helpers/auth-methods";
+import { Input } from "@/components/shadcn/ui/input";
+import { Label } from "@/components/shadcn/ui/label";
+import { Button } from "@/components/shadcn/ui/button";
 
 
 
 
-interface SignInFormProps {}
+interface SignInFormProps {
+  actionData:any
+}
 
 
-export function SignInForm({}: SignInFormProps) {
-const mutation = useSSM<unknown,TUserSigninFormFields>(async(ctx,vars) => {
-    try {
-      const res = await emailPasswordLogin(vars.email, vars.password);
-      ctx.request.headers.set("Set-Cookie", res.sessionCookie.serialize());
-      ctx.request.headers.set("Location", "/");
-      console.log(res);
-     // return json(res)
-    } catch (error:any) {
-      console.log({error:error.message})
-    }
+export function SignInForm({actionData}: SignInFormProps) {
+// const mutation = useSSM<unknown,TUserSigninFormFields>(async(ctx,vars) => {
+//     try {
+//       const res = await emailPasswordLogin(vars.email, vars.password);
+//       ctx.request.headers.set("Set-Cookie", res.sessionCookie.serialize());
+//       ctx.request.headers.set("Location", "/");
+//       console.log(res);
+//      // return json(res)
+//     } catch (error:any) {
+//       console.log({error:error.message})
+//     }
+//   })
+
+//   const submit = useSubmit({
+
+//   })
 
 
-  })
-
-  // const mutation = useMutation<unknown,TUserSigninFormFields>(async(ctx,vars) => {
-  //    const api_url = new URL(ctx.request.url).origin + "/api/auth";
-  //   // console.log("api_url",api_url)
-  //   await fetch(api_url, {
-  //     method: "POST",
-  //   body: JSON.stringify(vars),
-  //   }).then(res => {
-  //     return res.json();
-  //   }).then(data => {
-  //     return data
-  //   })
-  // })
 
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-3">
-      <AutoForm
-       onSubmit={(values) => {
-       mutation.mutateAsync(values);
-        }}
-        // Pass the schema to the form
-        formSchema={signinFormSchema}
-        // You can add additional config for each field
-        // to customize the UI
-        fieldConfig={{
-          password: {
-            // Use "inputProps" to pass props to the input component
-            // You can use any props that the component accepts
-            inputProps: {
-              type: "password",
-              },
-          },
-        }}
-      >
-        {/* 
-      Pass in a AutoFormSubmit or a button with type="submit".
-      Alternatively, you can not pass a submit button
-      to create auto-saving forms etc.
-      */}
-        <AutoFormSubmit>Submit</AutoFormSubmit>
+      <div className="w-full h-full md:w-[60%] flex flex-col gap-4">
+        <form
+          className="w-full h-full  flex flex-col items-center justify-center gap-4"
+          method="POST"
+        >
+          <h1 className="text-2xl font-bold">Sign in</h1>
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="email" className="fint-bold">
+              Email
+            </Label>
+            <Input
+              type="email"
+              name="email"
+              about="Email"
+              defaultValue={actionData?.email}
+            />
+          </div>
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="password" className="fint-bold">
+              Password
+            </Label>
+            <Input
+              name="password"
+              type="password"
+              about="Password"
+     
+              defaultValue={actionData?.password}
+            />
+          </div>
 
-        {/*
-      All children passed to the form will be rendered below the form.
-      */}
-        <p className="text-gray-500 text-sm">
-          By submitting this form, you agree to our{" "}
-          <a href="#" className="text-primary underline">
-            terms and conditions
-          </a>
-          .
-        </p>
-        <p className="text-gray-500 text-sm">
-           New here? Create an account{" "}
-          <Link
-            href="/auth/signup"
-            className="text-primary underline hover:text-accent"
-          >Signup
-          </Link>
-        </p>
-      </AutoForm>
-      <OAuthproviders/>
+          {actionData && <p style={{ color: "red" }}>{actionData.message}</p>}
+          <Button type="submit">Submit</Button>
+        </form>
+
+        <OAuthproviders />
+      </div>
     </div>
   );
 }
+
+

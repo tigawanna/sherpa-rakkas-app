@@ -16,7 +16,8 @@ export async function emailPasswordLogin(email:string,password:string) {
       attributes: {},
     });
     const sessionCookie = auth.createSessionCookie(session);
-    console.log({session,sessionCookie})
+  
+    console.log("logged in with session == ",{session,sessionCookie})
     return {session,sessionCookie}
   } catch (error:any) {
     throw new Error(error)
