@@ -1,4 +1,5 @@
 import { auth, githubAuth } from "@/lib/auth/lucia/lucia";
+import { prisma } from "@/lib/db/prisma";
 import { json } from "@hattip/response";
 import { RequestContext } from "lucia";
 import { parseCookie } from "lucia/utils";
@@ -23,16 +24,31 @@ export async function get(ctx: RequestContext) {
         })
     }
     try {
-        const { getExistingUser, githubUser, createUser } = await githubAuth.validateCallback(code);
+        const { getExistingUser, githubUser, createUser,createKey } = await githubAuth.validateCallback(code);
 
         const getUser = async () => {
             const existingUser = await getExistingUser();
             if (existingUser) return existingUser;
+
+            if (!githubUser.email) {
+                throw new Error("no email found ");
+            }
+            const existingDatabaseUserWithEmail = await prisma.user.findUnique({
+                where: {
+                    email: githubUser.email!,
+                },
+            });
+            if (existingDatabaseUserWithEmail) {
+                console.log({existingDatabaseUserWithEmail})
+                const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail);
+                await createKey(user.userId);
+                return user;
+            }
             const user = await createUser({
                 attributes: {
                     username: githubUser.login,
                     email: githubUser.email!,
-                    }
+                }
             });
             return user;
         };
@@ -53,16 +69,23 @@ export async function get(ctx: RequestContext) {
         })
 
     } catch (e) {
-        console.log({errorr:e})
+        console.log({"error logging in":e})
         if (e instanceof Error) {
             // invalid code
         return json(e, {
+            headers:{
+                location: "/auth",
+            },
             status: 400
         })
         }
 
         return json(e, {
+            headers: {
+                location: "/auth",
+            },
             status: 500
         })
     }
 }
+

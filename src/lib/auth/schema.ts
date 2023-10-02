@@ -30,6 +30,7 @@ export const signupFormSchema = z.object({
         }),
 });
 
+export type TUserSignUpFormFields = z.infer<typeof signupFormSchema>;
 
 
 
@@ -49,3 +50,5 @@ export const signinFormSchema = z.object({
 
 
 });
+
+export type TUserSigninFormFields = z.infer<typeof signinFormSchema>;

@@ -1,18 +1,50 @@
 import AutoForm, { AutoFormSubmit } from "@/components/shadcn/ui/auto-form";
-import { signinFormSchema } from "@/lib/auth/schema";
-import { Link } from "rakkasjs";
-
-import * as z from "zod";
+import { signinFormSchema, TUserSigninFormFields, TUserSignUpFormFields } from "@/lib/auth/schema";
+import { Link, useMutation, useSSM, useSubmit } from "rakkasjs";
 import { OAuthproviders } from "./OAuthProviders";
+import { emailPasswordLogin } from "@/routes/api/auth/helpers/auth-methods";
+
+
+
+
 interface SignInFormProps {}
 
 
 export function SignInForm({}: SignInFormProps) {
-  // Define your form schema using zod
+const mutation = useSSM<unknown,TUserSigninFormFields>(async(ctx,vars) => {
+    try {
+      const res = await emailPasswordLogin(vars.email, vars.password);
+      ctx.request.headers.set("Set-Cookie", res.sessionCookie.serialize());
+      ctx.request.headers.set("Location", "/");
+      console.log(res);
+     // return json(res)
+    } catch (error:any) {
+      console.log({error:error.message})
+    }
+
+
+  })
+
+  // const mutation = useMutation<unknown,TUserSigninFormFields>(async(ctx,vars) => {
+  //    const api_url = new URL(ctx.request.url).origin + "/api/auth";
+  //   // console.log("api_url",api_url)
+  //   await fetch(api_url, {
+  //     method: "POST",
+  //   body: JSON.stringify(vars),
+  //   }).then(res => {
+  //     return res.json();
+  //   }).then(data => {
+  //     return data
+  //   })
+  // })
+
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-3">
       <AutoForm
+       onSubmit={(values) => {
+       mutation.mutateAsync(values);
+        }}
         // Pass the schema to the form
         formSchema={signinFormSchema}
         // You can add additional config for each field
@@ -32,7 +64,7 @@ export function SignInForm({}: SignInFormProps) {
       Alternatively, you can not pass a submit button
       to create auto-saving forms etc.
       */}
-        <AutoFormSubmit>Send now</AutoFormSubmit>
+        <AutoFormSubmit>Submit</AutoFormSubmit>
 
         {/*
       All children passed to the form will be rendered below the form.
