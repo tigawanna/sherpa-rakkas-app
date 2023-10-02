@@ -1,7 +1,9 @@
 import AutoForm, { AutoFormSubmit } from "@/components/shadcn/ui/auto-form";
 import { signinFormSchema } from "@/lib/auth/schema";
+import { Link } from "rakkasjs";
 
 import * as z from "zod";
+import { OAuthproviders } from "./OAuthProviders";
 interface SignInFormProps {}
 
 
@@ -9,8 +11,7 @@ export function SignInForm({}: SignInFormProps) {
   // Define your form schema using zod
 
   return (
-    <div className="w-full min-h-screen h-full flex items-center justify-center p-5">
-      
+    <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-3">
       <AutoForm
         // Pass the schema to the form
         formSchema={signinFormSchema}
@@ -22,10 +23,9 @@ export function SignInForm({}: SignInFormProps) {
             // You can use any props that the component accepts
             inputProps: {
               type: "password",
-              placeholder: "••••••••",
-            },
+              },
           },
-      }}
+        }}
       >
         {/* 
       Pass in a AutoFormSubmit or a button with type="submit".
@@ -44,7 +44,16 @@ export function SignInForm({}: SignInFormProps) {
           </a>
           .
         </p>
+        <p className="text-gray-500 text-sm">
+           New here? Create an account{" "}
+          <Link
+            href="/auth/signup"
+            className="text-primary underline hover:text-accent"
+          >Signup
+          </Link>
+        </p>
       </AutoForm>
+      <OAuthproviders/>
     </div>
   );
 }

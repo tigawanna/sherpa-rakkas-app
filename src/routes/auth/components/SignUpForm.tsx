@@ -1,5 +1,6 @@
 import AutoForm, { AutoFormSubmit } from "@/components/shadcn/ui/auto-form";
 import { signupFormSchema } from "@/lib/auth/schema";
+import { Link } from "rakkasjs";
 
 interface SignupFormProps {}
 
@@ -23,7 +24,6 @@ export function SignUpForm({}: SignupFormProps) {
             // You can use any props that the component accepts
             inputProps: {
               type: "password",
-              placeholder: "••••••••",
             },
           },
     }}
@@ -38,12 +38,16 @@ export function SignUpForm({}: SignupFormProps) {
         {/*
       All children passed to the form will be rendered below the form.
       */}
-        <p className="text-gray-500 text-sm">
+        <p className="text-base-300 text-sm">
           By submitting this form, you agree to our{" "}
           <a href="#" className="text-primary underline">
             terms and conditions
           </a>
           .
+        </p>
+        <p className="text-base-300 text-sm">
+          Already have an account?{" "}
+         <Link href="/auth" className="text-primary underline hover:text-accent">login</Link>
         </p>
       </AutoForm>
     </div>

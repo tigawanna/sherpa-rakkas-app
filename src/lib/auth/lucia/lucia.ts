@@ -2,6 +2,7 @@ import { prisma } from "@lucia-auth/adapter-prisma";
 import { lucia } from "lucia";
 import {prisma as client} from "@/lib/db/prisma"
 import { web } from "lucia/middleware";
+import { github } from "@lucia-auth/oauth/providers";
 
 export const auth = lucia({
     env: import.meta.env.DEV?"DEV":"PROD", // "PROD" if deployed to HTTPS
@@ -17,24 +18,22 @@ export const auth = lucia({
     getUserAttributes: ({ id, username,email }) => ({
         userId: id,
         username,
-        email
+        email,
+        githubUsername:username
     }),
 
 });
 
+const {
+    RAKKAS_GITHUB_CLIENT_ID: GITHUB_CLIENT_ID,
+    RAKKAS_GITHUB_CLIENT_SECRET: GITHUB_CLIENT_SECRET
+} = import.meta.env;
 
-// export async function getLuciaEmailkey(){
-//     try {
-//         const key = await auth.createKey({
-//             userId,
-//             providerId: "email",
-//             providerUserId: "user@example.com",
-//             password: "123456"
-//         });
-//     } catch (e) {
-//         if (e instanceof LuciaError && e.message === "AUTH_DUPLICATE_KEY_ID") {
-//             // key already exists
-//         }
-//         // unexpected database errors
-//     }
-// }
+
+export const githubAuth = github(auth, {
+    clientId: GITHUB_CLIENT_ID, // env var
+    clientSecret: GITHUB_CLIENT_SECRET // env var
+});
+
+
+

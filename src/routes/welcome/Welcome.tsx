@@ -20,7 +20,7 @@ export function WelcomeSection({}: WelcomePageProps) {
             <Link href="/dashboard" className="btn btn-primary">
               Get Started
             </Link>
-            <Link href="/login" className="btn btn-primary">
+            <Link href="/auth" className="btn btn-primary">
               Or login to continue
             </Link>
           </div>
