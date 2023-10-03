@@ -40,7 +40,7 @@ return (
       <div className="flex w-full flex-col  ">
         <Input
           {...props}
-          onChange={(e) => {
+          onKeyDown={(e) => {
             setError(undefined);
           }}
           id={field_key as string}
