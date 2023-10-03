@@ -1,68 +1,64 @@
-import { useHandRolledQuery } from '@/utils/hooks/useHandRolledQuery'
-import React from 'react'
-import { getCurrentCountry, getCountries } from '../location/location'
-import { Country } from '../location/types'
-import {FormOptions, SetInput } from '../types'
-
+import { useHandRolledQuery } from "@/utils/hooks/useHandRolledQuery";
+import React from "react";
+import { getCurrentCountry, getCountries } from "../location/location";
+import { Country } from "../location/types";
+import { FormOptions, SetInput } from "../types";
 
 interface TheCountrySelectProps {
-  setInput: (props: SetInput) => void
-  form_options: FormOptions
+  setInput: (props: SetInput) => void;
+  form_options: FormOptions;
 }
 
 export function TheCountrySelect({
   form_options,
   setInput,
 }: TheCountrySelectProps) {
-
   const [keyword, setKeyword] = React.useState({
-    word: (form_options.default_value as string) ?? '',
-  })
+    word: (form_options.default_value as string) ?? "",
+  });
 
   const country_query = useHandRolledQuery<
     Awaited<ReturnType<typeof getCurrentCountry>>
   >({
-    queryKey: ['country'],
+    queryKey: ["country"],
     queryFn: getCurrentCountry,
     enabled: keyword.word.length === 0,
     onSuccess: (data) => {
-    setKeyword({ word:data.country})
-   },
-  })
+      setKeyword({ word: data.country });
+    },
+  });
 
   const { data, loading, error } = useHandRolledQuery<Country[]>({
-    queryKey: ['countries'],
+    queryKey: ["countries"],
     queryFn: getCountries,
-    enabled: (keyword.word.length < 3 || country_query.loading),
+    enabled: keyword.word.length < 3 || country_query.loading,
     select: (data) => {
       if (Array.isArray(data)) {
         return data.filter((item) =>
           item.name.common
             .toLocaleLowerCase()
             .includes(keyword.word.toLocaleLowerCase())
-        )
+        );
       }
-      return data
+      return data;
     },
-
-  })
-
+  });
 
   const handleChange = (e: any) => {
-    const { value } = e.target
-    setKeyword({ ...keyword, [e.target.id]: value })
-  }
+    const { value } = e.target;
+    setKeyword({ ...keyword, [e.target.id]: value });
+  };
 
   const finishSearch = (item: Country) => {
     if (form_options.editing) {
-      setKeyword({ word: item.name.common })
-      setInput({ item_key: 'country', item: item.name.common })
+      setKeyword({ word: item.name.common });
+      setInput({ item_key: "country", item: item.name.common });
       setInput({
-        item_key: 'phone',
+        item_key: "phone",
         item: item.idd.root + item.idd.suffixes[0],
-      })
+      });
     }
-  }
+  };
 
   if (error) {
     return (
@@ -71,10 +67,8 @@ export function TheCountrySelect({
           {error.message}
         </div>
       </div>
-    )
+    );
   }
-
-
 
   return (
     <div className="w-full h-full cursor-pointer flex flex-wrap items-center justify-start ">
@@ -92,7 +86,7 @@ export function TheCountrySelect({
             autoComplete="off"
             value={keyword.word}
             onChange={handleChange}
-            placeholder={'search for ' + form_options.field_name}
+            placeholder={"search for " + form_options.field_name}
           />
         ) : null}
       </div>
@@ -102,7 +96,7 @@ export function TheCountrySelect({
           text-sm text-error break-inside-auto
         "
         >
-          0 results found{' '}
+          0 results found{" "}
         </div>
       ) : null}
       <div className="rounded-lg flex flex-wrap items-center justify-start ">
@@ -118,10 +112,9 @@ export function TheCountrySelect({
               <div> {item.name.common} </div>
               <img className="w-5 h-3 mx-1" src={item.flags.svg} />
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
-

@@ -1,11 +1,9 @@
-import { Link } from 'rakkasjs'
-import { Features } from './Features'
-
+import { Link } from "rakkasjs";
+import { Features } from "./Features";
 
 interface WelcomePageProps {}
 
 export function WelcomeSection({}: WelcomePageProps) {
-
   return (
     <div className="hero min-h-screen bg-base-300 text-base-content">
       <div className="hero-content text-center">

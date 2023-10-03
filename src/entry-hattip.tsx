@@ -2,7 +2,6 @@ import { createRequestHandler } from "rakkasjs";
 import { cookie } from "@hattip/cookie";
 import { auth } from "./lib/auth/lucia/lucia";
 
-
 export default createRequestHandler({
   middleware: {
     // HatTip middleware to be injected
@@ -18,7 +17,6 @@ export default createRequestHandler({
     beforeNotFound: [],
   },
 
-
   createPageHooks(requestContext) {
     return {
       emitBeforeSsrChunk() {
@@ -32,9 +30,9 @@ export default createRequestHandler({
         // Return a string or ReactElement to emit
         // some HTML into the document's head.
         const cookie_theme = requestContext?.cookie?.theme;
-      // inject a script into the page's head to set the data-theme attribute before tha 
-      // page loads to avoid a flash of the old theme
-      return `
+        // inject a script into the page's head to set the data-theme attribute before tha
+        // page loads to avoid a flash of the old theme
+        return `
       <script>
       (function() {
         document.documentElement.setAttribute("data-theme", "${cookie_theme}");
@@ -44,14 +42,13 @@ export default createRequestHandler({
       },
 
       async extendPageContext(ctx) {
-          const request = ctx.requestContext?.request;
-          if(!request) return;
-          const authRequest = auth.handleRequest(request);
-          const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
-          const user = session?.user as LuciaUser
-          ctx.queryClient.setQueryData("user", user);
-          },
-
+        const request = ctx.requestContext?.request;
+        if (!request) return;
+        const authRequest = auth.handleRequest(request);
+        const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
+        const user = session?.user as LuciaUser;
+        ctx.queryClient.setQueryData("user", user);
+      },
 
       wrapApp(app) {
         // Wrap the Rakkas application in some provider

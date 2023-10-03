@@ -1,32 +1,35 @@
 import { TUserSigninFormFields, signinFormSchema } from "@/lib/auth/schema";
 import { SignInForm } from "./components/SignInForm";
-import { ActionHandler,PageProps,Head, ActionResult } from "rakkasjs";
+import { ActionHandler, PageProps, Head, ActionResult } from "rakkasjs";
 import { emailPasswordLogin } from "../api/auth/helpers/auth-methods";
 import { ActionErrorData } from "@/lib/rakkas/utils/actions";
-import { mapZodIssueToField, mapPrismaIssueToField } from "@/utils/error-handling";
+import {
+  mapZodIssueToField,
+  mapPrismaIssueToField,
+} from "@/utils/error-handling";
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
 import { LuciaError } from "lucia";
 export default function SignInPage({ actionData }: PageProps) {
-
   return (
     <div className="w-full min-h-screen h-full flex items-center justify-center">
-        <Head title="Sign in" description={"Sign in to your account"}/>
+      <Head title="Sign in" description={"Sign in to your account"} />
       <SignInForm actionData={actionData} />
     </div>
   );
 }
 
 export const action: ActionHandler = async (
-ctx
+  ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSigninFormFields>>>> => {
- const destination = (ctx.requestContext.url).searchParams.get("redirect")??"dashboard";
+  const destination =
+    ctx.requestContext.url.searchParams.get("redirect") ?? "dashboard";
 
   const formData = await ctx.requestContext.request.formData();
-    const defaultValues = {
-      email: formData.get("email")?.toString(),
-      password: formData.get("password")?.toString(),
-    };
+  const defaultValues = {
+    email: formData.get("email")?.toString(),
+    password: formData.get("password")?.toString(),
+  };
   try {
     const { password, email } = signinFormSchema.parse({
       email: formData.get("email"),
@@ -65,8 +68,8 @@ ctx
         data: {
           error: {
             fields: {
-             email: mapPrismaIssueToField(error, "email"),
-            password: mapPrismaIssueToField(error, "password"),
+              email: mapPrismaIssueToField(error, "email"),
+              password: mapPrismaIssueToField(error, "password"),
             },
             message: "Incorrect fields",
           },
@@ -74,23 +77,23 @@ ctx
         },
       };
     }
-    if (error instanceof LuciaError){
-            console.log("LUCIA ACTION ERROR ==>", error);
-            return {
-              data: {
-                error: {
-                  fields: {
-                    // username: mapPrismaIssueToField(error, "username"),
-                    // email: mapPrismaIssueToField(error, "email"),
-                    // password: mapPrismaIssueToField(error, "password"),
-                  },
-                  message: "invalid credentials ",
-                },
-                defaultValues,
-              },
-            };
+    if (error instanceof LuciaError) {
+      console.log("LUCIA ACTION ERROR ==>", error);
+      return {
+        data: {
+          error: {
+            fields: {
+              // username: mapPrismaIssueToField(error, "username"),
+              // email: mapPrismaIssueToField(error, "email"),
+              // password: mapPrismaIssueToField(error, "password"),
+            },
+            message: "invalid credentials ",
+          },
+          defaultValues,
+        },
+      };
     }
-      console.log("UNCLASSIFIED ACTION ERROR ==>", error);
+    console.log("UNCLASSIFIED ACTION ERROR ==>", error);
     return {
       data: {
         error: {

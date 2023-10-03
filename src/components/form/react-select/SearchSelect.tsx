@@ -1,8 +1,6 @@
 import { GroupBase, OptionProps } from "react-select";
 import AsyncSelect from "react-select/async";
 
-
-
 interface SearchSelectProps<T> {
   gettterFunction(keyword: string): Promise<any[]>;
   setValue: (value: any) => void;
@@ -17,8 +15,6 @@ export function SearchSelect<T>({
   setValue,
   CustomOption,
 }: SearchSelectProps<T>) {
-
-
   const loadOptions = (
     inputValue: string,
     callback: (options: any[]) => void

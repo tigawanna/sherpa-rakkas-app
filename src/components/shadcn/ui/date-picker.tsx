@@ -16,8 +16,7 @@ export const DatePicker = forwardRef<
     date?: Date;
     setDate: (date?: Date) => void;
   }
->(
-  function DatePickerCmp({ date, setDate }, ref) {
+>(function DatePickerCmp({ date, setDate }, ref) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -25,7 +24,7 @@ export const DatePicker = forwardRef<
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            !date && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />

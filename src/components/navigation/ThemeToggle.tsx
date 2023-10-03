@@ -44,11 +44,14 @@ export function ThemeToggle({}: ThemeToggleModalProps) {
 
   return (
     <div className="w-full h-full flex flex-wrap items-center justify-center gap-1 p-5">
-     <Label>Theme</Label>
+      <Label>Theme</Label>
       <Select
         data-choose-theme
         value={theme}
-        onValueChange={(e) => {handleThemeChange(e)}}>
+        onValueChange={(e) => {
+          handleThemeChange(e);
+        }}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>

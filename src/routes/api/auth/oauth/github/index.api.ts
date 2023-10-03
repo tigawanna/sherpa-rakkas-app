@@ -4,26 +4,26 @@ import { RequestContext } from "lucia";
 import { serializeCookie } from "lucia/utils";
 
 export async function get(ctx: RequestContext) {
-try {
+  try {
     const [url, state] = await githubAuth.getAuthorizationUrl();
     const stateCookie = serializeCookie("github_oauth_state", state, {
-        httpOnly: true,
-        secure: import.meta.env.PROD, // `true` for production
-        path: "/",
-        maxAge: 60 * 60
+      httpOnly: true,
+      secure: import.meta.env.PROD, // `true` for production
+      path: "/",
+      maxAge: 60 * 60,
     });
-    console.log({state,url})
+    console.log({ state, url });
     return json(null, {
-        status: 302,
-        headers: {
-            Location: url.toString(),
-            "Set-Cookie": stateCookie
-        }
-    })
-} catch (error) {
-    console.log({error})
+      status: 302,
+      headers: {
+        Location: url.toString(),
+        "Set-Cookie": stateCookie,
+      },
+    });
+  } catch (error) {
+    console.log({ error });
     return json(error, {
-        status: 400
-    })
-}
+      status: 400,
+    });
+  }
 }

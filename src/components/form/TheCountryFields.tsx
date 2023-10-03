@@ -16,7 +16,7 @@ export function TheCountryFields({
   setInput,
   country,
 }: TheCountryFieldsProps) {
-  const [finishedSearch,setFinishedSearch] = useState(false);
+  const [finishedSearch, setFinishedSearch] = useState(false);
   const [keyword, setKeyword] = React.useState({
     word: (country.country as string) ?? "",
   });
@@ -26,7 +26,8 @@ export function TheCountryFields({
   >({
     queryKey: ["country"],
     queryFn: getCurrentCountry,
-    enabled: (keyword.word.length === 0 && editing && country?.country?.length===0),
+    enabled:
+      keyword.word.length === 0 && editing && country?.country?.length === 0,
     onSuccess: (data) => {
       setKeyword({ word: data.country });
     },
@@ -38,27 +39,28 @@ export function TheCountryFields({
     // enabled: (!country_query.loading),
     select: (data) => {
       if (Array.isArray(data)) {
-        return data.filter((item) =>
-          {
-          if(editing && !finishedSearch){
-            return item.name.common.toLocaleLowerCase().includes(keyword.word.toLocaleLowerCase())
+        return data.filter((item) => {
+          if (editing && !finishedSearch) {
+            return item.name.common
+              .toLocaleLowerCase()
+              .includes(keyword.word.toLocaleLowerCase());
           }
-          return item.name.common
-                .toLocaleLowerCase()
-                === (keyword.word.toLocaleLowerCase());}
-        );
+          return (
+            item.name.common.toLocaleLowerCase() ===
+            keyword.word.toLocaleLowerCase()
+          );
+        });
       }
       return data;
     },
   });
-// console.log("keyword === ",keyword,data)
-// console.log("country query  === ",country_query)
+  // console.log("keyword === ",keyword,data)
+  // console.log("country query  === ",country_query)
   const handleChange = (e: any) => {
     const { value } = e.target;
-    console.log("searching ",e?.target?.id)
+    console.log("searching ", e?.target?.id);
     setFinishedSearch(false);
     setKeyword({ ...keyword, [e.target.id]: value });
-  
   };
 
   const finishSearch = (item: Country) => {
@@ -85,11 +87,9 @@ export function TheCountryFields({
   }
 
   return (
-  <div className="min-h-sm flex w-full cursor-pointer flex-wrap items-center  gap-2 ">
-{editing&&
-<div className="flex items-center justify-center">
-
-    
+    <div className="min-h-sm flex w-full cursor-pointer flex-wrap items-center  gap-2 ">
+      {editing && (
+        <div className="flex items-center justify-center">
           <div className="flex flex-col gap-[1px]">
             <TheTextInput
               field_key={"word"}
@@ -105,8 +105,8 @@ export function TheCountryFields({
               </h2>
             )}
           </div>
-        
-      </div>}
+        </div>
+      )}
       {editing && data && data?.length < 1 ? (
         <div
           className="flex h-full w-[70%] cursor-pointer break-inside-auto flex-col items-center
@@ -118,7 +118,7 @@ export function TheCountryFields({
       ) : null}
       {/* {!editing&&<div className="flex ">{country.country}</div>} */}
 
-      {(
+      {
         <div className="flex flex-wrap items-center justify-start rounded-lg duration-500 animate-in fade-in">
           {data?.slice(0, 10).map((item, idx: number) => {
             return (
@@ -134,7 +134,7 @@ export function TheCountryFields({
             );
           })}
         </div>
-      )}
+      }
 
       <TheCountryCityPhoneFields
         country={country}
@@ -201,5 +201,3 @@ export function TheCountryCityPhoneFields({
     </div>
   );
 }
-
-

@@ -12,7 +12,12 @@ interface TheTextInputProps<T>
   description?: string;
 }
 
-export function TheTimeInput<T>({field_name,field_key,editing = true,...props}: TheTextInputProps<T>) {
+export function TheTimeInput<T>({
+  field_name,
+  field_key,
+  editing = true,
+  ...props
+}: TheTextInputProps<T>) {
   return (
     <div
       key={field_key as string}

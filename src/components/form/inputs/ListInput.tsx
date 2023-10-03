@@ -2,40 +2,47 @@ import { useState } from "react";
 import { Plus, X } from "lucide-react";
 import { TheTextInput } from "./TheTextInput";
 
-
-
 interface TheListInputProps<T>
   extends React.InputHTMLAttributes<HTMLInputElement> {
   field_name: string;
-  field_key: keyof T ;
+  field_key: keyof T;
   input: T;
   editing: boolean;
   setInput: React.Dispatch<React.SetStateAction<T>>;
 }
 
-export function TheListInput<T,>({ field_name,input, editing,field_key, setInput,...props}: TheListInputProps<T>) {
- const [item, setItem] = useState("");
+export function TheListInput<T>({
+  field_name,
+  input,
+  editing,
+  field_key,
+  setInput,
+  ...props
+}: TheListInputProps<T>) {
+  const [item, setItem] = useState("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setItem(e.target.value);
   }
 
-
   function removeItem(skill: string) {
     setInput((prev) => {
-        if(Array.isArray(prev[field_key])){
-            // @ts-expect-error
-            return { ...prev, [field_key]: prev[field_key].filter((s) => s !== skill) };
-        }
-        return prev
+      if (Array.isArray(prev[field_key])) {
+        // @ts-expect-error
+        return {
+          ...prev,
+          [field_key]: prev[field_key].filter((s) => s !== skill),
+        };
+      }
+      return prev;
     });
   }
   function handleAddItem(one_item: string) {
     if (one_item.length < 1) return;
 
     setInput((prev) => {
-    if(!Array.isArray(prev[field_key])) return prev
-    const itemSet = new Set(prev[field_key] as string[]);
+      if (!Array.isArray(prev[field_key])) return prev;
+      const itemSet = new Set(prev[field_key] as string[]);
       one_item.split(",").forEach((entry) => itemSet.add(entry.trim()));
       const updatedItem = Array.from(itemSet);
       return { ...prev, [field_key]: updatedItem };
@@ -43,8 +50,7 @@ export function TheListInput<T,>({ field_name,input, editing,field_key, setInput
     setItem("");
   }
 
-
-  const items = input[field_key] as string[]
+  const items = input[field_key] as string[];
   return (
     <div className="flex h-full  w-full flex-col gap-3 ">
       <div className="flex  w-full flex-wrap gap-2 ">
@@ -89,11 +95,10 @@ export function TheListInput<T,>({ field_name,input, editing,field_key, setInput
   );
 }
 
-
-const input ={
-  name:"bluey",
-  projects:{
-    languages:["baby","yoda"],
-    libraries:["booboo"]
-  }
-}
+const input = {
+  name: "bluey",
+  projects: {
+    languages: ["baby", "yoda"],
+    libraries: ["booboo"],
+  },
+};

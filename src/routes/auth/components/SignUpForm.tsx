@@ -46,9 +46,16 @@ export function SignUpForm({ actionData }: SignupFormProps) {
             defaultValue={actionData?.defaultValues?.password}
           />
           {actionData && (
-            <p  className="text-sm text-error">{actionData?.error?.message}</p>
+            <p className="text-sm text-error">{actionData?.error?.message}</p>
           )}
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            className="btn btn-sm btn-outline min-w-[50%]"
+            variant={"ghost"}
+            size={"sm"}
+          >
+            Sign Up
+          </Button>
         </form>
 
         <OAuthproviders />

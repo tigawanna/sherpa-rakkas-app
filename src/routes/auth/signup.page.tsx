@@ -1,24 +1,28 @@
-import { ActionHandler, ActionResult, PageProps } from "rakkasjs"
-import { SignUpForm } from "./components/SignUpForm"
+import { ActionHandler, ActionResult, PageProps } from "rakkasjs";
+import { SignUpForm } from "./components/SignUpForm";
 import { TUserSignUpFormFields, signupFormSchema } from "@/lib/auth/schema";
 import { emailPasswordSignup } from "../api/auth/helpers/auth-methods";
 import { ZodError } from "zod";
-import {  mapPrismaIssueToField, mapZodIssueToField } from "@/utils/error-handling";
+import {
+  mapPrismaIssueToField,
+  mapZodIssueToField,
+} from "@/utils/error-handling";
 import { Prisma } from "@prisma/client";
 import { ActionErrorData } from "@/lib/rakkas/utils/actions";
 
-export default function SignupPage({actionData}:PageProps) {
-return (
-<div className="w-full min-h-screen h-full flex items-center justify-center">
-    <SignUpForm actionData={actionData}/>
-</div>
-)}
+export default function SignupPage({ actionData }: PageProps) {
+  return (
+    <div className="w-full min-h-screen h-full flex items-center justify-center">
+      <SignUpForm actionData={actionData} />
+    </div>
+  );
+}
 
 export const action: ActionHandler = async (
   ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSignUpFormFields>>>> => {
-   const destination =
-     ctx.requestContext.url.searchParams.get("redirect") ?? "dashboard";
+  const destination =
+    ctx.requestContext.url.searchParams.get("redirect") ?? "dashboard";
   const formData = await ctx.requestContext.request.formData();
   const defaultValues = {
     email: formData.get("email")?.toString(),
@@ -41,7 +45,6 @@ export const action: ActionHandler = async (
       },
     };
   } catch (error: any) {
-    
     if (error instanceof ZodError) {
       console.log("ZOD ACTION ERROR ==>", error);
       return {
@@ -86,11 +89,8 @@ export const action: ActionHandler = async (
           },
           message: "error creating account",
         },
-      defaultValues
+        defaultValues,
       },
     };
   }
 };
-
-
-

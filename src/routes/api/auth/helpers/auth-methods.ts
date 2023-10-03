@@ -1,14 +1,17 @@
 import { auth } from "@/lib/auth/lucia/lucia";
-import { TUserSignUpFormFields, TUserSigninFormFields, signinFormSchema, signupFormSchema } from "@/lib/auth/schema";
+import {
+  TUserSignUpFormFields,
+  TUserSigninFormFields,
+  signinFormSchema,
+  signupFormSchema,
+} from "@/lib/auth/schema";
 import { json } from "@hattip/response";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { LuciaError } from "lucia";
 import { RequestContext } from "rakkasjs";
 import { ZodError } from "zod";
 
-
-
-export async function emailPasswordLogin(email:string,password:string) {
+export async function emailPasswordLogin(email: string, password: string) {
   try {
     const key = await auth.useKey("email", email?.toLowerCase(), password);
     const session = await auth.createSession({
@@ -16,14 +19,18 @@ export async function emailPasswordLogin(email:string,password:string) {
       attributes: {},
     });
     const sessionCookie = auth.createSessionCookie(session);
-  
-    console.log("logged in with session == ",{session,sessionCookie})
-    return {session,sessionCookie}
-  } catch (error:any) {
-    throw error
+
+    console.log("logged in with session == ", { session, sessionCookie });
+    return { session, sessionCookie };
+  } catch (error: any) {
+    throw error;
   }
 }
-export async function emailPasswordSignup(email:string,password:string,username:string) {
+export async function emailPasswordSignup(
+  email: string,
+  password: string,
+  username: string
+) {
   try {
     const user = await auth.createUser({
       key: {
@@ -41,29 +48,11 @@ export async function emailPasswordSignup(email:string,password:string,username:
       attributes: {},
     });
     const sessionCookie = auth.createSessionCookie(session);
-    return {session,sessionCookie}
-
-  } catch (error:any) {
-    throw error
+    return { session, sessionCookie };
+  } catch (error: any) {
+    throw error;
   }
 }
-
-// export async function logoutUser(ctx: RequestContext) {
-//   try {
-//     const request = ctx.request;
-//     const authRequest = auth.handleRequest(request);
-//     // check if user is authenticated
-//     const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
-//     if (!session) {
-//       throw new Error("Unauthorized");
-//     }
-//     // make sure to invalidate the current session!
-//     await auth.invalidateSession(session.sessionId);
-//     const sessionCookie = auth.createSessionCookie(null);
-//   } catch (error) {
-//     throw error
-//   }
-// }
 
 /**
  * Logs in a user with email and password using lucia auth.
@@ -71,17 +60,25 @@ export async function emailPasswordSignup(email:string,password:string,username:
  * @param {RequestContext} ctx - The request context.
  * @param {TUserSignUpFormFields} input - The create user variables if they were not provied in the form data.
  * @return {Promise<HttpResponse>} - The response object.
- * 
+ *
  */
-export async function loginUserWithEmailandPassword(ctx: RequestContext,input?:TUserSigninFormFields) {
+export async function loginUserWithEmailandPassword(
+  ctx: RequestContext,
+  input?: TUserSigninFormFields
+) {
   try {
     const request = ctx.request;
     const formData = await request.formData();
-    const { password, email } = input??signinFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
-    const {session,sessionCookie} = await emailPasswordLogin(email,password);
+    const { password, email } =
+      input ??
+      signinFormSchema.parse({
+        email: formData.get("email"),
+        password: formData.get("password"),
+      });
+    const { session, sessionCookie } = await emailPasswordLogin(
+      email,
+      password
+    );
     return json(session, {
       headers: {
         // Location: "/", // redirect to profile page
@@ -101,7 +98,7 @@ export async function loginUserWithEmailandPassword(ctx: RequestContext,input?:T
         }
       );
     }
-   
+
     if (
       e instanceof LuciaError &&
       (e.message === "AUTH_INVALID_KEY_ID" ||
@@ -130,21 +127,28 @@ export async function loginUserWithEmailandPassword(ctx: RequestContext,input?:T
  * @param {RequestContext} ctx - The request context.
  * @param {TUserSignUpFormFields} input - The create user variables if they were not provied in the form data.
  * @return {Promise<HttpResponse>} - The response object.
- * 
+ *
  * @throws {LuciaError}
  */
-export async function createUserWithEmailandPassword(ctx: RequestContext,input?:TUserSignUpFormFields) {
+export async function createUserWithEmailandPassword(
+  ctx: RequestContext,
+  input?: TUserSignUpFormFields
+) {
   try {
     const request = ctx.request;
     const formData = await request.formData();
-    const { password, email, username } = input??signupFormSchema.parse(
-      {
+    const { password, email, username } =
+      input ??
+      signupFormSchema.parse({
         username: formData.get("username"),
         email: formData.get("email"),
         password: formData.get("password"),
-      },
-      );
-     const {session,sessionCookie} = await emailPasswordSignup(email,password,username)
+      });
+    const { session, sessionCookie } = await emailPasswordSignup(
+      email,
+      password,
+      username
+    );
 
     return json(session, {
       headers: {
@@ -165,22 +169,18 @@ export async function createUserWithEmailandPassword(ctx: RequestContext,input?:
         };
       });
 
-      return json(
-        JSON.stringify({ errors: fieldErrors }), {
+      return json(JSON.stringify({ errors: fieldErrors }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
-      }
-      )
-
+      });
     }
 
     if (
       e instanceof PrismaClientKnownRequestError &&
       e.message.includes("Unique constraint failed on the fields")
     ) {
-   
       const target_fields = e?.meta?.target as string[];
-      
+
       if (target_fields?.includes("username")) {
         return json(
           {
