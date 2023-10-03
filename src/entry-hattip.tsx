@@ -1,5 +1,6 @@
 import { createRequestHandler } from "rakkasjs";
 import { cookie } from "@hattip/cookie";
+import { auth } from "./lib/auth/lucia/lucia";
 
 
 export default createRequestHandler({
@@ -16,6 +17,7 @@ export default createRequestHandler({
     // before the 404 handler
     beforeNotFound: [],
   },
+
 
   createPageHooks(requestContext) {
     return {
@@ -41,19 +43,19 @@ export default createRequestHandler({
      `;
       },
 
-      async extendPageContext(pageContext) {
-        // We'll read the session and CSRF token and put it
-        // in the query client so that it can be used throughout
-        // the app. `requestContext.fetch` doesn't do a network
-        // roundtrip so it's cheap to use.
-        // const [session, csrf] = await Promise.all([
-        //   requestContext.fetch("/auth/session").then((r) => r.json()),
-        //   requestContext.fetch("/auth/csrf").then((r) => r.json()),
-        // ]);
-
-        // pageContext.queryClient.setQueryData("auth:session", session);
-        // pageContext.queryClient.setQueryData("auth:csrf", csrf);
+      async extendPageContext(ctx) {
+          const request = ctx.requestContext?.request;
+          if(!request) return;
+          const authRequest = auth.handleRequest(request);
+          const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
+          console.log("session = ", session)
+          if (session) {
+            const user = session.user as LuciaUser
+           ctx.queryClient.setQueryData("user", user);
+          }
+ 
       },
+
 
       wrapApp(app) {
         // Wrap the Rakkas application in some provider

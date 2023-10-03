@@ -2,18 +2,12 @@
 /// <reference types="lucia" />
 declare namespace Lucia {
     type Auth = import("./lucia.js").Auth;
-    type DatabaseUserAttributes = {
-        username:string;
-        email:string;
-
-    };
+    type DatabaseUserAttributes = LuciaUser
     type DatabaseSessionAttributes = {};
 }
 
 
-declare interface RakkasResponseError{
-    status: number;
-    message: string;
-    error:any
-    
+declare interface LuciaUser{
+    username: string;
+    email: string
 }

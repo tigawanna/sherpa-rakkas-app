@@ -1,3 +1,5 @@
+import { Button } from "@/components/shadcn/ui/button";
+
 interface FeaturesProps {
 
 }
@@ -15,11 +17,18 @@ export function Features({}:FeaturesProps){
 
     ]
 return (
- <div className='w-full h-full flex flex-wrap items-center justify-center gap-5'>
-{features.map((ftr,idx)=>{
-    return <FeatureCard key={idx} title={ftr.title} description={ftr.description}/>
-})}
- </div>
+  <div className="w-full h-full flex flex-wrap items-center justify-center gap-5">
+    {features.map((ftr, idx) => {
+      return (
+        <FeatureCard
+          key={idx}
+          title={ftr.title}
+          description={ftr.description}
+        />
+      );
+    })}
+
+  </div>
 );
 }
 
