@@ -1,4 +1,4 @@
-import { TUserSignUpFormFields, TUserSigninFormFields, signinFormSchema } from "@/lib/auth/schema";
+import { TUserSigninFormFields, signinFormSchema } from "@/lib/auth/schema";
 import { SignInForm } from "./components/SignInForm";
 import { ActionHandler,PageProps,Head, ActionResult } from "rakkasjs";
 import { emailPasswordLogin } from "../api/auth/helpers/auth-methods";
@@ -7,7 +7,7 @@ import { mapZodIssueToField, mapPrismaIssueToField } from "@/utils/error-handlin
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
 import { LuciaError } from "lucia";
-export default function Page({ actionData }: PageProps) {
+export default function SignInPage({ actionData }: PageProps) {
 
   return (
     <div className="w-full min-h-screen h-full flex items-center justify-center">
@@ -18,8 +18,10 @@ export default function Page({ actionData }: PageProps) {
 }
 
 export const action: ActionHandler = async (
-  ctx
+ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSigninFormFields>>>> => {
+ const destination = (ctx.requestContext.url).searchParams.get("redirect");
+ console.log("destination after auth ==>", destination);
   const formData = await ctx.requestContext.request.formData();
     const defaultValues = {
       email: formData.get("email")?.toString(),
@@ -33,7 +35,7 @@ export const action: ActionHandler = async (
     const res = await emailPasswordLogin(email, password);
 
     return {
-      redirect: "/",
+      redirect: "/dashboard",
       headers: {
         "Set-Cookie": res.sessionCookie.serialize(),
       },

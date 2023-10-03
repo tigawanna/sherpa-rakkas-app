@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 import {  mapPrismaIssueToField, mapZodIssueToField } from "@/utils/error-handling";
 import { Prisma } from "@prisma/client";
 import { ActionErrorData } from "@/lib/rakkas/utils/actions";
-export default function Page({actionData}:PageProps) {
+export default function SignupPage({actionData}:PageProps) {
 return (
 <div className="w-full min-h-screen h-full flex items-center justify-center">
     <SignUpForm actionData={actionData}/>
@@ -32,7 +32,7 @@ export const action: ActionHandler = async (
     const res = await emailPasswordSignup(email, password, username);
 
     return {
-      redirect: "/",
+      redirect: "/dashboard",
       headers: {
         "Set-Cookie": res.sessionCookie.serialize(),
       },
