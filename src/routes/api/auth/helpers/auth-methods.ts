@@ -48,6 +48,22 @@ export async function emailPasswordSignup(email:string,password:string,username:
   }
 }
 
+// export async function logoutUser(ctx: RequestContext) {
+//   try {
+//     const request = ctx.request;
+//     const authRequest = auth.handleRequest(request);
+//     // check if user is authenticated
+//     const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
+//     if (!session) {
+//       throw new Error("Unauthorized");
+//     }
+//     // make sure to invalidate the current session!
+//     await auth.invalidateSession(session.sessionId);
+//     const sessionCookie = auth.createSessionCookie(null);
+//   } catch (error) {
+//     throw error
+//   }
+// }
 
 /**
  * Logs in a user with email and password using lucia auth.

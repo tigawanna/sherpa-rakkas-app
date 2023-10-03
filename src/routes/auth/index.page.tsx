@@ -21,7 +21,7 @@ export const action: ActionHandler = async (
 ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSigninFormFields>>>> => {
  const destination = (ctx.requestContext.url).searchParams.get("redirect")??"dashboard";
- console.log("destination after auth ==>", destination);
+
   const formData = await ctx.requestContext.request.formData();
     const defaultValues = {
       email: formData.get("email")?.toString(),
@@ -33,9 +33,11 @@ ctx
       password: formData.get("password"),
     });
     const res = await emailPasswordLogin(email, password);
-
+    const redirect_url = new URL(ctx.url);
+    redirect_url.pathname = destination;
+    redirect_url.searchParams.delete("redirect");
     return {
-      redirect:"/"+destination,
+      redirect: redirect_url,
       headers: {
         "Set-Cookie": res.sessionCookie.serialize(),
       },

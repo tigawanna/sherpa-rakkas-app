@@ -24,9 +24,9 @@ return (
         <Link href="/" className="text-2xl font-bold">
           Home
         </Link>
-        <StyledLink href="/guarded" activeStyle={{ fontWeight: "bold" }}>
+        {/* <StyledLink href="/guarded" activeStyle={{ fontWeight: "bold" }}>
           Guarded
-        </StyledLink>
+        </StyledLink> */}
 
         {/* <nav className="flex gap-4 px-3 ">
           {links.map((link) => (

@@ -18,7 +18,7 @@ export async function post(ctx: RequestContext) {
     const sessionCookie = auth.createSessionCookie(null);
     return json(null, {
         headers: {
-            Location: "/login", // redirect to login page
+            Location: "/auth", // redirect to login page
             "Set-Cookie": sessionCookie.serialize() // delete session cookie
         },
         status: 302

@@ -48,13 +48,9 @@ export default createRequestHandler({
           if(!request) return;
           const authRequest = auth.handleRequest(request);
           const session = await authRequest.validate(); // or `authRequest.validateBearerToken()`
-          console.log("session = ", session)
-          if (session) {
-            const user = session.user as LuciaUser
-           ctx.queryClient.setQueryData("user", user);
-          }
- 
-      },
+          const user = session?.user as LuciaUser
+          ctx.queryClient.setQueryData("user", user);
+          },
 
 
       wrapApp(app) {
