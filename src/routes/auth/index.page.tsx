@@ -20,7 +20,7 @@ export default function SignInPage({ actionData }: PageProps) {
 export const action: ActionHandler = async (
 ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSigninFormFields>>>> => {
- const destination = (ctx.requestContext.url).searchParams.get("redirect");
+ const destination = (ctx.requestContext.url).searchParams.get("redirect")??"dashboard";
  console.log("destination after auth ==>", destination);
   const formData = await ctx.requestContext.request.formData();
     const defaultValues = {
@@ -35,7 +35,7 @@ ctx
     const res = await emailPasswordLogin(email, password);
 
     return {
-      redirect: "/dashboard",
+      redirect:"/"+destination,
       headers: {
         "Set-Cookie": res.sessionCookie.serialize(),
       },

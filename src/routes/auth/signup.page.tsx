@@ -16,6 +16,8 @@ return (
 export const action: ActionHandler = async (
   ctx
 ): Promise<ActionResult<ActionErrorData<Partial<TUserSignUpFormFields>>>> => {
+   const destination =
+     ctx.requestContext.url.searchParams.get("redirect") ?? "dashboard";
   const formData = await ctx.requestContext.request.formData();
   const defaultValues = {
     email: formData.get("email")?.toString(),
@@ -32,7 +34,7 @@ export const action: ActionHandler = async (
     const res = await emailPasswordSignup(email, password, username);
 
     return {
-      redirect: "/dashboard",
+      redirect: "/" + destination,
       headers: {
         "Set-Cookie": res.sessionCookie.serialize(),
       },
