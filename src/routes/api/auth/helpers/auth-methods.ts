@@ -20,7 +20,7 @@ export async function emailPasswordLogin(email:string,password:string) {
     console.log("logged in with session == ",{session,sessionCookie})
     return {session,sessionCookie}
   } catch (error:any) {
-    throw new Error(error)
+    throw error
   }
 }
 export async function emailPasswordSignup(email:string,password:string,username:string) {
@@ -42,9 +42,9 @@ export async function emailPasswordSignup(email:string,password:string,username:
     });
     const sessionCookie = auth.createSessionCookie(session);
     return {session,sessionCookie}
-    return {session,sessionCookie}
+
   } catch (error:any) {
-    throw new Error(error)
+    throw error
   }
 }
 
@@ -162,11 +162,9 @@ export async function createUserWithEmailandPassword(ctx: RequestContext,input?:
       e instanceof PrismaClientKnownRequestError &&
       e.message.includes("Unique constraint failed on the fields")
     ) {
-      // return new Response("User exists", {
-      //     status: 400
-      // });
-
+   
       const target_fields = e?.meta?.target as string[];
+      
       if (target_fields?.includes("username")) {
         return json(
           {
@@ -189,6 +187,7 @@ export async function createUserWithEmailandPassword(ctx: RequestContext,input?:
           }
         );
       }
+
       return json(
         {
           message: "User not unique",

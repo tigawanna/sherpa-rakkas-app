@@ -3,6 +3,7 @@ import { z } from "zod";
 export const signupFormSchema = z.object({
 
     email: z.string().email({ message: "Invalid email address" })
+    
         // Use the "describe" method to set the label
         // If no label is set, the field name will be used
         // and un-camel-cased
