@@ -72,12 +72,13 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
   const text_area_fields: Array<keyof TUserProfileInputType> = ["about_me"];
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center bg-secondary/5">
+      <h2 className="text-2xl font-bold p-1 sticky top-10">Profile</h2>
       <form
         onSubmit={handleSubmit}
         className="m-1 flex h-full w-full flex-col items-center justify-center"
       >
-        <div className="flex w-full justify-end px-5">
+        <div className="flex w-full justify-end px-5 sticky top-10 z-50 ">
           <Edit
             className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
             onClick={() => setEditing(!editing)}
@@ -85,7 +86,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
         </div>
         <div
           className="flex  justify-start items-center md:items-start h-full w-full flex-col gap-10
-       rounded-lg bg-secondary/5 p-2 md:flex-row"
+       rounded-lg  p-2 md:flex-row"
         >
           {/* avatar */}
           <ThePicUrlInput
