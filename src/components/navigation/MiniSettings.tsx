@@ -46,7 +46,7 @@ export function MiniSettingsModal({}: MiniSettingsModalProps) {
         <Button variant="ghost" className="relative h-7 w-7 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src="https://tigawanna-portfolio.vercel.app/_next/image?url=%2Fgithub.jpg&w=384&q=75"
+              src={user?.avatar}
               alt="@shadcn"
             />
             <AvatarFallback>{user?.username.slice(0, 2)}</AvatarFallback>

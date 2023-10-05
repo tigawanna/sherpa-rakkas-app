@@ -15,11 +15,15 @@ export const auth = lucia({
   sessionCookie: {
     expires: false,
   },
-  getUserAttributes: ({ id, username, email }) => ({
-    userId: id,
-    username,
-    email,
-  }),
+  getUserAttributes: ({ id, username, email,...fields }) => {
+    console.log("fields in getUserAttributes", { id, username, email,...fields })
+    return {
+      userId: id,
+      username,
+      email,
+    }
+  }
+
 });
 
 const {

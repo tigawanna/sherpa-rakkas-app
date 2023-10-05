@@ -42,7 +42,7 @@ export async function get(ctx: RequestContext) {
         },
       });
       if (existingDatabaseUserWithEmail) {
-        console.log({ existingDatabaseUserWithEmail });
+        // @ts-expect-error
         const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail);
         await createKey(user.userId);
         return user;
@@ -51,6 +51,7 @@ export async function get(ctx: RequestContext) {
         attributes: {
           username: githubUser.login,
           email: githubUser.email!,
+          avatar: githubUser.avatar_url,
         },
       });
       return user;

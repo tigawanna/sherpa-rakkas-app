@@ -18,8 +18,9 @@ model User {
   username String @unique
 
   // we add this fields to the User model - we can add more fields, roles, etc.
-  
-  email String @unique 
+  email String @unique
+  avatar String?
+
 
 
   // this is require for lucia auth

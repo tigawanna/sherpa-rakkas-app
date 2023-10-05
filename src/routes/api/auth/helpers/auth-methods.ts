@@ -26,11 +26,9 @@ export async function emailPasswordLogin(email: string, password: string) {
     throw error;
   }
 }
+
 export async function emailPasswordSignup(
-  email: string,
-  password: string,
-  username: string
-) {
+{ email, password, username, avatar }:LuciaUser&{password:string} ) {
   try {
     const user = await auth.createUser({
       key: {
@@ -41,6 +39,7 @@ export async function emailPasswordSignup(
       attributes: {
         username,
         email,
+        avatar
       },
     });
     const session = await auth.createSession({
@@ -145,10 +144,7 @@ export async function createUserWithEmailandPassword(
         password: formData.get("password"),
       });
     const { session, sessionCookie } = await emailPasswordSignup(
-      email,
-      password,
-      username
-    );
+      { email, password, username }    );
 
     return json(session, {
       headers: {

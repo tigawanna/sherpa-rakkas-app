@@ -13,12 +13,14 @@ interface SignInFormProps {
 }
 
 export function SignInForm({ actionData }: SignInFormProps) {
+
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-5">
       <div className="w-full h-full md:w-[60%] flex flex-col gap-4">
         <form
           className="w-full h-full  flex flex-col items-center justify-center gap-4"
           method="POST"
+          // onSubmit={submitHandler}
         >
           <h1 className="text-2xl font-bold">Sign In</h1>
 
@@ -48,7 +50,8 @@ export function SignInForm({ actionData }: SignInFormProps) {
             variant={"ghost"}
             size={"sm"}
           >
-            Sign In
+            {" "}
+            Sign in
           </Button>
         </form>
 

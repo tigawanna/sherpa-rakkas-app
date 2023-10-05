@@ -2,8 +2,6 @@ import { LookupHookResult, PageContext } from "rakkasjs";
 
 export function pageGuard(ctx: PageContext): LookupHookResult {
   const user = ctx.queryClient.getQueryData("user");
-  console.log("auth guard url", ctx);
-
   if (!user) {
     return true;
   } else {

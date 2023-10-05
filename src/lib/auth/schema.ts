@@ -17,7 +17,14 @@ export const signupFormSchema = z.object({
     .min(2, {
       message: "Username must be at least 2 characters.",
     }),
-
+  avatar: z.string().refine((value) => {
+    try {
+      new URL(value);
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Invalid URL").optional(),
   password: z
     .string({
       required_error: "Password is required.",
@@ -42,7 +49,7 @@ export const signinFormSchema = z.object({
     // Use the "describe" method to set the label
     // If no label is set, the field name will be used
     // and un-camel-cased
-    .describe("Your secure password")
+    // .describe("Your secure password")
     .min(8, {
       message: "Password must be at least 8 characters.",
     }),

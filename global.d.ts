@@ -9,5 +9,6 @@ declare namespace Lucia {
 
 declare interface LuciaUser{
     username: string;
-    email: string
+    email: string;
+    avatar?: string;
 }

@@ -11,6 +11,7 @@ import { Prisma } from "@prisma/client";
 import { ActionErrorData } from "@/lib/rakkas/utils/actions";
 
 export default function SignupPage({ actionData }: PageProps) {
+
   return (
     <div className="w-full min-h-screen h-full flex items-center justify-center">
       <SignUpForm actionData={actionData} />
@@ -36,7 +37,7 @@ export const action: ActionHandler = async (
       password: formData.get("password"),
       username: formData.get("username"),
     });
-    const res = await emailPasswordSignup(email, password, username);
+    const res = await emailPasswordSignup({ email, password, username });
 
     return {
       redirect: "/" + destination,
