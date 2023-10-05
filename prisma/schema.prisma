@@ -26,10 +26,10 @@ model User {
   avatar String?
 
 // user profile fields
+  name            String?
   about_me        String?
   github_username String?
   linkedin_username String?
-  image_url       String?
   country         String?
   city            String?
   phone           String?

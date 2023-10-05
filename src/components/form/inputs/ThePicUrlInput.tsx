@@ -29,13 +29,13 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
           onClick={() => ref.current?.className.replace("hidden", "")}
         >
           <div 
-          className=" h-fit">
+          className="  md:h-fit ">
             <Image
-              // className="aspect-square h-[200px] w-auto  object-cover md:h-auto md:w-[250px]"
+              className="aspect-square  w-aut0 max-w-[250px]  object-cover md:h-auto "
               // className='border-6 h-[100px]'
               src={pic}
               // @ts-expect-error
-              height={200}
+              height={100}
               layout='fullWidth'
               {...props}
             />
@@ -43,7 +43,7 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         </div>
       ) : null}
 
-    { editing&&<div className="  flex w-full items-center justify-center">
+    { editing&&<div className="  flex  min-w-[60%] items-center justify-center">
         <input
           type="url"
           title="add your image url"

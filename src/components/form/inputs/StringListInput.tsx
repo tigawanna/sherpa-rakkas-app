@@ -11,7 +11,19 @@ interface TheListInputProps<T>
   setInput: React.Dispatch<React.SetStateAction<T>>;
 }
 
-export function TheListInput<T>({
+/**
+ * Renders a comma separated string as a list input component with an add and remove item functionality.
+ *
+ * @param {Object} props - The props object containing the following properties:
+ *   - {string} field_name: The name of the field.
+ *   - {Object} input: The input object.
+ *   - {boolean} editing: Flag indicating if the component is in editing mode.
+ *   - {string} field_key: The key of the field.
+ *   - {function} setInput: The function to set the input state.
+ *   - {...props} props: Additional props.
+ * @return {JSX.Element} The rendered list input component.
+ */
+export function TheStringListInput<T>({
   field_name,
   input,
   editing,
@@ -25,13 +37,13 @@ export function TheListInput<T>({
     setItem(e.target.value);
   }
 
-  function removeItem(skill: string) {
+  function removeItem(item: string) {
     setInput((prev) => {
-      const prev_list = prev[field_key] as string[]
+      // @ts-expect-error
+      const prev_list = prev[field_key].split(",") as string[];
       if (Array.isArray(prev_list)) {
         return {
-          ...prev,
-          [field_key]: prev_list.filter((s) => s !== skill),
+          ...prev,[field_key]: prev_list.filter((s) => s !== item).join(","),
         };
       }
       return prev;
@@ -41,16 +53,18 @@ export function TheListInput<T>({
     if (one_item.length < 1) return;
 
     setInput((prev) => {
-      if (!Array.isArray(prev[field_key])) return prev;
-      const itemSet = new Set(prev[field_key] as string[]);
+      // @ts-expect-error
+        const prev_list = prev[field_key].split(",") as string[]
+      if (!Array.isArray(prev_list)) return prev;
+      const itemSet = new Set(prev_list);
       one_item.split(",").forEach((entry) => itemSet.add(entry.trim()));
       const updatedItem = Array.from(itemSet);
-      return { ...prev, [field_key]: updatedItem };
+      return { ...prev, [field_key]: updatedItem.join(",") };
     });
     setItem("");
   }
-
-  const items = input[field_key] as string[];
+  // @ts-expect-error
+  const items = input[field_key].split(",") as string[]
   return (
     <div className="flex h-full  w-full flex-col gap-3 ">
       <div className="flex  w-full flex-wrap gap-2 ">
@@ -95,10 +109,3 @@ export function TheListInput<T>({
   );
 }
 
-const input = {
-  name: "bluey",
-  projects: {
-    languages: ["baby", "yoda"],
-    libraries: ["booboo"],
-  },
-};
