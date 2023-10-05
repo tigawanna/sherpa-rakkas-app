@@ -33,7 +33,7 @@ const user = qc.getQueryData("user") as LuciaUser | undefined;
 
 if(!user){
     return (
-      <div className="w-full h-full flex items-center justify-center p-1">
+      <div className="w-full h-full flex items-center justify-center">
         {location.current.pathname !== "/auth" && (
           <Link
             href="/auth"
