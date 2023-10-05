@@ -16,11 +16,11 @@ export const auth = lucia({
     expires: false,
   },
   getUserAttributes: ({ id, username, email,...fields }) => {
-    console.log("fields in getUserAttributes", { id, username, email,...fields })
-    return {
+   return {
       userId: id,
       username,
       email,
+      avatar: fields.avatar
     }
   }
 

@@ -1,9 +1,19 @@
 -- CreateTable
 CREATE TABLE "User" (
     "_id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "avatar" TEXT,
+    "about_me" TEXT,
+    "github_username" TEXT,
+    "linkedin_username" TEXT,
+    "image_url" TEXT,
+    "country" TEXT,
+    "city" TEXT,
+    "phone" TEXT,
+    "skills" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("_id")
 );

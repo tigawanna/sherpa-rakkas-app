@@ -2,6 +2,8 @@ import { artificialDelay } from "@/utils/async";
 import { useQueryClient, useMutation, Link, useLocation } from "rakkasjs";
 import { Button } from "../shadcn/ui/button";
 import { Loader, LogOut } from "lucide-react";
+import { Avatar, AvatarFallback } from "../shadcn/ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 
 
@@ -48,8 +50,12 @@ if(!user){
 }  
 return (
   <div className="w-full h-full flex flex-col items-center justify-center">
-    <div className="w-full h-full flex items-center justify-start p-3">
-      <div className="flex flex-col space-y-1">
+    <div className="w-full h-full flex flex-col items-center justify-start p-3 gap-2">
+      <Avatar className="h-28 w-28">
+        <AvatarImage src={user?.avatar} alt="@user" className="rounded-lg" />
+        <AvatarFallback>{user?.username.slice(0, 2)}</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-col justify-center items-center space-y-1">
         <p className="text-sm font-medium leading-none">{user?.username}</p>
         <p className="text-xs leading-none text-muted-foreground">
           {user?.email}
