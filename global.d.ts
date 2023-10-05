@@ -11,4 +11,12 @@ declare interface LuciaUser{
     username: string;
     email: string;
     avatar?: string;
+    about_me?: string;
+    github_username?: string;
+    linkedin_username?: string;
+    image_url?: string;
+    country?: string;
+    city?: string;
+    phone?: string;
+    skills?: string;
 }
