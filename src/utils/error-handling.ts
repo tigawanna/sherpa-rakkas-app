@@ -1,3 +1,4 @@
+import { TUserProfileInputType } from "@/routes/dashboard/components/profile/api";
 import { ZodError } from "zod";
 
 export const prismaErrorMessages = {
@@ -33,4 +34,17 @@ export function mapPrismaIssueToField(error: any, field: string) {
       prismaErrorMessages[error.code as keyof typeof prismaErrorMessages]
     }`;
   }
+}
+
+
+
+export function generatePrismaErrorFields(input:Record<string, any>,error:any) {
+  if(input){
+  const input_list = Object.keys(input);
+  return input_list.reduce((acc:Record<string,any>,curr:string) => {
+  if (input[curr]) {
+    acc[curr] = mapPrismaIssueToField(error,curr);
+  }
+  return acc;
+},{})}
 }

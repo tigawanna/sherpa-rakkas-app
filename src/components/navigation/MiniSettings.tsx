@@ -27,19 +27,6 @@ export function MiniSettingsModal({}: MiniSettingsModalProps) {
   const qc = useQueryClient();
   const user = qc.getQueryData("user") as LuciaUser | undefined;
   const [open, setOpen] = useState(false);
-  
-// close modal after a short delay
-// useEffect(() => {
-//   if(open){
-//   const timeout = setTimeout(() => {
-//     setOpen(false);
-//   }, 10000);
-//   return () => {
-//     clearTimeout(timeout);
-//   }
-// }
-// }, [open]);
-
   return (
     <DropdownMenu modal open={open} onOpenChange={setOpen} >
       <DropdownMenuTrigger asChild>

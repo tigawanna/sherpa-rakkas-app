@@ -20,3 +20,11 @@ declare interface LuciaUser{
     phone?: string;
     skills?: string;
 }
+
+declare class CustomError extends Error {
+    constructor(message: string, fields?: Record<string, any>) {
+        super(message);
+        this.name = "CustomError";
+        this.fields = fields;
+    }
+}

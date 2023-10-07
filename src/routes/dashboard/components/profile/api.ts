@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/db/prisma";
 import { z } from "zod";
 
 export const UserProfileSchema = z.object({
@@ -16,3 +17,18 @@ export const UserProfileSchema = z.object({
 });
 
 export type TUserProfileInputType = z.infer<typeof UserProfileSchema>;
+
+export async function updateUserProfile(userId: string, vars: TUserProfileInputType) {
+    try {
+        await prisma.user.update({
+            where: {
+                id:userId,
+            },
+            data: {
+                ...vars,
+            },
+        });
+    } catch (error) {
+        throw error;
+    }
+}

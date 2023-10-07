@@ -1,6 +1,6 @@
 import { json } from "@hattip/response";
 import { RequestContext } from "rakkasjs";
-import { createUserWithEmailandPassword } from "./helpers/auth-methods";
+import { createUserWithEmailandPassword } from "../helpers/auth-methods";
 
 export async function get(ctx: RequestContext) {
   return json({ route: "creaet user route" });

@@ -10,38 +10,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// start of auth related models
+//  ===========================
 model User {
   // this is for lucia auth
   id String @id @map("_id")
 
   // time stamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // this is require for auth
   username String @unique
 
   // we add this fields to the User model - we can add more fields, roles, etc.
-  email String @unique
+  email  String  @unique
   avatar String?
 
-// user profile fields
-  name            String?
-  about_me        String?
-  github_username String?
+  // user profile fields
+  name              String?
+  about_me          String?
+  github_username   String?
   linkedin_username String?
-  country         String?
-  city            String?
-  phone           String?
-  skills          String?
-
-
+  country           String?
+  city              String?
+  phone             String?
+  skills            String?
 
   // this is require for lucia auth
-  auth_session Session[]
-  key          Key[]
+  auth_session   Session[]
+  key            Key[]
+  Project        Project[]
+  Education      Education[]
+  Experience     Experience[]
+  Content        Content[]
+  Hackathon      Hackathon[]
+  Internship     Internship[]
+  Resume         Resume[]
+  JobApplication JobApplication[]
 }
-
 
 model Session {
   id             String @id @map("_id")
@@ -61,3 +68,138 @@ model Key {
 
   @@index([user_id])
 }
+
+//  end of auth related models
+//  ===========================
+
+// start of project related models
+//  ===========================
+model Project {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String
+  repoUrl     String
+  image_url   String?
+  languages   String[]
+  libraries   String[]
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+enum Qualification {
+  Certificate
+  Bachelors
+  Masters
+  PhD
+}
+
+model Education {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school        String
+  qualification Qualification
+  field         String
+  from          DateTime
+  to            DateTime
+
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Experience {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  position  String
+
+  company     String
+  from        DateTime
+  to          DateTime
+  description String?
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+enum ContentType {
+  Video
+  Blog
+  Gist
+  Podcast
+}
+
+model Content {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  type        ContentType
+  content_url String
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+model Hackathon {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name         String
+  description  String
+  technologies String[]
+  from         DateTime
+  to           DateTime
+  link         String
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       String
+}
+
+model Internship {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  description String
+  from        DateTime
+  to          DateTime
+  role        String
+  company     String
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Resume {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  body      String
+
+  jobAplicationId String?
+
+  userId String
+  User   User?  @relation(fields: [userId], references: [id])
+}
+
+model JobApplication {
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  job_title       String
+  description     String?
+  job_posting_url String?
+  projects        String[]
+  cover_letter    String
+  resume          String
+  User            User?    @relation(fields: [userId], references: [id])
+  userId          String?
+
+  resumeId String?
+}
+
+// end of project related models
+//  ===========================

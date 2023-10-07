@@ -1,24 +1,39 @@
 import { useState } from "react";
 import { Edit, Loader } from "lucide-react";
 import { useFormHook } from "@/components/form/useForm";
-import { TUserProfileInputType } from "./api";
+import { TUserProfileInputType } from "@/routes/api/helpers/prisma/projects";
 import { ThePicUrlInput } from "@/components/form/inputs/ThePicUrlInput";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheCountryFields } from "@/components/form/TheCountryFields";
-import { TheListInput } from "@/components/form/inputs/ListInput";
 import { useSSM } from "rakkasjs";
 import { prisma } from "@/lib/db/prisma";
 import { toast } from "react-toastify";
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 import { Button } from "@/components/shadcn/ui/button";
+import { Prisma } from "@prisma/client";
+import { generatePrismaErrorFields, mapPrismaIssueToField } from "@/utils/error-handling";
+import { title } from "radash";
 
 interface ProfileFormProps {
   user: Partial<TUserProfileInputType> & { avatar?: string; userId: string };
   updating?: boolean;
 }
 
+// function mapFieldsToError<T=Record<string,any>>(fields:T){
+// if(fields){
+// const fields_list = Object.keys(fields)
+// fields_list.reduce((acc:any, field)=>{
+//   acc[field] = mapPrismaIssueToField(fields[field], field)
+//   return acc
+// }, {})
+
+
+// }
+// }
+
 export function ProfileForm({ user, updating }: ProfileFormProps) {
+
   const mutation = useSSM<any, TUserProfileInputType>(async (ctx, vars) => {
     try {
       await prisma.user.update({
@@ -30,6 +45,15 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
         },
       });
     } catch (error) {
+          if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            console.log("PRISMA ERROR ==>", error);
+            console.log("error fields  == ", generatePrismaErrorFields(vars, error));
+            const custom_error  ={
+                  fields: generatePrismaErrorFields(vars, error),
+                  message: "Error updating profile"+error.message,
+              }
+        throw new CustomError(custom_error.message, custom_error.fields);
+        }
       throw error;
     }
   });
@@ -113,7 +137,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
                     field_key={field}
                     value={input[field]}
                     // input={input}
-                    field_name={field}
+                    field_name={title(field)}
                     className="input input-bordered input-sm w-full  "
                     label_classname="font-thin"
                     onChange={handleChange}
@@ -131,7 +155,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
                     key={field}
                     value={input[field]}
                     // input={input}
-                    field_name={field}
+                    field_name={title(field)}
                     onChange={handleChange}
                     label_classname=""
                     editing={editing}

@@ -43,8 +43,8 @@ export function ThemeToggle({}: ThemeToggleModalProps) {
   };
 
   return (
-    <div className="w-full h-full flex flex-wrap items-center justify-center gap-1 p-5">
-      <Label>Theme</Label>
+    <div className="w-full h-full flex flex-col items-center justify-center gap-1 p-5">
+      {/* <Label>Theme</Label> */}
       <Select
         data-choose-theme
         value={theme}

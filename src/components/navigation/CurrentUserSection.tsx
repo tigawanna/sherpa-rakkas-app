@@ -8,7 +8,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 
 
 interface CurrentUserSectionProps {
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function CurrentUserSection({setOpen}:CurrentUserSectionProps){
@@ -40,7 +40,7 @@ if(!user){
           <Link
             href="/auth"
             className="w-[80%] btn btn-sm btn-outline text-xs hover:text-blue-600 mx-1 my-2"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpen?.(false)}
            >
             Login
           </Link>
