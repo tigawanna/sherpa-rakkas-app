@@ -6,9 +6,10 @@ import { toast } from "react-toastify";
 
 interface HackathonCardProps {
   item: THackathonInputType;
+  refetch: () => void;
 }
 
-export function HackathonCard({ item }: HackathonCardProps) {
+export function HackathonCard({ item,refetch }: HackathonCardProps) {
   const qc = useQueryClient();
   const user = qc.getQueryData("user");
   // const delete_mutation = api.hackathon.removeOne.useMutation();
@@ -28,6 +29,7 @@ export function HackathonCard({ item }: HackathonCardProps) {
             return "Project deleted successfully";
           },
         });
+        refetch();
       })
       .catch((error) =>
         toast(error.message, { type: "error", autoClose: false })
@@ -38,8 +40,8 @@ export function HackathonCard({ item }: HackathonCardProps) {
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col justify-center gap-1 rounded-md border 
-      p-2 hover:border-accent sm:w-[45%] lg:w-[30%] "
+      className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm shadow-accent
+      p-5 hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
       <DeleteConfirm
         is_loading={delete_mutation.isLoading}

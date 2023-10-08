@@ -19,7 +19,7 @@ const user = qc.getQueryData("user") as LuciaUser
 
 // const delete_mutation = api.project.removeOne.useMutation();
 const delete_mutation = useSSM<void,{id:string}>(async(ctx,vars)=>{
-  projectApi.removeProject({id:vars.id,userId:user.userId!});
+  projectApi.removeOne({item_id:vars.id,user_id:user.userId!});
 
 })
 
@@ -40,8 +40,8 @@ const delete_mutation = useSSM<void,{id:string}>(async(ctx,vars)=>{
   return (
     <div
       key={item.id}
-      className="sm:2-[45%] card  max-h-[400px] min-h-[200px] 
-             w-[95%] border  bg-base-100 shadow-xl hover:border-accent md:w-[30%]"
+      className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm shadow-accent
+      p-1 hover:border-accent sm:w-[45%] lg:w-[30%]"
     >
       <DeleteConfirm
         is_loading={delete_mutation.isLoading}

@@ -6,7 +6,7 @@ import {
   hackathonApi,
 } from "@/routes/api/helpers/prisma/hackathon";
 import { useFormHook } from "@/components/form/useForm";
-import { useQueryClient, useSSM } from "rakkasjs";
+import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
@@ -15,27 +15,28 @@ import { TheListInput } from "@/components/form/inputs/ListInput";
 interface HackathonFormProps {
   default_value?: THackathonInputType;
   updating?: boolean;
+  refetch?: () => void;
 }
 
-export function HackathonForm({ default_value, updating }: HackathonFormProps) {
+export function HackathonForm({ default_value, updating,refetch }: HackathonFormProps) {
   const qc = useQueryClient();
   const user = qc.getQueryData("user") as LuciaUser
-  console.log("user  === ",user)
-  // const create_mutation = api.hackathon.addNew.useMutation();
-  //   const update_mutation = api.hackathon.updateOne.useMutation();
 
   const create_mutation = useSSM<
     Awaited<ReturnType<typeof hackathonApi.addNew>>,
     THackathonInputType
-  >(async (ctx, vars) => {
-    return await hackathonApi.addNew({input:vars});
+  >((ctx, vars) => {
+
+    return hackathonApi.addNew({input:vars});
+ 
   });
 
   const update_mutation = useSSM<
     Awaited<ReturnType<typeof hackathonApi.updateOne>>,
     THackathonInputType
-  >(async (ctx, vars) => {
-    return await hackathonApi.updateOne({input:vars,user_id:user.userId!});
+  >((ctx, vars) => {
+
+    return hackathonApi.updateOne({input:vars,user_id:user.userId!});
   });
 
   const { handleChange, input, setError, setInput, validateInputs } =
@@ -68,9 +69,11 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
           res,
           query_key: "hackathon",
           successMessage(res) {
-            return "Hackathon deleted successfully";
+            return "Hackathon updated successfully";
           },
-        });
+          });
+          // console.log("mutatio response ===== ",{input})
+          // navigate("/dashboard/hackathon"+"/"+input.id);
           })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
@@ -79,20 +82,26 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
         create_mutation
           .mutateAsync(input)
           .then((res) => {
+
           handleMutationResponse({
           qc,
           res,
           query_key: "hackathon",
           successMessage(res) {
-            return "Hackathon updated successfully";
+            return "Hackathon created successfully";
           },
         });
-    
-          })
+        console.log("mutatio response ===== ", { input });
+        navigate("/dashboard/hackathon");
+       
+        }
+          
+          )
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
           );
       }
+
     }
   }
   const dateToString = (date: Date | string) => {
@@ -114,9 +123,7 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
-        <h3 className="w-full text-accent border-b text-center">
-          {input.userId}
-        </h3>
+
         <TheTextInput<THackathonInputType>
           field_key={"name"}
           value={input["name"]}

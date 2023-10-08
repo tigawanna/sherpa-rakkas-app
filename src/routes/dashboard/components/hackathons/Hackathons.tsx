@@ -14,6 +14,8 @@ export function Hackathons({}:HackathonsProps){
 
  const query = useSSQ(async(ctx)=>{
     return hackathonApi.getAll({ user_id: user.userId! });
+  },{
+    refetchOnWindowFocus:true
   })
 
   if (query.error || (query.data && "error" in query.data)) {
@@ -31,6 +33,7 @@ export function Hackathons({}:HackathonsProps){
        );
      }
 const data = query.data;
+const refetch = query.refetch
 return (
   <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-2 pb-5">
     <div className="sticky top-[5%] flex w-full items-center justify-between p-2">
@@ -42,11 +45,11 @@ return (
         <Plus className="h-6 w-6" />
       </Link>
     </div>
-    <div className="flex h-full w-full flex-wrap items-center justify-center gap-2">
+    <div className="flex h-full w-full flex-wrap items-center justify-center gap-5">
       {data &&
         data.map((item) => {
           return (
-              <HackathonCard key={item.id} item={item}/>
+              <HackathonCard key={item.id} item={item} refetch={refetch}/>
           );
         })}
     </div>

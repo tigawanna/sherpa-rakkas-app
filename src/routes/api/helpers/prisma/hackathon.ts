@@ -49,4 +49,3 @@ export type THackathonInputType = z.infer<typeof HackathonSchema>
 
 export const hackathonApi = prismaApiWrapper<THackathonInputType>("hackathon")
 
-const hacks  = hackathonApi.getAll({ user_id: "user_id" })

@@ -11,10 +11,14 @@ export function Projects({}: ProjectsProps) {
   const page_ctx = usePageContext();
   const qc = page_ctx.queryClient;
   const user = qc.getQueryData("user") as LuciaUser;
-  const query = useSSQ((ctx) => {
-    return projectApi.getAllProjects({ userId:user.userId! });
-  });
 
+  const query = useSSQ(
+    (ctx) => {
+      return projectApi.getAll({ user_id: user.userId! });
+    },
+    { refetchOnWindowFocus: true }
+  );
+console.log("projects  == ",query.data)
   if (query.error || ("error" in query?.data)) {
     return (
       <div className="flex h-full  w-full items-center justify-center p-2">
@@ -49,6 +53,7 @@ export function Projects({}: ProjectsProps) {
         <div className="flex h-full w-full flex-wrap  gap-2 px-5 pb-5 pt-2">
           {projects &&
             projects.map((project) => {
+              // @ts-expect-error
               return <ProjectCard key={project?.id} item={project} />;
             })}
         </div>

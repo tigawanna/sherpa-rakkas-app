@@ -11,27 +11,28 @@ import { navigate, usePageContext, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
 
 interface ProjectFormProps {
-    user:string
+
     project?:TProjectInputType
     updating?:boolean
 }
 
-export function ProjectForm({user,project,updating}: ProjectFormProps) {
+export function ProjectForm({project,updating}: ProjectFormProps) {
 
 const page_ctx= usePageContext()
 const qc = page_ctx.queryClient;
+const user = qc.getQueryData("user") as LuciaUser;
 // const create_mutation = api.project.addNew.useMutation();
 // const update_mutation = api.project.updateOne.useMutation();
 
 const create_mutation = useSSM<
-  Awaited<ReturnType<typeof projectApi.addNewProject>>,
+  Awaited<ReturnType<typeof projectApi.addNew>>,
   TProjectInputType
 >(async (ctx, vars) => {
-  return await projectApi.addNewProject(vars);
+  return await projectApi.addNew({input:vars});
 });
 const update_mutation = useSSM<
-Awaited<ReturnType<typeof projectApi.updateProject>>,TProjectInputType>(async(ctx,vars)=>{
-  return await projectApi.updateProject(vars);
+Awaited<ReturnType<typeof projectApi.updateOne>>,TProjectInputType>(async(ctx,vars)=>{
+  return await projectApi.updateOne({input:vars,user_id:user.userId!});
 
 })
 // const query = api.profile.getOne.useQuery({ id: router.query.id as string });
@@ -50,7 +51,7 @@ const { handleChange, input, setError, setInput, validateInputs } =
         languages:project?.languages??[],
         repoUrl:project?.repoUrl??"",
         image_url:project?.image_url??"",
-        userId:project?.userId??user,
+        userId:project?.userId??user.userId!,
     },
   });
 
