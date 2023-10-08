@@ -16,6 +16,7 @@ const qc = page_ctx.queryClient;
     return projectApi.getAllProjects({ userId: profile_id });
   });
 
+  
   if (query.isRefetching) {
     return (
       <div className="flex h-full  w-full items-center justify-center p-2">

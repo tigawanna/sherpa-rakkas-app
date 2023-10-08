@@ -28,13 +28,6 @@ export async function getAllProjects({ userId }: IGetAllProjectsProps) {
             },
         });
     } catch (error: any) {
-
-        // if (error instanceof Prisma.PrismaClientUnknownRequestError) {
-        //     console.log("=============== PrismaClientUnknownRequestError =============== ", error.message)
-        // }
-        // if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-        // }
         return
     }
 }
