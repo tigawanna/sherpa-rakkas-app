@@ -8,6 +8,7 @@ import { TheListInput } from "@/components/form/inputs/ListInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { navigate, usePageContext, useSSM } from "rakkasjs";
+import { handleMutationResponse } from "@/utils/async";
 
 interface ProjectFormProps {
     user:string
@@ -64,13 +65,11 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       update_mutation
         .mutateAsync(input)
         .then((res) =>{ 
-          if(res && "error" in res){
-            toast(res.error.message, { type: "error", autoClose: false });
-          }else{
-            toast("Project added successfully", { type: "success" })   
-            qc.invalidateQueries("projects");
-          }
-        })
+          handleMutationResponse({
+            qc,res,query_key:"projects",
+          })
+        }
+        )
         .catch((error) =>
           toast(error.message, { type: "error", autoClose: false })
         );

@@ -88,7 +88,8 @@ export interface IRemoveProjectProps {
 export async function addNewProject(input: TProjectInputType) {
   try {
     return await prisma.project.create({ data: input });
-  } catch (error: any) {
+  } 
+  catch (error: any) {
     return {
       error: {
         message: error.message,
