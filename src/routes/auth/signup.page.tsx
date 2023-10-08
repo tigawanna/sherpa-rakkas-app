@@ -1,7 +1,6 @@
 import { ActionHandler, ActionResult, PageProps } from "rakkasjs";
 import { SignUpForm } from "./components/SignUpForm";
 import { TUserSignUpFormFields, signupFormSchema } from "@/lib/auth/schema";
-import { emailPasswordSignup } from "../api/auth/helpers/auth-methods";
 import { ZodError } from "zod";
 import {
   mapPrismaIssueToField,
@@ -9,6 +8,7 @@ import {
 } from "@/utils/error-handling";
 import { Prisma } from "@prisma/client";
 import { ActionErrorData } from "@/lib/rakkas/utils/actions";
+import { emailPasswordSignup } from "../api/helpers/auth-methods";
 
 export default function SignupPage({ actionData }: PageProps) {
 

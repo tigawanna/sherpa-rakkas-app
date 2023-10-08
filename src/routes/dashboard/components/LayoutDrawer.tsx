@@ -25,13 +25,13 @@ return (
         aria-label="close sidebar"
         className="drawer-overlay "
       ></label>
-      <div className="flex flex-col gap-1 z-50">
-        <Link href="/" className="text-2xl font-bold">
+      <div className="h-full flex flex-col gap-1 z-50 bg-base-100/80">
+        <Link href="/" className="text-2xl font-bold bg-primary p-1">
           Home
         </Link>
-        <ThemeToggle />
         <DashBoardLinks />
-        <CurrentUserSection  />
+        {/* <ThemeToggle />
+        <CurrentUserSection  /> */}
       </div>
       
     </div>

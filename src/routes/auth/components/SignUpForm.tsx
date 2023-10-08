@@ -11,10 +11,10 @@ interface SignupFormProps {
 }
 
 export function SignUpForm({ actionData }: SignupFormProps) {
-const {  isLoading,submitHandler } = useSubmit();
+
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-5">
-      <div className="w-full h-full md:w-[60%] flex flex-col gap-4">
+      <div className="w-full h-full md:w-[60%] lg:w-[40%] flex flex-col gap-4">
         <form
           className="w-full h-full  flex flex-col items-center justify-center gap-4"
           method="POST"
@@ -37,7 +37,7 @@ const {  isLoading,submitHandler } = useSubmit();
             defaultValue={actionData?.defaultValues?.username}
           />
 
-        <TheTextInput<TUserSignUpFormFields>
+          <TheTextInput<TUserSignUpFormFields>
             field_key={"password"}
             field_name="password"
             type="password"
