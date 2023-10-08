@@ -3,17 +3,25 @@ import { HackathonCard } from "./HackathonCard";
 import { Link, useQueryClient, useSSQ } from "rakkasjs";
 import { THackathonInputType, hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { useDebouncedValue } from "@/utils/hooks/debounce";
+import { useState } from "react";
 
 interface HackathonsProps {
 
 }
 
 export function Hackathons({}:HackathonsProps){
-  const qc= useQueryClient();
-  const user = qc.getQueryData("user")as LuciaUser
+  const qc = useQueryClient();
+  const { userId } = qc.getQueryData("user") as LuciaUser;
+  const [keyword, setKeyword] = useState("");
+  const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
  const query = useSSQ(async(ctx)=>{
-    return hackathonApi.getAll({ user_id: user.userId! });
+    return hackathonApi.findByName({
+      user_id: userId!,
+      item_name: debouncedValue,
+    });
   },{
     refetchOnWindowFocus:true
   })
@@ -23,34 +31,43 @@ export function Hackathons({}:HackathonsProps){
   }
 
 
-     if (!query.data) {
-       return (
-         <div className="flex h-full  w-full items-center justify-center p-2">
-           <div className="rounded-lg border p-2 text-info">
-             no matches found
-           </div>
-         </div>
-       );
-     }
+
 const data = query.data;
 const refetch = query.refetch
+
+  function handleChange(e: any) {
+    setKeyword(e.target.value);
+  }
 return (
   <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-2 pb-5">
-    <div className="sticky top-[5%] flex w-full items-center justify-between p-2">
+    <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
       <h3 className="text-2xl font-bold ">hackathons</h3>
-      <Link
-        href={`/dashboard/hackathon/new`}
-        className="btn btn-outline"
-      >
+      <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
+        <TheTextInput
+          label_classname="hidden"
+          value={keyword}
+          field_key={"keyword"}
+          placeholder="Search for project"
+          field_name="Search"
+          onChange={handleChange}
+        />
+        {(query.isRefetching || isDebouncing) && (
+          <div className="absolute  flex w-full items-center justify-center gap-3 p-2">
+            <span className="loading loading-infinity loading-lg text-warning"></span>
+          </div>
+        )}
+      </div>
+      <Link href={`/dashboard/hackathon/new`} className="btn btn-outline">
         <Plus className="h-6 w-6" />
       </Link>
     </div>
+    {!data&&<div className="flex h-full  w-full items-center justify-center p-2">
+      <div className="rounded-lg border p-2 text-info">no matches found</div>
+    </div>}
     <div className="flex h-full w-full flex-wrap items-center justify-center gap-5">
       {data &&
         data.map((item) => {
-          return (
-              <HackathonCard key={item.id} item={item} refetch={refetch}/>
-          );
+          return <HackathonCard key={item.id} item={item} refetch={refetch} />;
         })}
     </div>
   </div>

@@ -10,6 +10,7 @@ interface HackathonCardProps {
 }
 
 export function HackathonCard({ item,refetch }: HackathonCardProps) {
+  console.log("item == ",item)
   const qc = useQueryClient();
   const user = qc.getQueryData("user");
   // const delete_mutation = api.hackathon.removeOne.useMutation();
@@ -45,20 +46,20 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
     >
       <DeleteConfirm
         is_loading={delete_mutation.isLoading}
-        handleDelete={() => handleDelete(item.id!)}
+        handleDelete={() => handleDelete(item?.id!)}
         modal_id={modal_id}
       />
       <Link
-        href={`/dashboard/hackathon/${item.id}`}
+        href={`/dashboard/hackathon/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"
       >
-        <h3 className="text-2xl font-bold">{item.name}</h3>
-        <h3 className="">{item.description}</h3>
+        <h3 className="text-2xl font-bold">{item?.name}</h3>
+        <h3 className="">{item?.description}</h3>
       </Link>
 
       <div className="flex w-full flex-wrap gap-2 p-1">
         {item?.technologies &&
-          item?.technologies.map((tech) => (
+          item?.technologies?.map((tech) => (
             <h2 key={tech} className="rounded-xl border border-accent px-2">
               {tech}
             </h2>
@@ -66,8 +67,8 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       </div>
 
       <div className=" flex w-[90%] items-center justify-between border-t border-t-accent text-sm">
-        <h3>From : {item.from.toISOString().split("T")[0]}</h3>
-        <h3>To : {item.to.toISOString().split("T")[0]}</h3>
+        <h3>From : {item?.from?.toISOString().split("T")[0]}</h3>
+        <h3>To : {item?.to?.toISOString().split("T")[0]}</h3>
       </div>
     </div>
   );

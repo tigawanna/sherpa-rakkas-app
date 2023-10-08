@@ -1,10 +1,9 @@
 import { Plus } from "lucide-react";
 import { ProjectCard } from "./ProjectCard";
-import { Link, usePageContext, useQuery, useSSQ } from "rakkasjs";
+import { Link, usePageContext, useSSQ } from "rakkasjs";
 import { projectApi } from "@/routes/api/helpers/prisma/projects";
 import { Spinner } from "@/components/navigation/Spinner";
 import { Suspense, useState } from "react";
-import { prisma } from "@/lib/db/prisma";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 
@@ -42,10 +41,10 @@ export function Projects({}: ProjectsProps) {
   return (
     <div className="relative flex h-full w-full flex-col gap-2 pb-5">
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
-      <h2 className="text-2xl font-bold">Projects</h2>
+        <h2 className="text-2xl font-bold">Projects</h2>
         <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
           <TheTextInput
-           label_classname="hidden"
+            label_classname="hidden"
             value={keyword}
             field_key={"keyword"}
             placeholder="Search for project"
@@ -64,15 +63,20 @@ export function Projects({}: ProjectsProps) {
         >
           <Plus className="h-6 w-6" />
         </Link>
-        
       </div>
-
+      {!projects && (
+        <div className="flex h-full  w-full items-center justify-center p-2">
+          <div className="rounded-lg border p-2 text-info">
+            no matches found
+          </div>
+        </div>
+      )}
       <Suspense fallback={<Spinner size="00px" />}>
         <div className="flex h-full w-full flex-wrap  gap-2 px-5 pb-5 pt-2">
           {projects &&
             projects.map((project) => {
               // @ts-expect-error
-            return <ProjectCard key={project?.id} item={project} />;
+              return <ProjectCard key={project?.id} item={project} />;
             })}
         </div>
       </Suspense>

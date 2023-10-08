@@ -39,7 +39,7 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
     },
     findByName: async({ item_name, user_id }: { item_name: string; user_id: string})=> {
       try{
-        return await prisma.project.findMany({
+        return await prisma[model]?.findMany({
           where: {
             userId: user_id,
             name: {
