@@ -19,8 +19,8 @@ interface HackathonFormProps {
 
 export function HackathonForm({ default_value, updating }: HackathonFormProps) {
   const qc = useQueryClient();
-  const user = qc.getQueryData("user");
-
+  const user = qc.getQueryData("user") as LuciaUser
+  console.log("user  === ",user)
   // const create_mutation = api.hackathon.addNew.useMutation();
   //   const update_mutation = api.hackathon.updateOne.useMutation();
 
@@ -35,7 +35,7 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
     Awaited<ReturnType<typeof hackathonApi.updateOne>>,
     THackathonInputType
   >(async (ctx, vars) => {
-    return await hackathonApi.updateOne({input:vars,user_id:user.id})
+    return await hackathonApi.updateOne({input:vars,user_id:user.userId!});
   });
 
   const { handleChange, input, setError, setInput, validateInputs } =
@@ -48,9 +48,10 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
         technologies: default_value?.technologies ?? [],
         from: default_value?.from ?? new Date(),
         to: default_value?.to ?? new Date(),
-        userId: default_value?.userId ?? (user.id as string),
+        userId: default_value?.userId ?? (user.userId as string),
       },
     });
+
 
   const [editing, setEditing] = useState(!updating);
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -120,7 +121,7 @@ export function HackathonForm({ default_value, updating }: HackathonFormProps) {
           field_key={"name"}
           value={input["name"]}
           // input={input}
-          field_name={"THackathonInputType name"}
+          field_name={"Hackathon name"}
           className="input input-bordered input-sm w-full  "
           label_classname="text-base capitalize"
           onChange={handleChange}

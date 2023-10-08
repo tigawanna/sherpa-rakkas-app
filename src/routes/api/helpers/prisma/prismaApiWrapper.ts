@@ -8,6 +8,9 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
         try{
           return await prisma[model]?.findMany({ where: { userId: user_id } }) as T[]
         } catch (error: any) {
+          console.log("error getting all \n VARS ===== ", { item_id, user_id })
+          console.log("===== ERROR mESSAGE======", error.message);
+          console.log("==== FULL ERROR ======", error);
           return {
             error: {
               message: error.message,
@@ -23,6 +26,9 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
           where: { id: item_id, userId: user_id },
         }) as T
       } catch (error: any) {
+        console.log("error getting one \n VARS ===== ", { item_id, user_id })
+        console.log("===== ERROR mESSAGE======", error.message);
+        console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -36,6 +42,9 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
           try{
             return await prisma[model]?.create({ data: input }) as T
           } catch (error: any) {
+            console.log("error adding new \n VARS ===== ", { input })
+            console.log("===== ERROR mESSAGE======", error.message);
+            console.log("==== FULL ERROR ======", error);
             return {
               error: {
                 message: error.message,
@@ -53,6 +62,9 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
         }) as T
 
       } catch (error: any) {
+        console.log("error updating \n VARS ===== ", { item_id, user_id })
+        console.log("===== ERROR mESSAGE======", error.message);
+        console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -68,6 +80,10 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
           where: { id: item_id, userId: user_id },
         }) as T
       } catch (error: any) {
+        console.log("error removing one \n VARS ===== ",{ item_id, user_id })
+        console.log("===== ERROR mESSAGE======", error.message);
+        console.log("==== FULL ERROR ======",error);
+        
         return {
           error: {
             message: error.message,
@@ -84,6 +100,9 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
             where: { userId: user_id },
           }) as Prisma.PrismaPromise<Prisma.BatchPayload>
         } catch (error: any) {
+          console.log("error removing all \n VARS ===== ", { user_id })
+          console.log("===== ERROR mESSAGE======", error.message);
+          console.log("==== FULL ERROR ======", error);
           return {
             error: {
               message: error.message,

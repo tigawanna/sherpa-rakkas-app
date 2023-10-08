@@ -15,11 +15,11 @@ export function ProjectCard({ item }: ProjectCardProps) {
 const page_ctx= usePageContext();
 const qc=page_ctx.queryClient;
 
-const user_id = qc.getQueryData("user").id;
+const user = qc.getQueryData("user") as LuciaUser
 
 // const delete_mutation = api.project.removeOne.useMutation();
 const delete_mutation = useSSM<void,{id:string}>(async(ctx,vars)=>{
-  projectApi.removeProject({id:vars.id,userId:user_id});
+  projectApi.removeProject({id:vars.id,userId:user.userId!});
 
 })
 

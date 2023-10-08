@@ -10,9 +10,9 @@ interface ProjectsProps {}
 export function Projects({}: ProjectsProps) {
   const page_ctx = usePageContext();
   const qc = page_ctx.queryClient;
-  const profile_id = qc.getQueryData("user").id;
+  const user = qc.getQueryData("user") as LuciaUser;
   const query = useSSQ((ctx) => {
-    return projectApi.getAllProjects({ userId: profile_id });
+    return projectApi.getAllProjects({ userId:user.userId! });
   });
 
   if (query.error || ("error" in query?.data)) {

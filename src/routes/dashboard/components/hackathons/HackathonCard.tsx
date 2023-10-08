@@ -12,7 +12,7 @@ export function HackathonCard({ item }: HackathonCardProps) {
   const qc = useQueryClient();
   const user = qc.getQueryData("user");
   // const delete_mutation = api.hackathon.removeOne.useMutation();
-  const delete_mutation = useSSM<void, { id: string }>(async (ctx, vars) => {
+  const delete_mutation = useSSM<Awaited<ReturnType<typeof hackathonApi.removeOne>>, { id: string }>((_,vars) => {
     return hackathonApi.removeOne({ item_id: vars.id, user_id: user.id });
   });
 
@@ -47,7 +47,7 @@ export function HackathonCard({ item }: HackathonCardProps) {
         modal_id={modal_id}
       />
       <Link
-        href={`/profile/hackathon/${item.id}`}
+        href={`/dashboard/hackathon/${item.id}`}
         className="hover:bg-base-300 hover:text-accent"
       >
         <h3 className="text-2xl font-bold">{item.name}</h3>
