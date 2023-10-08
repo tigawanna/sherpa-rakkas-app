@@ -30,6 +30,7 @@ export function GithubGeneratedProjectForm({
   const [generatedProject, setGeneratedProject] = useState(generated_project);
   const page_ctx = usePageContext();
   const qc = page_ctx.queryClient;
+
   const create_mutation = useSSM<void,TProjectInputType>(async(ctx,vars)=>{
     await addNewProject(vars)
     qc.invalidateQueries("projects");

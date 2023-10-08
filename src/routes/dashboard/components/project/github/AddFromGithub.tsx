@@ -2,7 +2,7 @@ import { GithubIcon } from "lucide-react";
 import { SearchGithubprojects } from "./SearchGithubprojects";
 import { TheFormModal } from "@/components/modal/TheFormModal";
 import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
-import { TUserProfileInputType } from "../profile/api";
+import { TUserProfileInputType } from "../../profile/api";
 
 
 interface AddFromGithubProps {
@@ -26,7 +26,7 @@ return (
   >
     <SearchGithubprojects
       project={project}
-      github_username={profile.github_username ?? ""}
+      github_username={profile?.github_username ?? ""}
       setProject={setProject}
       modal_id={modal_id}
     />

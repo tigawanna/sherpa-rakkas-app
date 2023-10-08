@@ -1,4 +1,5 @@
-import { TProjectInputType } from "@/routes/dashboard/components/project/api"
+
+import { TProjectInputType } from "../prisma/projects"
 import { IRawPkgJason, RepositoryResponse, RequiredDecodedPackageJson } from "./types"
 
 

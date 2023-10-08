@@ -3,9 +3,10 @@ import { GithubGeneratedProjectForm } from "./GithubGeneratedProject";
 import { TProjectInputType, projectApi } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { useQuery } from "rakkasjs";
+import { useQuery, useSSM } from "rakkasjs";
 import { githubApi } from "@/routes/api/helpers/github/github";
 import { RepositoryResponse } from "@/routes/api/helpers/github/types";
+import { Spinner } from "@/components/navigation/Spinner";
 
 interface SearchGithubprojectsProps {
   github_username: string;
@@ -52,17 +53,29 @@ export function SearchGithubprojects({
   //     retry: false,
   //   }
   // );
-  const project_query = useQuery("projects", () =>{
+//   const project_query = useQuery("projects", () =>{
+//   return githubApi.getProjectFromGithub({
+//     owner: github_username,
+//     repo: projectToGenerate,
+//   })
+// },{
+//     enabled: projectToGenerate.length > 2,
+// })
+
+const create_project_from_github_mutation = useSSM<
+  Awaited<ReturnType<typeof githubApi.getProjectFromGithub>>,
+  RepositoryResponse
+>((ctx, vars) => {
   return githubApi.getProjectFromGithub({
     owner: github_username,
-    repo: projectToGenerate,
-  })
-},{
-    enabled: projectToGenerate.length > 2,
-})
+    repo: vars.name,
+  });
+});
+
 
   function handleSelectProject(repo: RepositoryResponse) {
     setProjectToGenerate(repo.name as string);
+    create_project_from_github_mutation.mutateAsync(repo);
   }
 
   function handleChange(e: any) {
@@ -70,19 +83,18 @@ export function SearchGithubprojects({
   }
 
 
-  if(project_query.data){
-    return(
+  if (create_project_from_github_mutation.data) {
+    return (
       <GithubGeneratedProjectForm
         project={project}
-        generated_project={project_query.data}
+        generated_project={create_project_from_github_mutation.data}
         modal_id={modal_id}
         setProject={setProject}
         setProjectToGenerate={setProjectToGenerate}
         addProjectTList={addProjectTList}
         direct_create={direct_create}
-
       />
-    )
+    );
   }
 
   return (
@@ -109,13 +121,13 @@ export function SearchGithubprojects({
         </div>
       )}
 
-      {project_query.error && (
+      {/* {project_query.error && (
         <div className="flex w-full items-center justify-center p-2">
           <div className="rounded-lg border p-2 text-error">
             {project_query.error.message}
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="flex w-full flex-wrap  items-center justify-center gap-2">
         
@@ -143,10 +155,8 @@ export function SearchGithubprojects({
                     )}
                   </div>
                   {projectToGenerate === project.name &&
-                    project_query.isRefetching && (
-                      <div className=" absolute flex h-full w-full items-center justify-center bg-base-200 bg-opacity-70">
-                        <span className="loading loading-infinity loading-lg text-accent"></span>
-                      </div>
+                    create_project_from_github_mutation.isLoading && (
+                      <Spinner size="00px" variant="loading-infinity" />
                     )}
                 </div>
               </div>

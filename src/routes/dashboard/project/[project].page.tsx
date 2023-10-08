@@ -1,7 +1,10 @@
 import { Plus } from "lucide-react";
 import { Link, PageProps, useQuery, useQueryClient } from "rakkasjs";
-import { projectApi } from "../components/project/api";
+
 import { ProjectForm } from "../components/project/ProjectForm";
+import { projectApi } from "@/routes/api/helpers/prisma/projects";
+import { Suspense } from "react";
+import { Spinner } from "@/components/navigation/Spinner";
 
 
 export default function OneProject({ meta, url,params}: PageProps) {
@@ -46,12 +49,14 @@ const query = useQuery("project", () =>projectApi.getProjectById({id:params.proj
   return (
     <div className="h-fullw-full relative flex flex-col items-center justify-center">
       <div className="w-[90%] p-5 md:w-[80%] lg:w-[50%] ">
+        <Suspense fallback={<Spinner size="00px" variant="loading-infinity" />}>
         <ProjectForm
           user={user_id}
           // @ts-expect-error
           project={query.data}
           updating={true}
         />
+        </Suspense>
       </div>
     </div>
   );
