@@ -6,7 +6,7 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useQuery, useSSM } from "rakkasjs";
 import { githubApi } from "@/routes/api/helpers/github/github";
 import { RepositoryResponse } from "@/routes/api/helpers/github/types";
-import { Spinner } from "@/components/navigation/Spinner";
+
 
 interface SearchGithubprojectsProps {
   github_username: string;
@@ -36,7 +36,7 @@ export function SearchGithubprojects({
   //   keyword: debouncedValue,
   // });
 
-    const query = useQuery("github-projects", () =>
+    const query = useQuery("github-projects"+debouncedValue, () =>
       githubApi.searchRepoByName({
         owner: github_username,
         keyword: debouncedValue,
@@ -72,7 +72,7 @@ const create_project_from_github_mutation = useSSM<
   });
 });
 
-console.log("create_project_from_github_mutation", create_project_from_github_mutation)
+
 
   function handleSelectProject(repo: RepositoryResponse) {
     setProjectToGenerate(repo.name as string);
@@ -88,6 +88,7 @@ console.log("create_project_from_github_mutation", create_project_from_github_mu
     return (
       <GithubGeneratedProjectForm
         project={project}
+        // @ts-expect-error
         generated_project={create_project_from_github_mutation.data}
         modal_id={modal_id}
         setProject={setProject}
@@ -122,13 +123,7 @@ console.log("create_project_from_github_mutation", create_project_from_github_mu
         </div>
       )}
 
-      {/* {project_query.error && (
-        <div className="flex w-full items-center justify-center p-2">
-          <div className="rounded-lg border p-2 text-error">
-            {project_query.error.message}
-          </div>
-        </div>
-      )} */}
+
 
       <div className="flex w-full flex-wrap  items-center justify-center gap-2">
         

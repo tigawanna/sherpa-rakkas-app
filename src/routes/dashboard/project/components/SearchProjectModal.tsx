@@ -3,7 +3,9 @@ import { useState } from "react";
 import { TProjectInputType, projectApi } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { useQuery } from "rakkasjs";
+import { useQuery, useQueryClient, useSSQ } from "rakkasjs";
+import { prisma } from "@/lib/db/prisma";
+import { LineUser } from "@lucia-auth/oauth/providers";
 
 
 interface SearchProjectModalProps {
@@ -25,14 +27,32 @@ export function SearchProjectModal({
   setProjectLists,
   user_id
 }: SearchProjectModalProps) {
-  const [keyword, setKeyword] = useState("");
+const [keyword, setKeyword] = useState("");
 const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
+const qc = useQueryClient()
+const user = qc.getQueryData("user") as LineUser
 
-const query = useQuery("projects", () =>
-  projectApi.searchForProject({
-    userId: user_id,
-    keyword: debouncedValue,
-  })
+const query = useSSQ(async() =>{
+    try {
+      return await prisma.project.findMany({
+        where: {
+          userId: user.userId,
+          name: {
+            contains: debouncedValue,
+            mode: "insensitive",
+          },
+        },
+        take: 10,
+      });
+    } catch (error: any) {
+      return {
+        error: {
+          message: error.message,
+          original_error: error,
+        },
+      };
+}
+}
 );
 
 
@@ -58,16 +78,15 @@ const query = useQuery("projects", () =>
           field_name="Search"
           onChange={handleChange}
         />
-        {((query.isRefetching ) || isDebouncing) && (
+        {(query.isRefetching || isDebouncing) && (
           <div className="absolute top-[20%] flex w-full items-center justify-center gap-3 p-2">
             <span className="loading loading-infinity loading-lg text-warning"></span>
           </div>
         )}
       </div>
 
-
       <div className="flex h-full w-full flex-wrap items-center justify-center gap-2 p-2">
-        {project_search_results &&
+        {project_search_results && !("error" in project_search_results) &&
           project_search_results.map((project_search) => {
             return (
               <div
@@ -90,7 +109,7 @@ const query = useQuery("projects", () =>
                         </p>
                       </div>
                     )}
-                <div className="flex w-full items-center justify-center gap-2">
+                    <div className="flex w-full items-center justify-center gap-2">
                       {/* <h3 className="font-bold ">languages</h3> */}
                       <h2 className="w-full">
                         {JSON.stringify(project_search.languages)}
@@ -102,8 +121,14 @@ const query = useQuery("projects", () =>
                 {/*  controls */}
 
                 <span className="flex flex-col items-center  gap-1">
-                  {is_project_in_list(project_search as any as TProjectInputType) ? (
-                    <button title="Remove list item" className="btn" type="button">
+                  {is_project_in_list(
+                    project_search as any as TProjectInputType
+                  ) ? (
+                    <button
+                      title="Remove list item"
+                      className="btn"
+                      type="button"
+                    >
                       <X
                         onClick={(e) => {
                           setProjectLists((prev) =>
@@ -123,7 +148,9 @@ const query = useQuery("projects", () =>
                         // setProject(project_search as TProjectInputType);
                         // setProjectToGenerate("");
                         // closeModal(modal_id);
-                        addProjectTList(project_search as any as TProjectInputType);
+                        addProjectTList(
+                          project_search as any as TProjectInputType
+                        );
                       }}
                       className="btn"
                     >
@@ -134,7 +161,6 @@ const query = useQuery("projects", () =>
               </div>
             );
           })}
-        
       </div>
     </div>
   );

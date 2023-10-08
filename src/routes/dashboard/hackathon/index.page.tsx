@@ -1,5 +1,5 @@
 import { PageProps } from "rakkasjs";
-import { Hackathons } from "../components/hackathons/Hackathons";
+import { Hackathons } from "./components/Hackathons";
 
 export default function HackathonPage({params}:PageProps) {
 return (

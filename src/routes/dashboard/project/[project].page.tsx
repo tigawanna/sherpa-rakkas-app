@@ -1,5 +1,5 @@
 import { PageProps,useQueryClient, useSSQ } from "rakkasjs";
-import { ProjectForm } from "../components/project/ProjectForm";
+import { ProjectForm } from "./components/ProjectForm";
 import { projectApi } from "@/routes/api/helpers/prisma/projects";
 import { Suspense } from "react";
 import { Spinner } from "@/components/navigation/Spinner";
@@ -32,7 +32,7 @@ const query = useSSQ((ctx) =>projectApi.getOne({item_id:params.project as string
       {query.isRefetching && (
         <span className="loading loading-infinity loading-lg text-warning"></span>
       )}
-      <div className="h-full w-[90%] p-5 md:w-[80%] lg:w-[50%] ">
+      <div className="h-full w-[90%] p-5 md:w-[80%]  ">
         <Suspense fallback={<Spinner size="00px" variant="loading-infinity" />}>
           <ProjectForm
             user={user_id}

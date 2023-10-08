@@ -20,8 +20,8 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
         }
 
     },
-    getOne: async({ item_id, user_id }: { item_id: string; user_id: string})=> {
-      try{
+    getOne: async ({ item_id, user_id }: { item_id: string; user_id: string }) => {
+      try {
         return await prisma[model]?.findUnique({
           where: { id: item_id, userId: user_id },
         }) as T
@@ -37,6 +37,31 @@ export function prismaApiWrapper<T>(model: keyof typeof prisma) {
         };
       }
     },
+    findByName: async({ item_name, user_id }: { item_name: string; user_id: string})=> {
+      try{
+        return await prisma.project.findMany({
+          where: {
+            userId: user_id,
+            name: {
+              contains: item_name,
+              mode: "insensitive",
+            },
+          },
+          take: 10,
+        }) as T []
+      } catch (error: any) {
+        console.log("error lloking up by name \n VARS ===== ", { item_name, user_id })
+        console.log("===== ERROR mESSAGE======", error.message);
+        console.log("==== FULL ERROR ======", error);
+        return {
+          error: {
+            message: error.message,
+            original_error: error,
+          },
+        };
+      }
+    },
+
 
         addNew: async ({ input }: { input: T })=> {
           try{

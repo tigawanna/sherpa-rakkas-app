@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PageProps,useQueryClient} from "rakkasjs";
-import { AddFromGithub } from "../components/project/github/AddFromGithub";
-import { ProjectForm } from "../components/project/ProjectForm";
+import { AddFromGithub } from "./components/github/AddFromGithub";
+import { ProjectForm } from "./components/ProjectForm";
 import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
 
 export default function NewProject({params}: PageProps) {

@@ -1,4 +1,4 @@
-import { HackathonForm } from "../components/hackathons/HackathonForm";
+import { HackathonForm } from "./components/HackathonForm";
 
 
 interface NewHackathonPageProps {}

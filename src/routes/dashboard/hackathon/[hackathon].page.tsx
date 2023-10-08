@@ -1,7 +1,7 @@
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
 import { PageProps, useQueryClient, useSSQ } from "rakkasjs";
-import { HackathonForm } from "../components/hackathons/HackathonForm";
+import { HackathonForm } from "./components/HackathonForm";
 
 
 export default function HackathonPage({params}:PageProps) {

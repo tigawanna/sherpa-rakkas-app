@@ -2,7 +2,7 @@ import { GithubIcon } from "lucide-react";
 import { SearchGithubprojects } from "./SearchGithubprojects";
 import { TheFormModal } from "@/components/modal/TheFormModal";
 import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
-import { TUserProfileInputType } from "../../profile/api";
+import { TUserProfileInputType } from "../../../components/profile/api";
 
 
 interface AddFromGithubProps {
