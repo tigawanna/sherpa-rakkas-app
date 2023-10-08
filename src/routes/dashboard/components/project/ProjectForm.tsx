@@ -94,8 +94,8 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 }
 
   return (
-    <div className="flex h-full w-full  flex-col items-center justify-center ">
-      <div className="flex w-full justify-end px-5">
+    <div className="flex h-full w-full  flex-col items-center justify-center border p-10 shadow shadow-accent rounded-md">
+      <div className="flex w-full justify-end px-5 sticky top-10">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
           onClick={() => setEditing(!editing)}

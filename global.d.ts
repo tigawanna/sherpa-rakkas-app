@@ -28,3 +28,12 @@ declare class CustomError extends Error {
         this.fields = fields;
     }
 }
+
+declare interface ReturnedError {
+    error: {
+        message: string;
+        original_error: string,
+
+    }
+}
+

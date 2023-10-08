@@ -72,6 +72,7 @@ export async function getProjectById({ id }: IGetProjectByIdProps) {
   try {
     return await prisma.project.findUnique({ where: { id } });
   } catch (error: any) {
+    console.log("error getting project by id  =========  ", error);
     return {
       error: {
         message: error.message,
