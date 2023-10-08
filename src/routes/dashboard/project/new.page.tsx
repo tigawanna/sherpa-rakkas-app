@@ -17,7 +17,7 @@ export default function NewProject({params}: PageProps) {
     image_url: "",
     name: "",
     libraries: [],
-    userId: query.data?.id,
+    userId: user.id,
   });
   if (query.isRefetching) {
     return (

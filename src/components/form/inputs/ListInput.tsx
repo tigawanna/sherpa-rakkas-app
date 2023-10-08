@@ -52,7 +52,7 @@ export function TheListInput<T>({
 
   const items = input[field_key] as string[];
   return (
-    <div className="flex h-full  w-full flex-col gap-3 ">
+    <div className="flex w-full flex-col gap-3 ">
       <div className="flex  w-full flex-wrap gap-2 ">
         <h1 className="font bold gap- border-b border-b-accent p-1 font-bold">
           {field_name}

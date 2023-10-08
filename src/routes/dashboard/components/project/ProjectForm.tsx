@@ -63,9 +63,13 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     if (updating) {
       update_mutation
         .mutateAsync(input)
-        .then(() =>{ 
-          toast("Project added successfully", { type: "success" })   
-          qc.invalidateQueries("projects");
+        .then((res) =>{ 
+          if(res && "error" in res){
+            toast(res.error.message, { type: "error", autoClose: false });
+          }else{
+            toast("Project added successfully", { type: "success" })   
+            qc.invalidateQueries("projects");
+          }
         })
         .catch((error) =>
           toast(error.message, { type: "error", autoClose: false })
@@ -74,9 +78,13 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       create_mutation
         .mutateAsync(input)
         .then((res) => {
-          toast("Project added successfully", { type: "success" })
+          if(res && "error" in res){
+              toast(res.error.message, { type: "error", autoClose: false });
+          }else{
+            toast("Project added successfully", { type: "success" })
             qc.invalidateQueries("projects");
-          navigate("/dashboard/project/" + res?.id);
+            navigate("/dashboard/project/" + res?.id);
+          }
         })
         .catch((error) =>
           toast(error.message, { type: "error", autoClose: false })
@@ -84,7 +92,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     }
   }
 }
-const modal_id = "add_project_from_github";
+
   return (
     <div className="flex h-full w-full  flex-col items-center justify-center ">
       <div className="flex w-full justify-end px-5">
@@ -127,8 +135,7 @@ const modal_id = "add_project_from_github";
 
         {/* image */}
         <ThePicUrlInput
-          img_url={input.image_url??""}
-          
+          img_url={input.image_url ?? ""}
           className=""
           editing={editing}
           setInputImage={(url) =>
@@ -166,6 +173,17 @@ const modal_id = "add_project_from_github";
             setInput={setInput}
           />
         </div>
+
+        {create_mutation?.data && "error" in create_mutation?.data && (
+          <div className="rounded-lg border p-2 text-error">
+            {create_mutation?.data?.error?.message}
+          </div>
+        )}
+        {update_mutation?.data && "error" in update_mutation?.data && (
+          <div className="rounded-lg border p-2 text-error">
+            {update_mutation?.data?.error?.message}
+          </div>
+        )}
 
         {editing && (
           <div className="flex w-full items-center justify-center">

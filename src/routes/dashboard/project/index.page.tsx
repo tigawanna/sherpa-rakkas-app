@@ -1,20 +1,11 @@
-import { Spinner } from "@/components/navigation/Spinner";
-import { Suspense } from "react";
 import { Projects } from "../components/project/Projects";
 
-interface ProjectPageProps {
-  
-}
+interface ProjectPageProps {}
 
-export default function ProjectPage({}:ProjectPageProps) {
-
-return (
-  <div className="flex h-full min-h-screen w-full flex-col items-center justify-center relative">
-
+export default function ProjectPage({}: ProjectPageProps) {
+  return (
+    <div className="flex h-full min-h-screen w-full flex-col items-center">
       <Projects />
-
-    {/* <Spinner size="00px"/> */}
-
-  </div>
-);
+    </div>
+  );
 }

@@ -72,6 +72,7 @@ const create_project_from_github_mutation = useSSM<
   });
 });
 
+console.log("create_project_from_github_mutation", create_project_from_github_mutation)
 
   function handleSelectProject(repo: RepositoryResponse) {
     setProjectToGenerate(repo.name as string);
@@ -156,7 +157,9 @@ const create_project_from_github_mutation = useSSM<
                   </div>
                   {projectToGenerate === project.name &&
                     create_project_from_github_mutation.isLoading && (
-                      <Spinner size="00px" variant="loading-infinity" />
+                      <div className=" absolute flex h-full w-full items-center justify-center bg-base-200 bg-opacity-70">
+                        <span className="loading loading-infinity loading-lg text-accent"></span>
+                      </div>
                     )}
                 </div>
               </div>
