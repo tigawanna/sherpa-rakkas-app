@@ -99,7 +99,7 @@ export function ExperienceForm({
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -132,7 +132,7 @@ export function ExperienceForm({
         />
         <TheTextAreaInput<Experience>
           field_key={"description"}
-          value={input["description"]??""}
+          value={input["description"] ?? ""}
           // input={input}
           field_name={"Job Description"}
           label_classname="text-base capitalize"

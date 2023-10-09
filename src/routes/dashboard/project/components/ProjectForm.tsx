@@ -11,12 +11,12 @@ import { navigate, usePageContext, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
 
 interface ProjectFormProps {
-
-    project?:TProjectInputType
-    updating?:boolean
+project?:TProjectInputType
+    updating?:boolean;
+    refetch?:()=>void
 }
 
-export function ProjectForm({project,updating}: ProjectFormProps) {
+export function ProjectForm({project,updating,refetch}: ProjectFormProps) {
 
 const page_ctx= usePageContext()
 const qc = page_ctx.queryClient;
@@ -67,10 +67,13 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         .mutateAsync(input)
         .then((res) =>{ 
           handleMutationResponse({
-            qc,res,query_key:"projects",
+            res,
           })
+
+          refetch?.()
         }
         )
+
         .catch((error) =>
           toast(error.message, { type: "error", autoClose: false })
         );
@@ -94,7 +97,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 }
 
   return (
-    <div className="flex h-full w-full  flex-col items-center justify-center border p-10 shadow shadow-accent rounded-md">
+    <div className="flex h-full w-full  flex-col items-center justify-center border p-2 shadow shadow-accent rounded-md">
       <div className="flex w-full justify-end px-5 sticky top-10">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}

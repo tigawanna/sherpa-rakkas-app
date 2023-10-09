@@ -101,7 +101,7 @@ export function EducationForm({
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -134,7 +134,6 @@ export function EducationForm({
         />
         {/* "Certificate" | "Bachelors" | "Masters" | "PhD" | */}
         <div className="w-full">
-         
           <Select
             defaultValue={input["qualification"]}
             onValueChange={(e) => {
@@ -145,23 +144,19 @@ export function EducationForm({
                 };
               });
             }}
-         
           >
-              <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Education Qualification" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-            <SelectItem value={"Certificate"}>Certificate</SelectItem>
-            <SelectItem value={"Diploma"}>Diploma</SelectItem>
-            <SelectItem value={"Masters"}>Masters</SelectItem>
-            <SelectItem value={"PhD"}>PhD</SelectItem>
-
+                <SelectItem value={"Certificate"}>Certificate</SelectItem>
+                <SelectItem value={"Diploma"}>Diploma</SelectItem>
+                <SelectItem value={"Masters"}>Masters</SelectItem>
+                <SelectItem value={"PhD"}>PhD</SelectItem>
               </SelectGroup>
-              </SelectContent>
+            </SelectContent>
           </Select>
-
-
         </div>
 
         <div className="flex  w-full flex-col  items-center justify-evenly gap-2 sm:flex-row">

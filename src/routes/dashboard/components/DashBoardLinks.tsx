@@ -18,15 +18,15 @@ export function DashBoardLinks({}:DashBoardLinksProps){
       { name: "education", href: "/dashboard/education", icon:GraduationCap },
     ];
 return (
-  <div className="h-full    ">
-    <nav className="h-full p-1 flex flex-col items-center gap-2">
+  <div className="h-full">
+    <nav className="h-full p-2 flex flex-col items-center gap-4">
       {links.map((link) => {
         return (
           <StyledLink
             key={link.name}
             about={link.name}
-            hidden={isLinkCurrentPathname(link.href, url)}
-            href={link.href}
+            // hidden={isLinkCurrentPathname(link.href, url)}
+            href={isLinkCurrentPathname(link.href, url)?"":link.href}
             className="p-1 hover:text-accent w-full bg-base-100 rounded group "
             activeClass="text-accent border border-b-accent"
           >
@@ -35,7 +35,7 @@ return (
                 className="md:tooltip hover:md:tooltip-open md:tooltip-right"
                 data-tip={link.name}
               >
-                <link.icon />
+                <link.icon className="w-7 h-7"/>
               </button>
               <div className=" md:hidden flex justify-end p-2 animate-in ">
                 {link.name}

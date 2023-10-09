@@ -120,7 +120,7 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
             }
             }
         })
-        console.log("fields_to_search_array",fields_to_search_array)
+ 
         // @ts-expect-error
         return (await prisma_model.findMany({
           where: {

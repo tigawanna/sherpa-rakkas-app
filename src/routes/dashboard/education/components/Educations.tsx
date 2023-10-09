@@ -21,7 +21,7 @@ const query = useSSQ(
   async (ctx) => {
     return educationApi.findByField({
       user_id: userId!,
-      fields: ["field","qualification","school"],
+      fields: ["field","school"],
       keyword: debouncedValue,
     });
   },

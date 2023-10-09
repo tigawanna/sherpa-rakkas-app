@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Edit, Loader } from "lucide-react";
 import { useFormHook } from "@/components/form/useForm";
-import { TUserProfileInputType } from "@/routes/api/helpers/prisma/projects";
 import { ThePicUrlInput } from "@/components/form/inputs/ThePicUrlInput";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
@@ -14,6 +13,7 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Prisma } from "@prisma/client";
 import { generatePrismaErrorFields, mapPrismaIssueToField } from "@/utils/error-handling";
 import { title } from "radash";
+import { TUserProfileInputType } from "./api";
 
 interface ProfileFormProps {
   user: Partial<TUserProfileInputType> & { avatar?: string; userId: string };
@@ -46,9 +46,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
       });
     } catch (error) {
           if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            console.log("PRISMA ERROR ==>", error);
-            console.log("error fields  == ", generatePrismaErrorFields(vars, error));
-            const custom_error  ={
+          const custom_error  ={
                   fields: generatePrismaErrorFields(vars, error),
                   message: "Error updating profile"+error.message,
               }
@@ -109,8 +107,9 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
           />
         </div>
         <div
-          className="flex  justify-start items-center md:items-start h-full w-full flex-col gap-10
-       rounded-lg  p-2 md:flex-row"
+
+        className="flex  justify-start items-center md:items-start h-full w-full flex-col gap-10
+       rounded-lg   md:flex-row"
         >
           {/* avatar */}
           <ThePicUrlInput
@@ -121,7 +120,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
               setInput((prev) => {
                 return {
                   ...prev,
-                  image_url: url ?? "",
+                  avatar: url ?? "",
                 };
               })
             }

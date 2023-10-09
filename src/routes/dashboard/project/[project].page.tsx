@@ -32,16 +32,17 @@ const query = useSSQ((ctx) =>projectApi.getOne({item_id:params.project as string
       {query.isRefetching && (
         <span className="loading loading-infinity loading-lg text-warning"></span>
       )}
-      <div className="h-full w-[90%] p-5 md:w-[80%]  ">
-        <Suspense fallback={<Spinner size="00px" variant="loading-infinity" />}>
+        <Suspense fallback={<Spinner size="100px" variant="loading-infinity" />}>
+      <div className="h-full w-full md:p-5 md:w-[80%]  ">
           <ProjectForm
             user={user_id}
             // @ts-expect-error
             project={query?.data}
+            refetch={query.refetch}
             updating={true}
           />
-        </Suspense>
       </div>
+        </Suspense>
     </div>
   );
 }

@@ -31,10 +31,14 @@ export default function HackathonPage({params}:PageProps) {
     );
   }
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-2">
-      <h1 className="text-3xl font-bold">Hackathon</h1>
+    <div className="flex h-full w-full flex-col items-center justify-center gap-1 p-2">
+      <h1 className="text-2xl font-bold">Update Hackathon</h1>
       <div className="flex h-full w-full items-center justify-center">
-        <HackathonForm default_value={query.data} updating={true} refetch={query.refetch}/>
+        <HackathonForm
+          default_value={query.data}
+          updating={true}
+          refetch={query.refetch}
+        />
       </div>
     </div>
   );
