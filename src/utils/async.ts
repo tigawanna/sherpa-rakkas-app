@@ -1,4 +1,4 @@
-import { QueryClient } from "rakkasjs";
+
 import { toast } from "react-toastify";
 
 export async function artificialDelay(delay: number) {
@@ -17,22 +17,16 @@ export function isLinkCurrentPathname(path: string, url: URL | string) {
 
 interface THandRolledQueryProps {
   res: any | ReturnedError;
-  qc: QueryClient;
-  query_key: string;
   successMessage?: (res: ReturnedError) => string;
   errorMessage?: (res: any) => string;
 }
 export function handleMutationResponse({
-  res,
-  qc,
-  query_key,
-  errorMessage,
-  successMessage,
+  res,errorMessage,successMessage,
 }: THandRolledQueryProps) {
   if (res && "error" in res) {
     toast(errorMessage ? errorMessage(res) : res.error.message, { type: "error", autoClose: false });
   } else {
-    toast(successMessage ? successMessage(res) : query_key + "mutation success", { type: "success" });
-    qc.invalidateQueries(query_key);
+    toast(successMessage ? successMessage(res) :"mutation success", { type: "success" });
+
   }
 }

@@ -1,21 +1,23 @@
 import { DeleteConfirm } from "@/components/modal/DeleteConfirm";
-import { THackathonInputType, hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
+import { TExperienceInputType, experienceApi } from "@/routes/api/helpers/prisma/experience";
 import { handleMutationResponse } from "@/utils/async";
-import { Link, useQueryClient, useSSM } from "rakkasjs";
+import { useQueryClient, useSSM, Link } from "rakkasjs";
 import { toast } from "react-toastify";
 
-interface HackathonCardProps {
-  item: THackathonInputType;
+interface ExperienceCardProps {
+  item: TExperienceInputType;
   refetch: () => void;
 }
 
-export function HackathonCard({ item,refetch }: HackathonCardProps) {
-
+export function ExperienceCard({item,refetch}:ExperienceCardProps){
   const qc = useQueryClient();
   const user = qc.getQueryData("user");
   // const delete_mutation = api.hackathon.removeOne.useMutation();
-  const delete_mutation = useSSM<Awaited<ReturnType<typeof hackathonApi.removeOne>>, { id: string }>((_,vars) => {
-    return hackathonApi.removeOne({ item_id: vars.id, user_id: user.id });
+  const delete_mutation = useSSM<
+    Awaited<ReturnType<typeof experienceApi.removeOne>>,
+    { id: string }
+  >((_, vars) => {
+    return experienceApi.removeOne({ item_id: vars.id, user_id: user.id });
   });
 
   function handleDelete(id: string) {
@@ -23,11 +25,10 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       .mutateAsync({ id })
       .then((res) => {
         handleMutationResponse({
-      
           res,
-      
+
           successMessage(res) {
-            return "Hacakthon entry deleted successfully";
+            return "Experiance entry deleted successfully";
           },
         });
         refetch();
@@ -37,7 +38,7 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       );
   }
 
-  const modal_id = "delete_hackathon_modal";
+  const modal_id = "delete_experience_modal";
   return (
     <div
       key={item.id}
@@ -50,20 +51,17 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
         modal_id={modal_id}
       />
       <Link
-        href={`/dashboard/hackathon/${item?.id}`}
+        href={`/dashboard/experience/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"
       >
-        <h3 className="text-2xl font-bold">{item?.name}</h3>
-        <h3 className="">{item?.description}</h3>
+        <h3 className="text-2xl font-bold">{item?.company}</h3>
+        <h3 className="text-lg">{item?.position}</h3>
+        <p className="line-clamp-3">{item?.description}</p>
       </Link>
 
-      <div className="flex w-full flex-wrap gap-2 p-1">
-        {item?.technologies &&
-          item?.technologies?.map((tech) => (
-            <h2 key={tech} className="rounded-xl border border-accent px-2">
-              {tech}
-            </h2>
-          ))}
+      <div className=" flex items-center justify-between text-sm">
+        <h3>From : {item.from.toISOString().split("T")[0]}</h3>
+        <h3>To : {item.to.toISOString().split("T")[0]}</h3>
       </div>
 
       <div className=" flex w-[90%] items-center justify-between border-t border-t-accent text-sm">

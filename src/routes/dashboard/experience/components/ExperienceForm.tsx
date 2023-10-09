@@ -1,56 +1,56 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Edit, Loader } from "lucide-react";
-import {
-  THackathonInputType,
-  hackathonApi,
-} from "@/routes/api/helpers/prisma/hackathon";
-import { useFormHook } from "@/components/form/useForm";
+import { TExperienceInputType, experienceApi } from "@/routes/api/helpers/prisma/experience";
 import { navigate, useQueryClient, useSSM } from "rakkasjs";
-import { handleMutationResponse } from "@/utils/async";
-import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
-import { TheListInput } from "@/components/form/inputs/ListInput";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { useFormHook } from "@/components/form/useForm";
+import { Experience } from "@prisma/client";
+import { handleMutationResponse } from "@/utils/async";
 
-interface HackathonFormProps {
-  default_value?: THackathonInputType;
+
+interface ExperienceFormProps {
+  default_value?: TExperienceInputType;
   updating?: boolean;
   refetch?: () => void;
 }
 
-export function HackathonForm({
+export function ExperienceForm({
   default_value,
   updating,
-  refetch,
-}: HackathonFormProps) {
+  refetch
+}: ExperienceFormProps) {
   const qc = useQueryClient();
-  const user = qc.getQueryData("user") as LuciaUser;
+  const {userId} = qc.getQueryData("user") as LuciaUser;
+
+  // const create_mutation = api.experience.addNew.useMutation();
+  // const update_mutation = api.experience.updateOne.useMutation();
 
   const create_mutation = useSSM<
-    Awaited<ReturnType<typeof hackathonApi.addNew>>,
-    THackathonInputType
+    Awaited<ReturnType<typeof experienceApi.addNew>>,
+    TExperienceInputType
   >((ctx, vars) => {
-    return hackathonApi.addNew({ input: vars });
+    return experienceApi.addNew({ input: vars });
   });
 
   const update_mutation = useSSM<
-    Awaited<ReturnType<typeof hackathonApi.updateOne>>,
-    THackathonInputType
+    Awaited<ReturnType<typeof experienceApi.updateOne>>,
+    TExperienceInputType
   >((ctx, vars) => {
-    return hackathonApi.updateOne({ input: vars, user_id: user.userId! });
+    return experienceApi.updateOne({ input: vars, user_id:userId! });
   });
 
   const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<THackathonInputType>({
+    useFormHook<TExperienceInputType>({
       initialValues: {
         id: default_value?.id,
-        name: default_value?.name ?? "",
+        company: default_value?.company ?? "",
         description: default_value?.description ?? "",
-        link: default_value?.link ?? "",
-        technologies: default_value?.technologies ?? [],
+        position: default_value?.position ?? "",
         from: default_value?.from ?? new Date(),
+        userId: default_value?.userId ?? userId!,
         to: default_value?.to ?? new Date(),
-        userId: default_value?.userId ?? (user.userId as string),
       },
     });
 
@@ -58,18 +58,19 @@ export function HackathonForm({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
+
     if (editing) {
       if (updating) {
         update_mutation
           .mutateAsync(input)
           .then((res) => {
-            handleMutationResponse({
-              res,
-            successMessage(res) {
-                return "Hackathon updated successfully";
-              },
-            });
-            refetch && refetch();
+               handleMutationResponse({
+                 res,
+                 successMessage(res) {
+                   return "Experience updated successfully";
+                 },
+               });
+        refetch?.()
           })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
@@ -78,13 +79,13 @@ export function HackathonForm({
         create_mutation
           .mutateAsync(input)
           .then((res) => {
-            handleMutationResponse({
-              res,
-              successMessage(res) {
-                return "Hackathon created successfully";
-              },
-            });
-            navigate("/dashboard/hackathon");
+         handleMutationResponse({res,
+          successMessage(res) {
+             return "Experience added successfully";
+           },
+         });
+         navigate("/dashboard/experience");
+          
           })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
@@ -111,47 +112,38 @@ export function HackathonForm({
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
-        <TheTextInput<THackathonInputType>
-          field_key={"name"}
-          value={input["name"]}
+        <TheTextInput<Experience>
+          field_key={"company"}
+          value={input["company"]}
           // input={input}
-          field_name={"Hackathon name"}
+          field_name={"Company"}
           className="input input-bordered input-sm w-full  "
           label_classname="text-base capitalize"
           onChange={handleChange}
           editing={editing}
         />
-        <TheTextAreaInput<THackathonInputType>
+        <TheTextInput<Experience>
+          field_key={"position"}
+          value={input["position"]}
+          // input={input}
+          field_name={"Job Position"}
+          className="input input-bordered input-sm w-full  "
+          label_classname="text-base capitalize"
+          onChange={handleChange}
+          editing={editing}
+        />
+        <TheTextAreaInput<Experience>
           field_key={"description"}
-          value={input["description"]}
+          value={input["description"]??""}
           // input={input}
-          field_name={"Brief description"}
+          field_name={"Job Description"}
           label_classname="text-base capitalize"
           onChange={handleChange}
           editing={editing}
-        />
-        <TheTextInput<THackathonInputType>
-          field_key={"link"}
-          value={input["link"]}
-          // input={input}
-          field_name={"Link to Project"}
-          type="url"
-          className="input input-bordered input-sm w-full  "
-          label_classname="text-base capitalize"
-          onChange={handleChange}
-          editing={editing}
-        />
-
-        <TheListInput
-          editing={editing}
-          field_name="Technologies"
-          field_key="technologies"
-          input={input}
-          setInput={setInput}
         />
 
         <div className="flex  w-full flex-col  items-center justify-evenly gap-2 sm:flex-row">
-          <TheTextInput<THackathonInputType>
+          <TheTextInput<Experience>
             field_key={"from"}
             value={dateToString(input["from"])}
             type="date"
@@ -166,7 +158,7 @@ export function HackathonForm({
             }}
             editing={editing}
           />
-          <TheTextInput<THackathonInputType>
+          <TheTextInput<Experience>
             field_key={"to"}
             value={dateToString(input["to"])}
             type="date"

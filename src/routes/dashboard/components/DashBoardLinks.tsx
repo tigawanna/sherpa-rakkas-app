@@ -1,5 +1,5 @@
 import { isLinkCurrentPathname } from "@/utils/async";
-import { Presentation, Trophy, UserCircle } from "lucide-react";
+import { ClipboardCheck, Presentation, Trophy, UserCircle } from "lucide-react";
 import { usePageContext, StyledLink } from "rakkasjs";
 
 interface DashBoardLinksProps {
@@ -12,6 +12,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
     const links = [
       { name: "projects", href: "/dashboard/project", icon: Presentation },
       { name: "hacakthons", href: "/dashboard/hackathon", icon:Trophy },
+      { name: "experience", href: "/dashboard/experience", icon:ClipboardCheck },
     ];
 return (
   <div className="h-full    ">
