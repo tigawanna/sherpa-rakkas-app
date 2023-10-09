@@ -71,7 +71,7 @@ export function Projects({}: ProjectsProps) {
           </div>
         </div>
       )}
-      <Suspense fallback={<Spinner size="00px" />}>
+      <Suspense fallback={<Spinner size="100px" />}>
         <div className="flex h-full w-full flex-wrap  gap-2 px-5 pb-5 pt-2">
           {projects &&
             projects.map((project) => {
