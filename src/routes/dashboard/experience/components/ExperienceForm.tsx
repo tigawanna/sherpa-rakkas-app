@@ -21,11 +21,9 @@ export function ExperienceForm({
   updating,
   refetch
 }: ExperienceFormProps) {
+  
   const qc = useQueryClient();
   const {userId} = qc.getQueryData("user") as LuciaUser;
-
-  // const create_mutation = api.experience.addNew.useMutation();
-  // const update_mutation = api.experience.updateOne.useMutation();
 
   const create_mutation = useSSM<
     Awaited<ReturnType<typeof experienceApi.addNew>>,

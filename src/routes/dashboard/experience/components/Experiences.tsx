@@ -45,6 +45,7 @@ export function Experience({}: ExperienceProps) {
   }
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2 pb-5">
+      
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
         <h3 className="text-2xl font-bold ">Experiance</h3>
         <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
