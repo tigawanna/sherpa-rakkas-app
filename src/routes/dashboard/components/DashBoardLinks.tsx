@@ -1,5 +1,5 @@
 import { isLinkCurrentPathname } from "@/utils/async";
-import { ClipboardCheck, Presentation, Trophy, UserCircle } from "lucide-react";
+import { ClipboardCheck, HelpingHand, Presentation, Trophy, UserCircle } from "lucide-react";
 import { usePageContext, StyledLink } from "rakkasjs";
 
 interface DashBoardLinksProps {
@@ -13,6 +13,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
       { name: "projects", href: "/dashboard/project", icon: Presentation },
       { name: "hacakthons", href: "/dashboard/hackathon", icon:Trophy },
       { name: "experience", href: "/dashboard/experience", icon:ClipboardCheck },
+      { name: "internship", href: "/dashboard/internship", icon:HelpingHand },
     ];
 return (
   <div className="h-full    ">

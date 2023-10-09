@@ -1,17 +1,18 @@
-import { PageProps, useQueryClient, useSSQ } from "rakkasjs";
-import { ExperienceForm } from "./components/ExperienceForm";
+import {  PageProps, useQueryClient, useSSQ } from "rakkasjs";
+import { JobApplicationForm } from "./components/JobApplicationForm";
+import { jobApplicationApi } from "@/routes/api/helpers/prisma/job-application";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
-import { experienceApi } from "@/routes/api/helpers/prisma/experience";
 
+export default function ApplicationPage({params}:PageProps) {
 
-export default function ExperiencePage({params}:PageProps) {
     const qc = useQueryClient();
     const user = qc.getQueryData("user") as LuciaUser;
-    const experience_id =params.experience as string;
+    const job_id =params.job as string;
+    
 
   const query = useSSQ((ctx) => {
-    return experienceApi.getOne({
-      item_id: experience_id,
+    return jobApplicationApi.getOne({
+      item_id: job_id,
       user_id: user?.userId!,
     });
   });
@@ -32,12 +33,10 @@ export default function ExperiencePage({params}:PageProps) {
   }
   
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-2">
     <div className="flex h-full w-full items-center justify-center">
-        <ExperienceForm default_value={query.data} updating={true}/>
-      </div>
+      <div className="flex flex-col h-full w-full items-center justify-center">
+        <JobApplicationForm default_value={query.data} updating={true} />
+        </div>
     </div>
   );
 }
-
-

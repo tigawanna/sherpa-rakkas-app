@@ -5,7 +5,8 @@ import { HackathonForm } from "./components/HackathonForm";
 
 
 export default function HackathonPage({params}:PageProps) {
- const qc = useQueryClient();
+ 
+  const qc = useQueryClient();
  const user = qc.getQueryData("user") as LuciaUser
   const hackathon_id = params.hackathon as string;
 
