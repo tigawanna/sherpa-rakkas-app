@@ -44,19 +44,22 @@ export function ContentCard({ item, refetch }: ContentCardProps) {
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col justify-center gap-1 rounded-md border p-5 shadow-sm
+      className="flex w-full flex-col justify-center gap-1 rounded-md border p-2 shadow-sm
       shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
-      <DeleteConfirm
-        is_loading={delete_mutation.isLoading}
-        handleDelete={() => handleDelete(item?.id!)}
-        modal_id={modal_id}
-      />
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-bold">{item.title}</h3>
+          <DeleteConfirm
+            is_loading={delete_mutation.isLoading}
+            handleDelete={() => handleDelete(item?.id!)}
+            modal_id={modal_id}
+          />
+        </div>
+
       <Link
         href={`/dashboard/content/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"
       >
-        <h3 className="text-2xl font-bold">{item.title}</h3>
         <h3 className="text-lg">{item.type}</h3>
       </Link>
 

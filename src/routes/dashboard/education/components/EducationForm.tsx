@@ -7,6 +7,7 @@ import { useFormHook } from "@/components/form/useForm";
 import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/ui/select";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 
 
@@ -102,7 +103,6 @@ export function EducationForm({
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
-      
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -113,6 +113,7 @@ export function EducationForm({
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
+        <FormHeader editing={editing} updating={updating} name="Education" />
         <TheTextInput<TEducationInputType>
           field_key={"school"}
           value={input["school"]}

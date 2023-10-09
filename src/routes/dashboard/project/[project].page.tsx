@@ -28,12 +28,13 @@ const query = useSSQ((ctx) =>projectApi.getOne({item_id:params.project as string
   }
 
   return (
-    <div className="h-full w-full relative flex flex-col items-center justify-center">
+    <div className="relative flex h-full w-full flex-col items-center justify-center">
       {query.isRefetching && (
         <span className="loading loading-infinity loading-lg text-warning"></span>
       )}
-        <Suspense fallback={<Spinner size="100px" variant="loading-infinity" />}>
-      <div className="h-full w-full md:p-5 md:w-[80%]  ">
+      
+      <Suspense fallback={<Spinner size="100px" variant="loading-infinity" />}>
+        <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%]">
           <ProjectForm
             user={user_id}
             // @ts-expect-error
@@ -41,8 +42,8 @@ const query = useSSQ((ctx) =>projectApi.getOne({item_id:params.project as string
             refetch={query.refetch}
             updating={true}
           />
-      </div>
-        </Suspense>
+        </div>
+      </Suspense>
     </div>
   );
 }

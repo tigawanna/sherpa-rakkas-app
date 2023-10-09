@@ -21,9 +21,11 @@ export default function NewProject({params}: PageProps) {
 
   const modal_id = "add_project_from_github";
   return (
-    <div className="h-full w-full  flex flex-col items-center justify-center">
-      <div className="w-[95%] p-1 md:p-5 md:w-[80%] lg:w-[50%] flex flex-col gap-3">
-        <div className="sticky top-[10%] right-[4%]  flex w-full  items-center justify-start ">
+    <div className="flex h-full  w-full flex-col items-center justify-center">
+  
+      <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%]">
+
+        <div className="sticky right-[4%] top-[10%]  flex w-full  items-center justify-start ">
           <AddFromGithub
             project={project}
             modal_id={modal_id}
@@ -32,7 +34,7 @@ export default function NewProject({params}: PageProps) {
           />
         </div>
         <ProjectForm
-        project={project}
+          project={project}
           key={
             project?.name +
             project?.languages +

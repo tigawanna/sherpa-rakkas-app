@@ -10,6 +10,7 @@ import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/ui/select";
 import { Label } from "@radix-ui/react-label";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 
 
@@ -100,7 +101,7 @@ export function ContentForm({
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -111,6 +112,7 @@ export function ContentForm({
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
+        <FormHeader editing={editing} updating={updating} name="Content" />
         <TheTextInput<Content>
           field_key={"title"}
           value={input["title"]}
@@ -133,7 +135,7 @@ export function ContentForm({
           editing={editing}
         />
         {/* "Video" | "Blog" | "Gist" | "Podcast" */}
-        <div className="w-full flex flex-col gap-1">
+        <div className="flex w-full flex-col gap-1">
           <Label className="text  font-serif font-bold">Content Type</Label>
           <Select
             defaultValue={input["type"]}

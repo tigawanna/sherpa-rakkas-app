@@ -42,18 +42,20 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
     <div
       key={item.id}
       className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm shadow-accent
-      p-5 hover:border-accent sm:w-[45%] lg:w-[30%] "
-    >
+      p-2 hover:border-accent sm:w-[45%] lg:w-[30%] "
+      >
+      <div className="flex justify-between items-center">
+      <h3 className="text-2xl font-bold w-full">{item?.name}</h3>
       <DeleteConfirm
         is_loading={delete_mutation.isLoading}
         handleDelete={() => handleDelete(item?.id!)}
         modal_id={modal_id}
       />
+      </div>
       <Link
         href={`/dashboard/hackathon/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"
       >
-        <h3 className="text-2xl font-bold">{item?.name}</h3>
         <h3 className="">{item?.description}</h3>
       </Link>
 

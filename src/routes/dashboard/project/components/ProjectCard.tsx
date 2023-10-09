@@ -40,14 +40,18 @@ const delete_mutation = useSSM<void,{id:string}>(async(ctx,vars)=>{
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm shadow-accent
-      p-1 hover:border-accent sm:w-[45%] lg:w-[30%]"
+      className="flex w-full flex-col justify-center gap-1 rounded-md border p-1 shadow-sm
+      shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%]"
     >
-      <DeleteConfirm
-        is_loading={delete_mutation.isLoading}
-        handleDelete={() => handleDelete(item.id)}
-        modal_id={modal_id}
-      />
+      <div className="flex items-center justify-between">
+        <h2 className="card-title">{item.name}</h2>
+        <DeleteConfirm
+          is_loading={delete_mutation.isLoading}
+          handleDelete={() => handleDelete(item.id)}
+          modal_id={modal_id}
+        />
+      </div>
+
       <Link
         href={`/dashboard/project/${item.id}`}
         key={item.id}
@@ -64,7 +68,6 @@ const delete_mutation = useSSM<void,{id:string}>(async(ctx,vars)=>{
           />
         </figure>
         <div className="flex w-full flex-col gap-1 p-3">
-          <h2 className="card-title">{item.name}</h2>
           <p className="line-clamp-1 text-sm">{item.description}</p>
         </div>
       </Link>

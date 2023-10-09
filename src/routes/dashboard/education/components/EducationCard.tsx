@@ -41,14 +41,17 @@ export function EducationCard({ item, refetch }: EducationCardProps) {
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col justify-center gap-1 rounded-md border p-5 shadow-sm
+      className="flex w-full flex-col justify-center gap-1 rounded-md border p-2 shadow-sm
       shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
-      <DeleteConfirm
-        is_loading={delete_mutation.isLoading}
-        handleDelete={() => handleDelete(item?.id!)}
-        modal_id={modal_id}
-      />
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-bold">{item.school}</h3>
+        <DeleteConfirm
+          is_loading={delete_mutation.isLoading}
+          handleDelete={() => handleDelete(item?.id!)}
+          modal_id={modal_id}
+        />
+      </div>
       <Link
         href={`/dashboard/content/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"
@@ -57,10 +60,10 @@ export function EducationCard({ item, refetch }: EducationCardProps) {
         <h3 className="text-lg">{item.field}</h3>
         <h3 className="">{item.qualification}</h3>
       </Link>
-        <div className=" flex items-center justify-between text-sm">
-          <h3>From : {item.from.toISOString().split("T")[0]}</h3>
-          <h3>To : {item.to.toISOString().split("T")[0]}</h3>
-        </div>
+      <div className=" flex items-center justify-between text-sm">
+        <h3>From : {item.from.toISOString().split("T")[0]}</h3>
+        <h3>To : {item.to.toISOString().split("T")[0]}</h3>
+      </div>
 
       <div className=" flex items-center justify-between text-sm">
         <h3>{item?.createdAt?.toISOString().split("T")[0]}</h3>

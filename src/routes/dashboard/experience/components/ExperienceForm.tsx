@@ -8,6 +8,7 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { Experience } from "@prisma/client";
 import { handleMutationResponse } from "@/utils/async";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 
 interface ExperienceFormProps {
@@ -110,6 +111,7 @@ export function ExperienceForm({
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
+        <FormHeader editing={editing} updating={updating} name="Experience" />
         <TheTextInput<Experience>
           field_key={"company"}
           value={input["company"]}

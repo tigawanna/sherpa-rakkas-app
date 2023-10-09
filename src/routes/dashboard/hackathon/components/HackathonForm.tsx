@@ -11,6 +11,7 @@ import { handleMutationResponse } from "@/utils/async";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheListInput } from "@/components/form/inputs/ListInput";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 interface HackathonFormProps {
   default_value?: THackathonInputType;
@@ -101,7 +102,6 @@ export function HackathonForm({
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
-
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -112,6 +112,7 @@ export function HackathonForm({
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
+        <FormHeader editing={editing} updating={updating} name="Hackathon" />
         <TheTextInput<THackathonInputType>
           field_key={"name"}
           value={input["name"]}

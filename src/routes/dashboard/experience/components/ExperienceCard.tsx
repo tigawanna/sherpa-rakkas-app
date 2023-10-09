@@ -42,14 +42,18 @@ export function ExperienceCard({item,refetch}:ExperienceCardProps){
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm shadow-accent
-      p-5 hover:border-accent sm:w-[45%] lg:w-[30%] "
+      className="flex w-full flex-col justify-center gap-1 rounded-md border p-2 shadow-sm
+      shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
-      <DeleteConfirm
-        is_loading={delete_mutation.isLoading}
-        handleDelete={() => handleDelete(item?.id!)}
-        modal_id={modal_id}
-      />
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-bold">{item?.company}</h3>
+        <DeleteConfirm
+          is_loading={delete_mutation.isLoading}
+          handleDelete={() => handleDelete(item?.id!)}
+          modal_id={modal_id}
+        />
+      </div>
+
       <Link
         href={`/dashboard/experience/${item?.id}`}
         className="hover:bg-base-300 hover:text-accent"

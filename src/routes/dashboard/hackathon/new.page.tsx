@@ -6,8 +6,7 @@ interface NewHackathonPageProps {}
 export default function NewHackathonPage({}: NewHackathonPageProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-1 p-2">
-         <h1 className="text-2xl font-bold">Add Hackathon</h1>
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%]">
         <HackathonForm />
       </div>
     </div>

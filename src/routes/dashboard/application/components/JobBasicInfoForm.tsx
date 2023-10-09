@@ -2,6 +2,7 @@ import { JobApplication } from "~/server/api/routers/jobs-application";
 import { TheTextAreaInput } from "../form/inputs/TheTextArea";
 import { TheTextInput } from "../form/inputs/TheTextInput";
 import { Loader } from "lucide-react";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 interface JobBasicInfoFormProps {
   input:JobApplication;
@@ -21,6 +22,7 @@ return (
     onSubmit={handleSubmit}
     className="flex h-full w-full flex-col items-center justify-center gap-3 "
   >
+    <FormHeader editing={editing} updating={updating} name="Job Application" />
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
       <TheTextInput<JobApplication>
         field_key={"job_title"}

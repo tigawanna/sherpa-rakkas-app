@@ -33,8 +33,8 @@ export default function ExperiencePage({params}:PageProps) {
   
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-2">
-    <div className="flex h-full w-full items-center justify-center">
-        <ExperienceForm default_value={query.data} updating={true}/>
+      <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%]">
+        <ExperienceForm default_value={query.data} updating={true} />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ handleDelete:()=>any
 
 export function DeleteConfirm({handleDelete,is_loading,modal_id}:DeleteConfirmProps){
 return (
-  <div className="flex w-full items-center justify-end p-1">
+  <div className="flex items-center justify-end p-1">
     <div className="card-actions   border ">
       <TheFormModal label={<Trash className="h-6 w-6 hover:text-error" />} id={modal_id}>
         <div className="flex h-full w-full flex-col items-center justify-center gap-3 ">

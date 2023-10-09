@@ -8,6 +8,7 @@ import { useFormHook } from "@/components/form/useForm";
 import { Internship } from "@prisma/client";
 import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 
 
@@ -100,7 +101,7 @@ export function InternshipForm({ default_value, updating,refetch }: InternshipFo
 
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 border p-2 shadow shadow-accent">
       <div className="flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
@@ -111,6 +112,9 @@ export function InternshipForm({ default_value, updating,refetch }: InternshipFo
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-2"
       >
+        <h1 className="text-2xl font-bold">
+          <FormHeader editing={editing} updating={updating} name="Internship"/>
+        </h1>
         <TheTextInput<Internship>
           field_key={"company"}
           value={input["company"]}

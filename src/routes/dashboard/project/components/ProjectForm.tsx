@@ -9,6 +9,7 @@ import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { navigate, usePageContext, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
+import { FormHeader } from "@/components/form/inputs/FormHeader";
 
 interface ProjectFormProps {
 project?:TProjectInputType
@@ -97,8 +98,8 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 }
 
   return (
-    <div className="flex h-full w-full  flex-col items-center justify-center border p-2 shadow shadow-accent rounded-md">
-      <div className="flex w-full justify-end px-5 sticky top-10">
+    <div className="flex h-full w-full  flex-col items-center justify-center rounded-md border p-2 shadow shadow-accent">
+      <div className="sticky top-10 flex w-full justify-end px-5">
         <Edit
           className={editing ? "h-6 w-6 text-accent" : "h-6 w-6"}
           onClick={() => setEditing(!editing)}
@@ -108,9 +109,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         onSubmit={handleSubmit}
         className="flex h-full w-full flex-col items-center justify-center gap-3"
       >
-        <h1 className="text-2xl font-bold">
-          {updating ? "Project" : "Add Project"}
-        </h1>
+        <FormHeader editing={editing} updating={updating} name="Project" />
 
         <TheTextInput<TProjectInputType>
           field_key={"name"}

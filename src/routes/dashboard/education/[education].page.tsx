@@ -29,9 +29,13 @@ export default function EducationPage({params}:PageProps) {
     );
   }
   return (
-    <div className="flex flex-col h-full w-full items-center justify-center">
-      <div className="flex h-full w-full items-center justify-center">
-        <EducationForm default_value={query.data} updating={true} refetch={query.refetch}/>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%]">
+        <EducationForm
+          default_value={query.data}
+          updating={true}
+          refetch={query.refetch}
+        />
       </div>
     </div>
   );
