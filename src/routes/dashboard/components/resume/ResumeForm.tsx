@@ -1,39 +1,51 @@
-
+import { useFormHook } from "@/components/form/useForm";
 import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+import {
+  TResumeInputType,
+  resumeApi,
+} from "@/routes/api/helpers/prisma/resume";
+import { handleMutationResponse } from "@/utils/async";
+import { useQueryClient, useSSM } from "rakkasjs";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-
-
-
 interface ResumeFormProps {
   job: TJobApplicationInputType;
-  default_value?: Resume;
+  default_value?: TResumeInputType;
   updating?: boolean;
+  refetch?: () => void;
 }
 
 export function ResumeForm({
   default_value,
   job,
   updating,
+  refetch,
 }: ResumeFormProps) {
-  const router = useRouter();
-  const user_id = router.query.id as string;
+  const qc = useQueryClient();
+  const { userId } = qc.getQueryData("user") as LuciaUser;
 
-  const query = api.profile.getOne.useQuery({
-    id: user_id,
+  const create_mutation = useSSM<
+    Awaited<ReturnType<typeof resumeApi.addNew>>,
+    TResumeInputType
+  >((ctx, vars) => {
+    return resumeApi.addNew({ input: vars });
   });
 
-  const create_mutation = api.resume.addNew.useMutation();
-  const update_mutation = api.resume.updateOne.useMutation();
+  const update_mutation = useSSM<
+    Awaited<ReturnType<typeof resumeApi.updateOne>>,
+    TResumeInputType
+  >((ctx, vars) => {
+    return resumeApi.updateOne({ input: vars, user_id: userId! });
+  });
 
   const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<Resume>({
-    initialValues: {
+    useFormHook<TResumeInputType>({
+      initialValues: {
         id: default_value?.id,
-        userProfileId: default_value?.userProfileId ?? user_id,
+        userId: default_value?.userId ?? userId!,
         body: default_value?.body ?? "",
-        jobAplicationId: default_value?.id ?? job.id as string,
+        jobAplicationId: default_value?.id ?? (job.id as string),
       },
     });
 
@@ -46,50 +58,36 @@ export function ResumeForm({
       if (updating) {
         update_mutation
           .mutateAsync(input)
-          .then(() => toast("Project added successfully", { type: "success" }))
+          .then((res) => {
+            handleMutationResponse({
+              res,
+              successMessage(res) {
+                return "Resume entry updated successfully";
+              },
+            });
+            refetch?.();
+          })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
           );
       } else {
         create_mutation
           .mutateAsync(input)
-          .then(() => toast("Project added successfully", { type: "success" }))
+          .then((res) => {
+            handleMutationResponse({
+              res,
+              successMessage(res) {
+                return "Resume entry updated successfully";
+              },
+            });
+          })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })
           );
       }
     }
   }
-  if (query.isLoading) {
-    return (
-      <div className="flex min-h-[20%]  w-full items-center justify-center">
-        <span className="loading loading-infinity loading-lg text-warning"></span>
-      </div>
-    );
-  }
-  if (query.isError) {
-    return (
-      <div className="flex h-full min-h-screen w-full items-center justify-center">
-        <div className="rounded-lg border text-error">
-          {query.error.message}
-        </div>
-      </div>
-    );
-  }
-  if (!query.data) {
-    return (
-      <div className="flex h-full min-h-screen w-full items-center justify-center gap-5">
-        <div className="rounded-lg border text-info">No matches found</div>
-        <Link
-          href={`/profile/${user_id}`}
-          className="btn btn-outline text-accent"
-        >
-          Go Back
-        </Link>
-      </div>
-    );
-  }
-  const user_profile = query.data;
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
       <div className="flex h-full w-full flex-col items-center justify-center gap-2"></div>
