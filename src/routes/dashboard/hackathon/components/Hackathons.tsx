@@ -44,7 +44,7 @@ export function Hackathons({}: HackathonsProps) {
   
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-2 pb-5">
-      
+      {/* hedaer + search bar + add new link */}
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
         <h3 className="text-2xl font-bold ">hackathons</h3>
         <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
@@ -74,7 +74,7 @@ export function Hackathons({}: HackathonsProps) {
           </div>
         </div>
       )}
-
+    {/* hackathons */}
       <div className="flex h-full w-full flex-wrap items-center justify-center gap-5">
         <Suspense fallback={<Spinner size="100px" />}>
           {data &&

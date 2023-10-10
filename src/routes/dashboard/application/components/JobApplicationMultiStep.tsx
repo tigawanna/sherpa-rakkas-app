@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { JobApplication } from "~/server/api/routers/jobs-application";
-import { useFormHook } from "../form/useForm";
-import { useRouter } from "next/router";
-import { useMultiStepForm } from "~/state/hooks/useMultiStepForm";
-
-import { api } from "~/utils/api";
 import { JobApplicationProjects } from "./JobApplicationProjects";
+import { useFormHook } from "@/components/form/useForm";
+import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
+import { JobApplication } from "@prisma/client";
+import { useQueryClient } from "rakkasjs";
+import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
 
 interface JobApplicationMultiStepProps {
   default_value?: JobApplication;
@@ -16,18 +15,14 @@ export function JobApplicationMultiStep({
   default_value,
   updating,
 }: JobApplicationMultiStepProps) {
-  const router = useRouter();
-  const user_id = router.query.id as string;
-
-  const query = api.profile.getOne.useQuery({
-    id: user_id,
-  });
+  const qc = useQueryClient();
+const {userId} = qc.getQueryData("user") as LuciaUser;
 
   const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<JobApplication>({
+    useFormHook<TJobApplicationInputType>({
       initialValues: {
         id: default_value?.id,
-        userProfileId: default_value?.userProfileId ?? user_id,
+        userId: default_value?.userId ?? userId!,
         job_title: default_value?.job_title ?? "",
         description: default_value?.description ?? "",
         job_posting_url: default_value?.job_posting_url ?? "",
@@ -44,7 +39,7 @@ export function JobApplicationMultiStep({
       {
         title: "Job Description",
         component: (
-      <div>JOB DESCRIPTION</div>
+          <div>JOB DESCRIPTION</div>
         ),
       },
 
@@ -56,7 +51,7 @@ export function JobApplicationMultiStep({
             setInput={setInput}
             editing={editing}
             handleChange={handleChange}
-            user_profile={query.data!}
+            user_profile={userId!}
           />
         ),
       },
@@ -68,7 +63,7 @@ export function JobApplicationMultiStep({
             setInput={setInput}
             editing={editing}
             handleChange={handleChange}
-            user_profile={query.data!}
+            user_profile={userId!}
           />
         ),
       },
@@ -80,23 +75,8 @@ export function JobApplicationMultiStep({
     if (!isLastStep) return next();
     alert("Successful Account Creation");
   }
-  if (query.isLoading) {
-    return (
-      <div className="flex min-h-[20%]  w-full items-center justify-center">
-        <span className="loading loading-infinity loading-lg text-warning"></span>
-      </div>
-    );
-  }
-  if (query.isError) {
-    return (
-      <div className="flex h-full min-h-screen w-full items-center justify-center">
-        <div className="rounded-lg border text-error">
-          {query.error.message}
-        </div>
-      </div>
-    );
-  }
-  if (!query.data) {
+
+  if (!userId) {
     return (
       <div className="flex h-full min-h-screen w-full items-center justify-center">
         <div className="rounded-lg border text-error">No matches found</div>

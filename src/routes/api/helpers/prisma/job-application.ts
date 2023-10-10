@@ -3,8 +3,8 @@ import { prismaApiWrapper } from "./prismaApiWrapper";
 
 export const JobApplicationSchema = z.object({
     id: z.string().optional(),
-    createdAt: z.string().optional(),
-    updatedAt: z.string().optional(),
+    createdAt: z.coerce.date().optional(),
+    updatedAt: z.coerce.date().optional(),
     job_title: z.string(),
     description: z.string().nullable(),
     job_posting_url: z.string().nullable(),

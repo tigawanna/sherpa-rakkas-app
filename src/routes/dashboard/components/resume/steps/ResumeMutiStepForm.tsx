@@ -1,7 +1,4 @@
-import { useRouter } from "next/router";
-import { useMultiStepForm } from "~/state/hooks/useMultiStepForm";
 import { ResumeProjects } from "./ResumeProjects";
-import { useFormHook } from "~/components/form/useForm";
 import { ResumeHackathons } from "./ResumeHackathons";
 import { ResumeEducation } from "./ResumeEducation";
 import { ResumeExperience } from "./ResumeExperience";
@@ -9,6 +6,9 @@ import { ResumeReference } from "./ResumeReference";
 import { ResumeBasicDetails } from "./ResumeBasicDetails";
 import { FinalResume } from "./FinalResume";
 import { ResumeTechnologies } from "./ResumeTechnologies";
+import { useQueryClient } from "rakkasjs";
+import { useFormHook } from "@/components/form/useForm";
+import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
 
 
 interface MultiStepResumeFormProps {
@@ -24,7 +24,7 @@ export interface ResumeFields {
   github_username: string;
   country: string;
   city: string;
-  skills: string[];
+  skills: string;
   languages: string[];
   libraries: string[];
   projects: {
@@ -70,10 +70,9 @@ export interface ResumeFields {
 
 
 export function ResumeMultiStepForm({}: MultiStepResumeFormProps) {
-  const router = useRouter();
-  const user_id = router.query.id as string;
-
-
+const qc = useQueryClient()
+const {userId} = qc.getQueryData("user") as LuciaUser
+const user_id=userId??""
 
     const { handleChange, input, setError, setInput, validateInputs } =
       useFormHook<ResumeFields>({
@@ -87,7 +86,7 @@ export function ResumeMultiStepForm({}: MultiStepResumeFormProps) {
           website: "",
           github_username: "",
           projects: [],
-          skills: [],
+          skills:"",
           languages: [],
           libraries: [],
           hackathons: [],
@@ -225,11 +224,11 @@ export function ResumeMultiStepForm({}: MultiStepResumeFormProps) {
     alert("Successful Account Creation");
   }
 
-  console.log("inpu == ", input); 
+  // console.log("inpu == ", input); 
   return (
     <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center gap-2">
       <h1 className="text-3xl font-bold">Create Resume </h1>
-      <div className="flex w-[90%] flex-wrap items-center gap-3 lg:w-[70%]">
+      <div className="flex w-full flex-wrap items-center gap-3 ">
         {steps.map((item, index) => {
           const base_style = "btn btn-sm btn-outline";
           return (
@@ -250,7 +249,7 @@ export function ResumeMultiStepForm({}: MultiStepResumeFormProps) {
 
       <form
         onSubmit={onSubmit}
-        className="card card-bordered w-[90%] p-5 lg:w-[70%] min-h-[70vh] flex flex-col items-stretch justify-between"
+        className="card card-bordered w-full p-5  min-h-[70vh] flex flex-col items-stretch justify-between"
       >
         <div className="absolute right-[4%] top-[4%]">
           {currentStepIndex + 1} / {steps.length}

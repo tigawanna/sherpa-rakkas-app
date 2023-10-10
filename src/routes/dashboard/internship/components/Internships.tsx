@@ -14,6 +14,7 @@ interface InternshipsProps {
 }
 
 export function Internships({}:InternshipsProps){
+  
   const qc = useQueryClient();
   const { userId } = qc.getQueryData("user") as LuciaUser;
   const [keyword, setKeyword] = useState("");

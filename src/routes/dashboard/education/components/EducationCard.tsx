@@ -10,6 +10,7 @@ interface EducationCardProps {
 }
 
 export function EducationCard({ item, refetch }: EducationCardProps) {
+  
   const qc = useQueryClient();
   const user = qc.getQueryData("user");
   // const delete_mutation = api.hackathon.removeOne.useMutation();

@@ -1,5 +1,4 @@
 import { ResumeFields } from "../ResumeMutiStepForm";
-
 import { ResumePersonalBasics } from "./resume-blocks/ResumePersonalBasics";
 import { ResumeEducation } from "./resume-blocks/ResumeEducation";
 import { ResumeProjects } from "./resume-blocks/ResumeProjects";
@@ -63,7 +62,7 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
         libraries: [],
       },
     ],
-    skills: ["vue"],
+    skills:"vue",
     languages: ["JavaScript", "TypeScript"],
     libraries: [
       "fs-extra",
@@ -104,8 +103,8 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
       {
         id: "155c18aa-c272-4986-8bce-abdb59ed115a",
         field: "Intro to computer science",
-        from: "2022-01-04T00:00:00.000Z",
-        to: "2023-02-08T00:00:00.000Z",
+        from: new Date("2022-01-04T00:00:00.000Z"),
+        to: new Date("2023-02-08T00:00:00.000Z"),
         qualification: "Certificate",
         school: "ALX software enginnering programme",
       },
@@ -114,8 +113,8 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
       {
         position: "strict master",
         company: "Acme",
-        from: "2023-06-07T00:00:00.000Z",
-        to: "2023-09-09T16:24:29.447Z",
+        from: new Date("2023-06-07T00:00:00.000Z"),
+        to: new Date("2023-09-09T16:24:29.447Z"),
         id: "638670c6-a43b-4ede-8e5e-578b2e8941eb",
       },
     ],

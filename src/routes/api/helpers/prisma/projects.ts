@@ -5,8 +5,8 @@ import { prismaApiWrapper } from "./prismaApiWrapper";
 
 export const ProjectSchema = z.object({
   id: z.string().optional(),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
   name: z.string(),
   description: z.string(),
   repoUrl: z.string(),

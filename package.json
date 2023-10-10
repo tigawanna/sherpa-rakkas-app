@@ -16,6 +16,7 @@
   "devDependencies": {
     "@prisma/client": "5.4.1",
     "@rakkasjs/eslint-config": "0.7.0-next.21",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "autoprefixer": "10.4.15",
@@ -74,9 +75,23 @@
     "tailwind-merge": "^1.14.0",
     "zod": "^3.22.2"
   },
-    "prettier": {
-      "plugins": [
-        "prettier-plugin-tailwindcss"
-      ]
-    }
+  "prettier": {
+      "printWidth": 80,
+      "tabWidth": 4,
+      "trailingComma": "all",
+      "singleQuote": true,
+      "semi": true,
+      "importOrder": [
+        "^@core/(.*)$",
+        "^@server/(.*)$",
+        "^@ui/(.*)$",
+        "^[./]"
+      ],
+      "importOrderSeparation": true,
+      "importOrderSortSpecifiers": true,
+    "plugins": [
+      "prettier-plugin-tailwindcss",
+      "@trivago/prettier-plugin-sort-imports"
+    ]
+  }
 }

@@ -1,9 +1,11 @@
 import { Plus, X } from "lucide-react";
-import Link from "next/link";
-import { api } from "~/utils/api";
 import { ResumeFields } from "./ResumeMutiStepForm";
-import { useEffect, useState } from "react";
-import { Hackathon } from "@prisma/client";
+import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
+import { THackathonInputType, hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
+import { useDebouncedValue } from "@/utils/hooks/debounce";
+import { Link, useSSQ } from "rakkasjs";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { useState } from "react";
 
 interface ResumeHackathonsProps {
   user_id: string;
@@ -18,82 +20,65 @@ export function ResumeHackathons({
   input,
   setInput,
 }: ResumeHackathonsProps) {
-  const query = api.hackathon.getAll.useQuery({
-    user_id,
-  });
 
-  // useEffect(()=>{
-  //   if(query.data){
-  //     const hackathons = query.data.map(({name,description,technologies})=>{
-  //       return { name, description, technologies };
-  //     })
-  //     setInput((prev)=>{
-  //       return {
-  //         ...prev,
-  //       hackathons
-  //       }
-  //     })
-  //   }
-  // },[query.data]);
+  const [keyword, setKeyword] = useState("");
+  const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
-  if (query.isLoading) {
-    return (
-      <div className="flex h-full  w-full items-center justify-center p-2">
-        <span className="loading loading-infinity loading-lg text-warning"></span>
-      </div>
-    );
+  const query = useSSQ(
+    async (ctx) => {
+      return hackathonApi.findByName({
+        user_id,
+        item_name: debouncedValue,
+      });
+    },
+    {
+      refetchOnWindowFocus: true,
+    }
+  );
+
+  if (query.error || (query.data && "error" in query.data)) {
+    return <ReturnedUseQueryEror data={query.data} error={query.error} />;
   }
-  if (query.isError) {
-    return (
-      <div className="flex h-full  w-full items-center justify-center p-2">
-        <div className="rounded-lg border p-2 text-error">
-          {query.error.message}
-        </div>
-      </div>
-    );
+
+
+  
+
+  function handleChange(e: any) {
+    setKeyword(e.target.value);
   }
-  if (!query.data || (query.data && query.data.length === 0)) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
-        <Link
-          href={`/profile/${user_id}/hackathon/new`}
-          className="btn btn-outline"
-        >
-          <Plus className="h-10 w-10 hover:text-accent" />
-        </Link>
-      </div>
-    );
-  }
-  const thons = query.data;
-  const isSelected = (id: string) => {
-    return input.hackathons.some((val) => {
-      return val.id === id;
-    });
+  
+
+
+
+
+  const isSelected = (id?: string) => {
+    if(id){
+      return input.hackathons.some((val) => {
+        return val.id === id;
+      });
+    }
+    return false
   };
   const handleAddItem = ({
     id,
     name,
     description,
     technologies,
-  }: Hackathon) => {
-    
+  }: THackathonInputType) => {
     setInput((prev) => {
-      if (prev.hackathons.some((val) => {
-          return val.id === id;
-        })
-      ) {
+      if (id && prev.hackathons.some((val) => val.id === id)) {
         return prev;
       }
       return {
         ...prev,
         hackathons: [
           ...prev.hackathons,
-          { id, name, description, technologies },
+          { id:id as string, name, description, technologies },
         ],
       };
     });
   };
-  const handleRemoveItem = ({ name }: Hackathon) => {
+  const handleRemoveItem = ({ name }: THackathonInputType) => {
     setInput((prev) => {
       const filterd_hackathons = prev.hackathons.filter(
         (item) => item.name !== name
@@ -101,19 +86,42 @@ export function ResumeHackathons({
       return { ...prev, hackathons: filterd_hackathons };
     });
   };
-
+  
+  const thons = query.data;
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      {/*  header + search bar + add new link */}
+      <div className="sticky top-[5%] flex w-full flex-wrap items-center justify-evenly gap-3 p-2">
+      <div className=" relative flex min-w-[70%] items-center  justify-center gap-1 md:min-w-[50%]">
+          <TheTextInput
+            label_classname="hidden"
+            value={keyword}
+            field_key={"keyword"}
+            placeholder="Search"
+            field_name="Search"
+            onChange={handleChange}
+          />
+          {(query.isRefetching || isDebouncing) && (
+            <div className="absolute  flex w-full items-center justify-center gap-3 p-2">
+              <span className="loading loading-infinity loading-lg text-warning"></span>
+            </div>
+          )}
+        </div>
+        <Link href={`/dashboard/hackathon/new`} className="btn btn-outline">
+          <Plus className="h-6 w-6" />
+        </Link>
+      </div>
+      {/*  hackathons list */}
       <div className="flex w-full flex-wrap items-center justify-center gap-2">
-        {thons.map((item) => {
+        {thons&&thons.map((item) => {
           return (
             <div
               key={item.id}
               className="flex w-full flex-col justify-center gap-1 rounded-md border 
-          p-2 hover:border-accent sm:w-[45%] lg:w-[30%] "
+                p-2 hover:border-accent sm:w-[45%] lg:w-[30%] "
             >
               <div className=" flex w-full items-center justify-end">
-                {isSelected(item.id) ? (
+                {isSelected(item?.id) ? (
                   <X
                     className="h-6 w-6 text-error"
                     onClick={() => handleRemoveItem(item)}

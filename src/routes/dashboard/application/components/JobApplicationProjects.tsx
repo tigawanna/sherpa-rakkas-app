@@ -1,12 +1,6 @@
 import { Plus, GithubIcon, X } from "lucide-react";
-import { JobApplication } from "~/server/api/routers/jobs-application";
-import { TheFormModal } from "../modal/TheFormModal";
-import { SearchGithubprojects } from "../project/SearchGithubprojects";
-import { SearchProjectModal } from "../project/SearchProjectModal";
 import { useState } from "react";
-import { ProjectInputType } from "~/server/api/routers/project";
-import { UserProfile } from "@prisma/client";
-import Link from "next/link";
+
 
 interface JobApplicationProjectsProps {
   input: JobApplication;

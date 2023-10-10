@@ -7,8 +7,9 @@ import {
 } from "@/routes/api/helpers/prisma/job-application";
 import { useFormHook } from "@/components/form/useForm";
 
-import { useQueryClient, useSSM } from "rakkasjs";
+import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
+import { ResumeMultiStepForm } from "../../components/resume/steps/ResumeMutiStepForm";
 
 interface JobApplicationFormProps {
   default_value?: TJobApplicationInputType;
@@ -24,8 +25,7 @@ export function JobApplicationForm({
   const qc = useQueryClient();
   const { userId } = qc.getQueryData("user") as LuciaUser;
 
-  // const create_mutation = api.experience.addNew.useMutation();
-  // const update_mutation = api.experience.updateOne.useMutation();
+
 
   const create_mutation = useSSM<
     Awaited<ReturnType<typeof jobApplicationApi.addNew>>,
@@ -87,6 +87,7 @@ export function JobApplicationForm({
                 return "Application updated successfully";
               },
             });
+            navigate("/dashboard/application");
           })
           .catch((error) =>
             toast(error.message, { type: "error", autoClose: false })

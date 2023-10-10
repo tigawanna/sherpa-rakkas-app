@@ -14,6 +14,7 @@ interface ExperienceProps {}
 export function Experience({}: ExperienceProps) {
   const qc = useQueryClient();
   const { userId } = qc.getQueryData("user") as LuciaUser;
+  
   const [keyword, setKeyword] = useState("");
   const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
@@ -38,14 +39,14 @@ export function Experience({}: ExperienceProps) {
 
 
 
-  const data = query.data;
-  const refetch = query.refetch;
   function handleChange(e: any) {
     setKeyword(e.target.value);
   }
+  const data = query.data;
+  const refetch = query.refetch;
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2 pb-5">
-      
+      {/* header + search bar + add new link */}
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
         <h3 className="text-2xl font-bold ">Experiance</h3>
         <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
@@ -75,7 +76,7 @@ export function Experience({}: ExperienceProps) {
           </div>
         </div>
       )}
-
+{/* experiences */}
       <div className="flex h-full w-full flex-wrap items-center justify-center gap-2">
         <Suspense fallback={<Spinner size="100px" />}>
           {data &&

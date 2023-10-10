@@ -6,6 +6,7 @@ import { Spinner } from "@/components/navigation/Spinner";
 import { Suspense, useState } from "react";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 
 
 interface ProjectsProps {}
@@ -20,19 +21,14 @@ export function Projects({}: ProjectsProps) {
     (ctx) => {
       return projectApi.findByName({ user_id:userId!,item_name: debouncedValue });
       },
-    { refetchOnWindowFocus: true,  }
+    { refetchOnWindowFocus: true,refetchOnMount: true }
 
   );
 
-  if (query.error || ("error" in query?.data)) {
-    return (
-      <div className="flex h-full  w-full items-center justify-center p-2">
-        <div className="rounded-lg border p-2 text-error">
-          {query.error.message}
-        </div>
-      </div>
-    );
+  if (query.error || (query.data && "error" in query.data)) {
+    return <ReturnedUseQueryEror data={query.data} error={query.error} />;
   }
+  
   function handleChange(e: any) {
     setKeyword(e.target.value);
   }
@@ -40,6 +36,7 @@ export function Projects({}: ProjectsProps) {
 
   return (
     <div className="relative flex h-full w-full flex-col gap-2 pb-5">
+      {/* header+ search bar + add new project link */}
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
         <h2 className="text-2xl font-bold">Projects</h2>
         <div className=" relative flex md:min-w-[50%] min-w-[70%]  items-center justify-center gap-1">
@@ -64,6 +61,7 @@ export function Projects({}: ProjectsProps) {
           <Plus className="h-6 w-6" />
         </Link>
       </div>
+
       {!projects && (
         <div className="flex h-full  w-full items-center justify-center p-2">
           <div className="rounded-lg border p-2 text-info">
@@ -71,6 +69,7 @@ export function Projects({}: ProjectsProps) {
           </div>
         </div>
       )}
+      {/* projects list */}
       <Suspense fallback={<Spinner size="100px" />}>
         <div className="flex h-full w-full flex-wrap  gap-2 px-5 pb-5 pt-2">
           {projects &&

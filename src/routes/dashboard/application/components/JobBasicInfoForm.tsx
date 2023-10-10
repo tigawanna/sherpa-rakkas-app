@@ -1,19 +1,20 @@
-import { JobApplication } from "~/server/api/routers/jobs-application";
-import { TheTextAreaInput } from "../form/inputs/TheTextArea";
-import { TheTextInput } from "../form/inputs/TheTextInput";
-import { Loader } from "lucide-react";
 import { FormHeader } from "@/components/form/inputs/FormHeader";
+import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+import { Loader } from "lucide-react";
+
 
 interface JobBasicInfoFormProps {
-  input:JobApplication;
-  updating:boolean
-  editing:boolean;
-  isLoading:boolean
-  setInput: React.Dispatch<React.SetStateAction<JobApplication>>;
-  handleSubmit: (e:React.FormEvent<HTMLFormElement>) => void;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+    input: TJobApplicationInputType;
+    updating: boolean;
+    editing: boolean;
+    isLoading: boolean;
+    setInput: React.Dispatch<React.SetStateAction<TJobApplicationInputType>>;
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleChange: (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => void;
 }
 
 export function JobBasicInfoForm({input,setInput,handleSubmit,handleChange,editing,isLoading,updating}:JobBasicInfoFormProps){
@@ -24,7 +25,7 @@ return (
   >
     <FormHeader editing={editing} updating={updating} name="Job Application" />
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      <TheTextInput<JobApplication>
+      <TheTextInput<TJobApplicationInputType>
         field_key={"job_title"}
         value={input["job_title"]}
         // input={input}
@@ -34,7 +35,7 @@ return (
         onChange={handleChange}
         editing={editing}
       />
-      <TheTextInput<JobApplication>
+      <TheTextInput<TJobApplicationInputType>
         field_key={"job_posting_url"}
         value={input["job_posting_url"] ?? ""}
         // input={input}
@@ -45,7 +46,7 @@ return (
         onChange={handleChange}
         editing={editing}
       />
-      <TheTextAreaInput<JobApplication>
+      <TheTextAreaInput<TJobApplicationInputType>
         field_key={"description"}
         value={input["description"] ?? ""}
         // input={input}

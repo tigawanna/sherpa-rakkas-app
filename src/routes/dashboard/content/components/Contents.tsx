@@ -47,7 +47,7 @@ const qc = useQueryClient();
 
 return (
   <div className="flex h-full w-full flex-col items-center justify-center gap-2 pb-5">
-    
+    {/* header + search bar + add new link */}
     <div className="sticky top-[5%] flex w-full flex-wrap items-center justify-evenly gap-3 p-2">
       <h3 className="text-2xl font-bold ">Content</h3>
       <div className=" relative flex min-w-[70%] items-center  justify-center gap-1 md:min-w-[50%]">
@@ -69,7 +69,15 @@ return (
         <Plus className="h-6 w-6" />
       </Link>
     </div>
-
+    
+      {!data && (
+        <div className="flex h-full  w-full items-center justify-center p-2">
+          <div className="rounded-lg border p-2 text-info">
+            no matches found
+          </div>
+        </div>
+      )}
+    {/* contents */}
     <div className="flex h-full w-full flex-wrap items-center justify-center gap-2">
       {data &&
         data.map((item) => {

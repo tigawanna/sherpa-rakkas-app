@@ -1,11 +1,10 @@
-import { api } from "~/utils/api";
+import { TheCountryFields } from "@/components/form/TheCountryFields";
+import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { ResumeFields } from "./ResumeMutiStepForm";
-import { useRouter } from "next/router";
-import { TheTextInput } from "~/components/form/inputs/TheTextInput";
-import { TheTextAreaInput } from "~/components/form/inputs/TheTextArea";
-import { TheListInput } from "~/components/form/inputs/ListInput";
-import { TheCountryFields } from "~/components/form/TheCountryFields";
 import { useEffect } from "react";
+import { useQueryClient } from "rakkasjs";
+import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 
 interface BasicDetailsProps {
   user_id: string;
@@ -19,49 +18,30 @@ interface BasicDetailsProps {
 type ResumeProfile = Pick<ResumeFields,"name"|"email"|"phone"|"github_username"|"summary"|"website"|"skills">
 
 export function ResumeBasicDetails({input,setInput,handleChange}:BasicDetailsProps){
-    const router = useRouter();
-    const query = api.profile.getOne.useQuery({
-        id: router.query.id as string
-    })
-
+const qc = useQueryClient()
+const user = qc.getQueryData("user") as LuciaUser
     useEffect(() => {
-      if (!query.isLoading&&query.data) {
+      if (user) {
       setInput((prev) => {
           return {
             ...prev,
-            name: query.data?.name ?? "",
-            email: query.data?.email ?? "",
-            phone: query.data?.phone ?? "",
-            github_username: query.data?.github_username ?? "",
-            summary: query.data?.about_me ?? "",
-            skills: query.data?.skills ?? [],
-            country: query.data?.country ?? "",
-            city: query.data?.city ?? "",
+            name: user?.name ?? "",
+            email: user?.email ?? "",
+            phone: user?.phone ?? "",
+            github_username: user?.github_username ?? "",
+            summary: user?.about_me ?? "",
+            skills: user?.skills ?? "",
+            country: user?.country ?? "",
+            city: user?.city ?? "",
           };
         });
       }
-    },[query.data])
+    },[user])
 
 
-      if (query.isLoading) {
-        return (
-          <div className="flex h-full  w-full items-center justify-center p-2">
-            <span className="loading loading-infinity loading-lg text-warning"></span>
-          </div>
-        );
-      }
-      if (query.isError) {
-        return (
-          <div className="flex h-full  w-full items-center justify-center p-2">
-            <div className="rounded-lg border p-2 text-error">
-              {query.error.message}
-            </div>
-          </div>
-        );
-      }
-  const profile = query.data
+
 return (
-  <div className="flex h-full  w-full items-center justify-center">
+  <div className="flex h-full  w-fullflex-col items-center justify-center">
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
       <div className="flex w-full flex-col items-center gap-2 md:flex-row">
         <TheTextInput<ResumeProfile>
@@ -127,7 +107,7 @@ return (
         onChange={handleChange}
         value={input.summary}
       />
-      <TheListInput
+      <TheStringListInput
         editing={true}
         field_key="skills"
         field_name="Skills"

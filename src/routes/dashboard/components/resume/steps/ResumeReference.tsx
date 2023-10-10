@@ -1,8 +1,9 @@
 import { Check, Edit, Plus, X } from "lucide-react";
 import { ResumeFields } from "./ResumeMutiStepForm";
-import { TheTextInput } from "~/components/form/inputs/TheTextInput";
-import { useFormHook } from "~/components/form/useForm";
-import { TheFormModal, closeModal } from "~/components/modal/TheFormModal";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
+import { useFormHook } from "@/components/form/useForm";
+import { closeModal, TheFormModal } from "@/components/modal/TheFormModal";
+
 
 interface ResumeReferenceProps {
   user_id: string;

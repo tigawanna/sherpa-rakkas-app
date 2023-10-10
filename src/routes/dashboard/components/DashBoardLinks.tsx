@@ -1,5 +1,5 @@
 import { isLinkCurrentPathname } from "@/utils/async";
-import { Bookmark, ClipboardCheck, GraduationCap, HelpingHand, Presentation, Trophy, UserCircle } from "lucide-react";
+import { Bookmark, ClipboardCheck, FileSearch2, GraduationCap, HelpingHand, LayoutDashboard, Presentation, Trophy, UserCircle } from "lucide-react";
 import { usePageContext, StyledLink } from "rakkasjs";
 
 interface DashBoardLinksProps {
@@ -10,12 +10,14 @@ export function DashBoardLinks({}:DashBoardLinksProps){
     const page_ctx = usePageContext();
     const url = page_ctx.url;
     const links = [
+      { name: "dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "projects", href: "/dashboard/project", icon: Presentation },
       { name: "hacakthons", href: "/dashboard/hackathon", icon:Trophy },
       { name: "experience", href: "/dashboard/experience", icon:ClipboardCheck },
       { name: "internship", href: "/dashboard/internship", icon:HelpingHand },
       { name: "content", href: "/dashboard/content", icon:Bookmark },
       { name: "education", href: "/dashboard/education", icon:GraduationCap },
+      { name: "job application", href: "/dashboard/application", icon:FileSearch2 },
     ];
 return (
   <div className="h-full">
