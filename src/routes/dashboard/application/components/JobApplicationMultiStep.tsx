@@ -1,22 +1,48 @@
-import { useState } from "react";
-import { JobApplicationProjects } from "./JobApplicationProjects";
 import { useFormHook } from "@/components/form/useForm";
+import { TJobApplicationInputType, jobApplicationApi } from "@/routes/api/helpers/prisma/job-application";
+import { handleMutationResponse } from "@/utils/async";
 import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
 import { JobApplication } from "@prisma/client";
-import { useQueryClient } from "rakkasjs";
-import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+import { navigate, useQueryClient, useSSM } from "rakkasjs";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
+
+
+import { ResumeMultiStepForm } from "../../components/resume/steps/ResumeMutiStepForm";
+import { JobBasicInfoForm } from "./JobBasicInfoForm";
+import { handleJobApplicationSubmit } from "./helpers/submit";
+
 
 interface JobApplicationMultiStepProps {
   default_value?: JobApplication;
   updating?: boolean;
+  refetch?: () => void;
 }
 
 export function JobApplicationMultiStep({
   default_value,
   updating,
+  refetch
 }: JobApplicationMultiStepProps) {
-  const qc = useQueryClient();
+const qc = useQueryClient();
 const {userId} = qc.getQueryData("user") as LuciaUser;
+
+  const create_mutation = useSSM<
+      Awaited<ReturnType<typeof jobApplicationApi.addNew>>,
+      TJobApplicationInputType
+  >((ctx, vars) => {
+      return jobApplicationApi.addNew({ input: vars });
+  });
+
+  const update_mutation = useSSM<
+      Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
+      TJobApplicationInputType
+  >((ctx, vars) => {
+      return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
+  });
+
+
 
   const { handleChange, input, setError, setInput, validateInputs } =
     useFormHook<TJobApplicationInputType>({
@@ -34,41 +60,43 @@ const {userId} = qc.getQueryData("user") as LuciaUser;
     });
 
   const [editing, setEditing] = useState(!updating);
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next,goTo } =
-    useMultiStepForm([
+  const {
+      steps,
+      currentStepIndex,
+      step,
+      isFirstStep,
+      isLastStep,
+      back,
+      next,
+      goTo,
+  } = useMultiStepForm([
       {
-        title: "Job Description",
-        component: (
-          <div>JOB DESCRIPTION</div>
-        ),
+          title: 'Job Application',
+          component: (
+              <JobBasicInfoForm
+                  editing={editing}
+                  input={input}
+                  updating={updating ?? false}
+                  isLoading={
+                      create_mutation.isLoading || update_mutation.isLoading
+                  }
+                  setInput={setInput}
+                  handleSubmit={(e) => handleJobApplicationSubmit({
+                    create_mutation,
+                    update_mutation,
+                    editing,input,updating
+                  })}
+                  handleChange={handleChange}
+              />
+          ),
+      },
+      {
+          title: 'Resume',
+          component: <ResumeMultiStepForm />,
       },
 
-      {
-        title: "Resume Projects",
-        component: (
-          <JobApplicationProjects
-            input={input}
-            setInput={setInput}
-            editing={editing}
-            handleChange={handleChange}
-            user_profile={userId!}
-          />
-        ),
-      },
-      {
-        title: "Resume Hackathons",
-        component: (
-          <JobApplicationProjects
-            input={input}
-            setInput={setInput}
-            editing={editing}
-            handleChange={handleChange}
-            user_profile={userId!}
-          />
-        ),
-      },
       // <StepTwo<typeof input> input={input} setInput={setInput} />,
-    ]);
+  ]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -76,13 +104,6 @@ const {userId} = qc.getQueryData("user") as LuciaUser;
     alert("Successful Account Creation");
   }
 
-  if (!userId) {
-    return (
-      <div className="flex h-full min-h-screen w-full items-center justify-center">
-        <div className="rounded-lg border text-error">No matches found</div>
-      </div>
-    );
-  }
 
 
   return (
@@ -114,6 +135,7 @@ const {userId} = qc.getQueryData("user") as LuciaUser;
         </div>
         <h2 className="text-xl font-bold">{step?.title}</h2>
         {step?.component}
+        
         <div className="mt-4 flex justify-end gap-2">
           {!isFirstStep && (
             <button
@@ -128,6 +150,7 @@ const {userId} = qc.getQueryData("user") as LuciaUser;
             {isLastStep ? "Finish" : "Next"}
           </button>
         </div>
+
       </form>
     </div>
   );

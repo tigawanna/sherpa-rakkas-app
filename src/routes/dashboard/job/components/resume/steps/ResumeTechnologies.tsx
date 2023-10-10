@@ -1,6 +1,5 @@
 import { TheListInput } from "@/components/form/inputs/ListInput";
 import { projectApi } from "@/routes/api/helpers/prisma/projects";
-import { Link, Plus } from "lucide-react";
 import { useSSQ } from "rakkasjs";
 import { useEffect } from "react";
 

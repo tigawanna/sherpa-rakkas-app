@@ -96,26 +96,6 @@ const user_id=userId??""
           experience:[]
         },
       });
-          // const query = api.profile.getOne.useQuery({
-          //   id: router.query.id as string,
-          // });
-
-          // useEffect(() => {
-          //   console.log("query.dat == ", query.data);
-          //   // if (query.data) {
-          //   setInput((prev) => {
-          //     return {
-          //       ...prev,
-          //       name: query.data?.name ?? "",
-          //       email: query.data?.email ?? "",
-          //       phone: query.data?.phone ?? "",
-          //       github_username: query.data?.github_username ?? "",
-          //       summary: query.data?.about_me ?? "",
-          //       skills: query.data?.skills ?? [],
-          //     };
-          //   });
-          //   // }
-          // }, [query.data]);
 
   const {
     steps,

@@ -1,6 +1,5 @@
 import { Plus, X } from "lucide-react";
 import { ResumeFields } from "./ResumeMutiStepForm";
-import {Experience} from "@prisma/client";
 import { Link, useSSQ } from "rakkasjs";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { TExperienceInputType, experienceApi } from "@/routes/api/helpers/prisma/experience";
