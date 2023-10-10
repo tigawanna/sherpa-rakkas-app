@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -174,29 +178,29 @@ model Internship {
 }
 
 model Resume {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  body      String
-
-  jobAplicationId String?
-
-  userId String
-  User   User?  @relation(fields: [userId], references: [id])
-}
-
-model JobApplication {
   id              String   @id @default(uuid())
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  job_title       String
-  description     String?
-  job_posting_url String?
-  projects        String[]
-  cover_letter    String
-  resume          String
+  body            String
+  jobAplicationId String?
+  userId          String
   User            User?    @relation(fields: [userId], references: [id])
-  userId          String?
+}
+
+model JobApplication {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  job_title       String
+  description     String
+  job_posting_url String
+
+  cover_letter String
+  resume       String
+
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String
 
   resumeId String?
 }

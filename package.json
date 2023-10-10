@@ -33,7 +33,8 @@
     "typescript": "^4.9.5",
     "vite": "^4.1.3",
     "vite-tsconfig-paths": "^4.0.5",
-    "vitest": "^0.28.5"
+    "vitest": "^0.28.5",
+    "zod-prisma-types": "^2.7.9"
   },
   "dependencies": {
     "@hattip/cookie": "^0.0.35",
@@ -76,19 +77,19 @@
     "zod": "^3.22.2"
   },
   "prettier": {
-      "printWidth": 80,
-      "tabWidth": 4,
-      "trailingComma": "all",
-      "singleQuote": true,
-      "semi": true,
-      "importOrder": [
-        "^@core/(.*)$",
-        "^@server/(.*)$",
-        "^@ui/(.*)$",
-        "^[./]"
-      ],
-      "importOrderSeparation": true,
-      "importOrderSortSpecifiers": true,
+    "printWidth": 80,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "semi": true,
+    "importOrder": [
+      "^@core/(.*)$",
+      "^@server/(.*)$",
+      "^@ui/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
     "plugins": [
       "prettier-plugin-tailwindcss",
       "@trivago/prettier-plugin-sort-imports"

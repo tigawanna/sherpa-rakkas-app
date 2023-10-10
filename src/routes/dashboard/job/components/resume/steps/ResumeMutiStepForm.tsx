@@ -12,7 +12,7 @@ import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
 
 
 interface MultiStepResumeFormProps {
-
+setResume(values:string): void
 }
 
 export interface ResumeFields {
@@ -69,12 +69,12 @@ export interface ResumeFields {
 
 
 
-export function ResumeMultiStepForm({}: MultiStepResumeFormProps) {
+export function ResumeMultiStepForm({setResume}: MultiStepResumeFormProps) {
 const qc = useQueryClient()
 const {userId} = qc.getQueryData("user") as LuciaUser
 const user_id=userId??""
 
-    const { handleChange, input, setError, setInput, validateInputs } =
+const { handleChange, input, setError, setInput, validateInputs } =
       useFormHook<ResumeFields>({
         initialValues: {
           name: "",
@@ -192,7 +192,7 @@ const user_id=userId??""
           user_id={user_id}
           input={input}
           setInput={setInput}
-
+          setResume={setResume}
         />
       ),
     },
