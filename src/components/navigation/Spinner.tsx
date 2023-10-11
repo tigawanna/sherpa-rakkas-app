@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { cn } from "../shadcn/lib/utils";
-import { twMerge } from "tailwind-merge";
+
 
 interface SpinnerProps {
 size?:string
@@ -12,7 +11,7 @@ return (
   <div className="flex h-full w-full items-center justify-center p-2">
     <span
       style={{ width: size ?? "50px" }}
-      className={clsx("loading loading-spinner", variant)}
+      className={clsx("loading loading-spinner loading-accent", variant)}
     ></span>
   </div>
 );

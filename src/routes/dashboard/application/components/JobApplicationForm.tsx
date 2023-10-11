@@ -9,7 +9,7 @@ import { useFormHook } from "@/components/form/useForm";
 
 import { navigate, useQueryClient, useSSM } from "rakkasjs";
 import { handleMutationResponse } from "@/utils/async";
-import { ResumeMultiStepForm } from "../../components/resume/steps/ResumeMutiStepForm";
+
 
 interface JobApplicationFormProps {
   default_value?: TJobApplicationInputType;
@@ -52,7 +52,7 @@ export function JobApplicationForm({
         job_posting_url: default_value?.job_posting_url ?? "",
         cover_letter: default_value?.cover_letter ?? "",
         resume: default_value?.resume ?? "",
-        projects: default_value?.projects ?? [],
+
       },
     });
 

@@ -1,18 +1,24 @@
-import { ResumeProjects } from "./ResumeProjects";
-import { ResumeHackathons } from "./ResumeHackathons";
-import { ResumeEducation } from "./ResumeEducation";
-import { ResumeExperience } from "./ResumeExperience";
-import { ResumeReference } from "./ResumeReference";
-import { ResumeBasicDetails } from "./ResumeBasicDetails";
-import { FinalResume } from "./FinalResume";
-import { ResumeTechnologies } from "./ResumeTechnologies";
-import { useQueryClient } from "rakkasjs";
 import { useFormHook } from "@/components/form/useForm";
 import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
+import { useQueryClient } from "rakkasjs";
+
+
+
+import { FinalResume } from "./FinalResume";
+import { ResumeBasicDetails } from "./ResumeBasicDetails";
+import { ResumeEducation } from "./ResumeEducation";
+import { ResumeExperience } from "./ResumeExperience";
+import { ResumeHackathons } from "./ResumeHackathons";
+import { ResumeProjects } from "./ResumeProjects";
+import { ResumeReference } from "./ResumeReference";
+import { ResumeTechnologies } from "./ResumeTechnologies";
+import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+
 
 
 interface MultiStepResumeFormProps {
-setResume(values:string): void
+    setResume(values: string): void;
+    application_input: TJobApplicationInputType;
 }
 
 export interface ResumeFields {
@@ -69,7 +75,7 @@ export interface ResumeFields {
 
 
 
-export function ResumeMultiStepForm({setResume}: MultiStepResumeFormProps) {
+export function ResumeMultiStepForm({setResume,application_input}: MultiStepResumeFormProps) {
 const qc = useQueryClient()
 const {userId} = qc.getQueryData("user") as LuciaUser
 const user_id=userId??""
@@ -191,6 +197,7 @@ const { handleChange, input, setError, setInput, validateInputs } =
         <FinalResume
           user_id={user_id}
           input={input}
+          application_input={application_input}
           setInput={setInput}
           setResume={setResume}
         />

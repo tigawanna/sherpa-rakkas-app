@@ -65,7 +65,7 @@ return (
           </div>
         )}
       </div>
-      <Link href={`/dashboard/application/new`} className="btn btn-outline">
+      <Link href={`/dashboard/job/new`} className="btn btn-outline">
         <Plus className="h-6 w-6" />
       </Link>
     </div>

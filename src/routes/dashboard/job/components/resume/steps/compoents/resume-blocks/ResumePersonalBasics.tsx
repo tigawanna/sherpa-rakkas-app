@@ -7,7 +7,7 @@ interface ResumePersonalBasicsProps {
 
 export function ResumePersonalBasics({ resume }: ResumePersonalBasicsProps) {
   return (
-    <div className="flex w-full gap-4">
+    <div className="flex flex-col w-full gap-4">
       <div className="flex w-full flex-wrap gap-2">
         <div className="flex w-full gap-2 p-2">
           <h2 className="text-4xl font-bold">{resume.name}</h2>

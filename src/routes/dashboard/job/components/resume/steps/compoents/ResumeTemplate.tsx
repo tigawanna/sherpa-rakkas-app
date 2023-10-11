@@ -14,6 +14,8 @@ interface ResumeTemplateProps {
 }
 
 export function ResumeTemplate({}: ResumeTemplateProps) {
+  
+  
   const resume = {
     name: "Jane Smith",
     email: "example2@example.com",
@@ -120,13 +122,8 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
     ],
   };
   return (
-    <div className="flex h-full min-h-screen w-full flex-col gap-2">
-      {/*  */}
-      <div className="flex h-full w-full items-center justify-center gap-2">
-        {/*  basics details */}
-
-        {/*  resume details */}
-        <article className="flex h-full w-full flex-col  gap-1 p-2">
+    <div className="flex h-full min-h-screen w-full flex-col gap-2 border p-2">
+      <article className="flex h-full w-full flex-col  gap-1 p-2">
           <ResumePersonalBasics resume={resume} />
           <ResumeExperience resume={resume} />
           <ResumeProjects resume={resume} />
@@ -134,7 +131,7 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
           <ResumeHackathons resume={resume} />
           <ResumeRefrences resume={resume} />
         </article>
-      </div>
+
     </div>
   );
 }

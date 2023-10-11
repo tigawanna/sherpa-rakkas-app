@@ -103,7 +103,7 @@ export function MainJobApplicationForm({
           },
           {
               title: 'Resume',
-              component: <ResumeMultiStepForm setResume={setResume} />,
+              component: <ResumeMultiStepForm setResume={setResume} application_input={input}/>,
           },
       ]);
 

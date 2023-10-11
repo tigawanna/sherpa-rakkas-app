@@ -1,9 +1,12 @@
-import "./index.css";
-import { LayoutProps, useLocation } from "rakkasjs";
-import { Nprogress } from "@/components/navigation/nprogress/Nprogress";
 import { Toolbar } from "@/components/navigation/Toolbar";
+import { Nprogress } from "@/components/navigation/nprogress/Nprogress";
+import "cherry-markdown/dist/cherry-markdown.css";
+import { LayoutProps, useLocation } from "rakkasjs";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
+
+import './index.css';
+
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
