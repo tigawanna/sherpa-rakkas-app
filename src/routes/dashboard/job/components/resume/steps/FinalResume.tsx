@@ -10,7 +10,7 @@ const ResumeEditor = lazy(() => import('./compoents/editor/ResumeEditor'));
 
 interface FinalResumeProps {
     user_id: string;
-    input: ResumeFields;
+    resume_fields: ResumeFields;
     application_input: TJobApplicationInputType;
     setInput: React.Dispatch<React.SetStateAction<ResumeFields>>;
     setResume: (resume: string) => void;
@@ -19,9 +19,9 @@ interface FinalResumeProps {
     ) => void;
 }
 
-export function FinalResume({input,setInput,setResume,application_input}:FinalResumeProps){
-  console.log("input  ==== ",application_input)
-  const component_html = ReactDOMServer.renderToString(<ResumePartsContainer />);
+export function FinalResume({resume_fields,setInput,setResume,application_input}:FinalResumeProps){
+
+  const component_html = ReactDOMServer.renderToString(<ResumePartsContainer resume_fields={resume_fields} />);
 return (
  <div className='w-full h-full flex items-center justify-center'>
     {/* <ResumeTemplate resume={input}/> */}

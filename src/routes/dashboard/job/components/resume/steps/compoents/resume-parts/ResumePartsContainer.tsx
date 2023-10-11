@@ -1,19 +1,21 @@
-interface resumePartsContainerProps {
+import { ResumeFields } from "../../ResumeMutiStepForm";
 
+interface resumePartsContainerProps {
+    resume_fields: ResumeFields;
 }
 
-export function ResumePartsContainer({}:resumePartsContainerProps){
+export function ResumePartsContainer({resume_fields}:resumePartsContainerProps){
 return (
  <div className='w-full h-full flex items-center justify-center p-5'>
 <div className="w-full mx-auto flex flex-col gap-2 text-sm">
     {/* basic deatils */}
   <section className="flex items-center justify-between gap-2">
-    <h2 className="text-3xl font-bold">Jane Doe</h2>
-    <h5 className="">Nairobi Kenya</h5>
-    <h5 className="">0790009909</h5>
-    <h5 className="">me@example.com</h5>
-
-    <a href="https://www.linkedin.com/in/jane-doe/" className="underline">LinkedIn Profile</a>
+    <h2 className="text-3xl font-bold">{resume_fields.name}</h2>
+    <h5 className="">{resume_fields.city}, {resume_fields.country}</h5>
+    <h5 className="">{resume_fields.phone} | {resume_fields.email}</h5>
+    
+  <a href={`https://www.linkedin.com/in/${resume_fields.linkedin_username}/`} className="underline">{resume_fields.linkedin_username}LinkedIn Profile</a>
+  <a href={`https:/github.com/${resume_fields.github_username}/`} className="underline">{resume_fields.github_username} Github Profile</a>
   </section>
 
   {/* summary */}

@@ -31,6 +31,7 @@ Resume Length - Keep your resume to one page. For guidance, view our one-page re
     `,
     website: "",
     github_username: "codediodeio",
+    linkedin_username: "code-diodeio",
     projects: [
       {
         id: "1198440c-d662-4fd7-8b54-c4e4a5215688",

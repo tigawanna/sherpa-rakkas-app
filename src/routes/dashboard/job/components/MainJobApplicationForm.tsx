@@ -1,13 +1,7 @@
-import { FormHeader } from '@/components/form/inputs/FormHeader';
-import { TheTextAreaInput } from '@/components/form/inputs/TheTextArea';
-import { TheTextInput } from '@/components/form/inputs/TheTextInput';
 import { useFormHook } from '@/components/form/useForm';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { useMultiStepForm } from '@/utils/hooks/useMultiStepForm';
 import { useQueryClient, useSSM } from 'rakkasjs';
-
-
-
 import { JobBasicInfoForm } from './JobBasicInfoForm';
 import { handleJobApplicationSubmit } from './helpers/submit';
 import { ResumeMultiStepForm } from './resume/steps/ResumeMutiStepForm';

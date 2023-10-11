@@ -28,6 +28,7 @@ export interface ResumeFields {
   website: string;
   summary: string;
   github_username: string;
+  linkedin_username: string;
   country: string;
   city: string;
   skills: string;
@@ -91,6 +92,7 @@ const { handleChange, input, setError, setInput, validateInputs } =
           summary: "",
           website: "",
           github_username: "",
+          linkedin_username: "",
           projects: [],
           skills:"",
           languages: [],
@@ -196,7 +198,7 @@ const { handleChange, input, setError, setInput, validateInputs } =
       component: (
         <FinalResume
           user_id={user_id}
-          input={input}
+          resume_fields={input}
           application_input={application_input}
           setInput={setInput}
           setResume={setResume}
