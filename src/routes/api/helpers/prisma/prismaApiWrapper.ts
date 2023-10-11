@@ -167,12 +167,19 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
       }
     },
 
-    updateOne: async ({ input, user_id }: { input: T; user_id: string }) => {
+    updateOne: async ({ input, user_id }: { input: Partial<T>&{ id: string}; user_id: string }) => {
       try {
+        if(!input?.id){
+          return {
+            error: {
+              message: "id is required",
+              original_error: new Error("id is required"),
+            },
+          };
+        }
         // @ts-expect-error
         return (await prisma_model.update({
-          // @ts-expect-error
-          where: { id: input.id, userId: user_id },
+        where: { id: input.id, userId: user_id },
           data: input,
         })) as T;
       } catch (error: any) {

@@ -20,7 +20,7 @@ type ResumeProfile = Pick<ResumeFields,"name"|"email"|"phone"|"github_username"|
 export function ResumeBasicDetails({input,setInput,handleChange}:BasicDetailsProps){
 const qc = useQueryClient()
 const user = qc.getQueryData("user") as LuciaUser
-console.log("user === ",user)
+
     useEffect(() => {
       if (user) {
       setInput((prev) => {

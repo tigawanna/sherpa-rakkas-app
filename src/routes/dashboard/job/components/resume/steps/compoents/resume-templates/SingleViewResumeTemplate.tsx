@@ -5,18 +5,21 @@ interface SingleViewResumeTemplateProps {
 }
 
 export function SingleViewResumeTemplate({resume_fields}:SingleViewResumeTemplateProps){
-return (
+function getMonthAndYear(date: Date){
+    return date.toLocaleDateString();
+}
+    return (
     <div className="w-full h-full flex items-center justify-center p-5">
       <div className="w-full mx-auto flex flex-col gap-3 text-sm">
         {/* basic deatils */}
-        <section className="flex flex-col items-start justify-between gap-1 pb-2 border-b">
-          <h2 className="text-2xl font-bold">{resume_fields.name}</h2>
+        <div className="flex flex-col items-start justify-between gap-1 pb-2 border-b">
+          <h2 className="text-2xl">{resume_fields.name}</h2>
             <div className="flex gap-1">
-            <h5 className="flex">City : {resume_fields.city}</h5> |
+            <h5 className="flex">City : {resume_fields.city}</h5> 
             <h5 className="flex">Country : {resume_fields.country}</h5>
           </div>
           <div className="flex gap-1">
-            <h5 className="flex">Phone : {resume_fields.phone}</h5> |
+            <h5 className="flex">Phone : {resume_fields.phone}</h5>
             <h5 className="flex">Emaill : {resume_fields.email}</h5>
           </div>
           <div className="flex gap-1 ">
@@ -26,7 +29,9 @@ return (
             >
               LinkedIn: {resume_fields.linkedin_username}
             </a> 
+            {" "}
             |
+            {" "}
             <a
               href={`https:/github.com/${resume_fields.github_username}/`}
               className="underline"
@@ -34,89 +39,90 @@ return (
               Github: {resume_fields.github_username}{' '}
             </a>
           </div>
-        </section>
+        </div>
 
         {/* summary */}
-        <section className="flex flex-col ">
+        <div className="flex flex-col ">
           <h3 className="font-bold">Summary</h3>
           <p className="">{resume_fields.summary}</p>
-        </section>
+        </div>
 
-        {/* skills section */}
-        <section className="flex flex-col w-full">
+        {/* skills div */}
+        <div className="flex flex-col w-full">
           <h3 className="font-bold">Skills</h3>
-          <ul className="w-full flex flex-col list-disc gap-1 ">
+          <ul className="list-disc">
             {resume_fields.skills.split(',').map((skill) => (
               <li className="flex-grow" key={skill}>
                 {skill}
               </li>
             ))}
           </ul>
-        </section>
+        </div>
 
-        {/* experience section */}
+        {/* experience div */}
         {resume_fields?.experience.length > 0 && (
-          <section className="flex flex-col">
+          <div className="flex flex-col">
             <h3 className="font-bold">Experience</h3>
             <ul className="flex flex-col gap-1 list-disc">
               {resume_fields?.experience?.map((exp) => (
                 <li
                   className=""
                   key={exp.id}
-                >{`${exp.company} , ${exp.position}  ${exp.from} - ${exp.to}`}</li>
+                >{`${exp.company} , ${exp.position}  (${getMonthAndYear(exp.from)} - ${getMonthAndYear(exp.to)})`}</li>
               ))}
             </ul>
-          </section>
+          </div>
         )}
 
-        {/* education section */}
+        {/* education div */}
         {resume_fields.education.length > 0 && (
-          <section className="flex flex-col">
+          <div className="flex flex-col">
             <h3 className="font-bold">Education</h3>
             <ul className="list-disc">
               {resume_fields.education.map((edu) => {
                 return (
                   <li key={edu.id}>{`${edu.qualification} in ${edu.field}, ${
                     edu.school
-                  }, (${edu.from.toISOString().split('T')[0]} - ${
-                    edu.to.toISOString().split('T')[0]
+                  }, (${getMonthAndYear(edu.from)} - ${
+                    getMonthAndYear(edu.to)
                   })`}</li>
                 );
               })}
             </ul>
-          </section>
+          </div>
         )}
 
-        {/* projects section*/}
+        {/* projects div*/}
         {resume_fields.projects.length > 0 && (
-          <section className="flex flex-col">
+          <div className="flex flex-col">
             <h3 className="font-bold">Projects</h3>
-            <ul className="list-disc flex flex-col gap-2">
+            <ul className="">
               {resume_fields.projects.map((project) => {
                 return (
                   <li key={project.id} className="">
-                    <h5 className="font-bold text-accent-content">{project.name}</h5>
-                    <p className="line-clamp-3">{project.description}</p>
-                  </li>
+                    **{project.name}** : {project.description}
+                </li>
                 );
               })}
             </ul>
-          </section>
+          </div>
         )}
-        {/* references section */}
-        <section className="flex flex-col">
+
+        {/* references div */}
+        <div className="flex flex-col">
           <h3 className="font-bold">References</h3>
           <ul className="list-disc">
             {resume_fields.references.map((reference) => {
               return (
-                <li key={reference.name} className="w-full flex gap-1">
-                  <h5> {reference.name}</h5>
-                  <h5> {reference.contact}</h5>
+                <li key={reference.name} className="">
+                  {/* <h5> {reference.name}</h5>
+                  <h5> {reference.contact}</h5> */}
+                  **{reference.name}** : {reference.contact}
                 </li>
               );
             })}
           </ul>
-        </section>
+        </div>
       </div>
     </div>
 );

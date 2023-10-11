@@ -1,8 +1,11 @@
 import { FormHeader } from "@/components/form/inputs/FormHeader";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+import { TJobApplicationInputType, jobApplicationApi } from "@/routes/api/helpers/prisma/job-application";
+import { handleMutationResponse } from "@/utils/async";
 import { Loader } from "lucide-react";
+import { useQueryClient, useSSM } from "rakkasjs";
+import { toast } from "react-toastify";
 
 
 interface JobBasicInfoFormProps {
@@ -17,8 +20,63 @@ interface JobBasicInfoFormProps {
     ) => void;
 }
 
-export function JobBasicInfoForm({input,setInput,handleSubmit,handleChange,editing,isLoading,updating}:JobBasicInfoFormProps){
-return (
+export function JobBasicInfoForm({input,setInput,handleChange,editing,updating}:JobBasicInfoFormProps){
+    const qc = useQueryClient();
+    const { userId } = qc.getQueryData('user') as LuciaUser;
+
+    const create_mutation = useSSM<
+      Awaited<ReturnType<typeof jobApplicationApi.addNew>>,
+      TJobApplicationInputType
+    >((ctx, vars) => {
+      return jobApplicationApi.addNew({ input: vars });
+    });
+
+    const update_mutation = useSSM<
+      Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
+      TJobApplicationInputType & { id: string }
+    >((ctx, vars) => {
+      return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
+    });
+function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (editing) {
+    if (updating) {
+      update_mutation
+        .mutateAsync(input)
+        .then((res) => {
+          handleMutationResponse({
+            res,
+            successMessage(res) {
+              return 'Application updated successfully';
+            },
+          });
+        })
+        .catch((error) =>
+          toast(error.message, { type: 'error', autoClose: false }),
+        );
+    } else {
+      create_mutation
+        .mutateAsync(input)
+        .then((res) => {
+          handleMutationResponse({
+            res,
+            successMessage(res) {
+              return 'Application updated successfully';
+            },
+          });
+        })
+        .catch((error) =>
+          toast(error.message, { type: 'error', autoClose: false }),
+        );
+    }
+  }
+}
+
+
+const isLoading = create_mutation.isLoading || update_mutation.isLoading;
+  return (
   <form
     onSubmit={handleSubmit}
     className="flex h-full w-full flex-col items-center justify-center gap-3 "

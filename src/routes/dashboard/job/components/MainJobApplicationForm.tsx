@@ -74,6 +74,7 @@ export function MainJobApplicationForm({
           {
               title: 'Job Basic Info',
               component: (
+                  <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%] border rounded-md shadow shadow-accent">
                   <JobBasicInfoForm
                       editing={editing}
                       input={input}
@@ -93,6 +94,7 @@ export function MainJobApplicationForm({
                       }
                       handleChange={handleChange}
                   />
+                </div>
               ),
           },
           {
@@ -104,7 +106,7 @@ export function MainJobApplicationForm({
 
 
     return (
-        <div className="w-full h-full flex items-center justify-center gap-3">
+        <div className="w-full h-full flex items-center justify-center gap-3 p-3">
 
       <div className='card card-bordered w-full p-5  min-h-[70vh] flex flex-col gap-3 items-stretch justify-between '>
         {/* multistep tabs */}
@@ -132,7 +134,10 @@ export function MainJobApplicationForm({
         </div>
                {/* current multi step component */}
         <h2 className="text-xl font-bold">{step?.title}</h2>
+        <div className='w-full flex items-center justify-center'>
         {step?.component}
+
+        </div>
         {/* multi step bottom next prev buttons  */}
         <div className="mt-4 flex justify-end gap-2 ">
           {!isFirstStep && (
