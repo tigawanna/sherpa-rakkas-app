@@ -1,25 +1,22 @@
-import { ResumeFields } from '../../ResumeMutiStepForm';
+import { ResumeFields } from "../../ResumeMutiStepForm";
 
-interface resumePartsContainerProps {
+interface SingleViewResumeTemplateProps {
   resume_fields: ResumeFields;
 }
 
-export function ResumePartsContainer({
-  resume_fields,
-}: resumePartsContainerProps) {
-  return (
+export function SingleViewResumeTemplate({resume_fields}:SingleViewResumeTemplateProps){
+return (
     <div className="w-full h-full flex items-center justify-center p-5">
       <div className="w-full mx-auto flex flex-col gap-3 text-sm">
         {/* basic deatils */}
-        <section className="flex flex-col items-start justify-between gap-1">
-          <h2 className="text-3xl font-bold">{resume_fields.name}</h2>
-
-          <div className="flex gap-1">
-            <h5 className="flex">City : {resume_fields.city}</h5>
+        <section className="flex flex-col items-start justify-between gap-1 pb-2 border-b">
+          <h2 className="text-2xl font-bold">{resume_fields.name}</h2>
+            <div className="flex gap-1">
+            <h5 className="flex">City : {resume_fields.city}</h5> |
             <h5 className="flex">Country : {resume_fields.country}</h5>
           </div>
           <div className="flex gap-1">
-            <h5 className="flex">Phone : {resume_fields.phone}</h5>
+            <h5 className="flex">Phone : {resume_fields.phone}</h5> |
             <h5 className="flex">Emaill : {resume_fields.email}</h5>
           </div>
           <div className="flex gap-1 ">
@@ -28,7 +25,8 @@ export function ResumePartsContainer({
               className="underline"
             >
               LinkedIn: {resume_fields.linkedin_username}
-            </a>
+            </a> 
+            |
             <a
               href={`https:/github.com/${resume_fields.github_username}/`}
               className="underline"
@@ -63,7 +61,7 @@ export function ResumePartsContainer({
             <ul className="flex flex-col gap-1 list-disc">
               {resume_fields?.experience?.map((exp) => (
                 <li
-                  className="flex-grow"
+                  className=""
                   key={exp.id}
                 >{`${exp.company} , ${exp.position}  ${exp.from} - ${exp.to}`}</li>
               ))}
@@ -93,11 +91,11 @@ export function ResumePartsContainer({
         {resume_fields.projects.length > 0 && (
           <section className="flex flex-col">
             <h3 className="font-bold">Projects</h3>
-            <ul className="list-disc">
+            <ul className="list-disc flex flex-col gap-2">
               {resume_fields.projects.map((project) => {
                 return (
-                  <li key={project.id} className=" flex flex-col gap-0.5">
-                    <h5>{project.name}</h5>
+                  <li key={project.id} className="">
+                    <h5 className="font-bold text-accent-content">{project.name}</h5>
                     <p className="line-clamp-3">{project.description}</p>
                   </li>
                 );
@@ -121,5 +119,5 @@ export function ResumePartsContainer({
         </section>
       </div>
     </div>
-  );
+);
 }

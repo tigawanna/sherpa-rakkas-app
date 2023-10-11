@@ -5,6 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import { ResumeFields } from "./ResumeMutiStepForm";
 import { ResumePartsContainer } from './compoents/resume-parts/ResumePartsContainer';
 import { lazy } from "react";
+import { ResumeTemplatesTab } from "./compoents/resume-templates/ResumeTemplatesTab";
 
 const ResumeEditor = lazy(() => import('./compoents/editor/ResumeEditor'));
 
@@ -25,9 +26,11 @@ export function FinalResume({resume_fields,setInput,setResume,application_input}
 return (
  <div className='w-full h-full flex items-center justify-center'>
     {/* <ResumeTemplate resume={input}/> */}
-    <ClientSuspense fallback={<Spinner size="100px"/>}>
+    {/* <ClientSuspense fallback={<Spinner size="100px"/>}>
        <ResumeEditor html_string={component_html} setResume={setResume}/> <br />
-    </ClientSuspense>
+    </ClientSuspense> */}
+    {/* <ResumePartsContainer resume_fields={resume_fields} /> */}
+    <ResumeTemplatesTab resume_fields={resume_fields}/>
 
  </div>
 );
