@@ -95,6 +95,7 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
           if (res && !('error' in res)) {
             if(res?.id){
             update_job_application_mutation.mutateAsync({
+            id:application_input?.id??"",
             resume:res.body,
             resumeId: res?.id,
            }).then((res)=>{

@@ -81,6 +81,7 @@ const qc = useQueryClient()
 const {userId} = qc.getQueryData("user") as LuciaUser
 const user_id=userId??""
 
+
 const { handleChange, input, setError, setInput, validateInputs } =
       useFormHook<ResumeFields>({
         initialValues: {

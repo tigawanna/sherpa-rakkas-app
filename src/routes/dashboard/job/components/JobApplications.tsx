@@ -16,11 +16,13 @@ interface JobApplicationsProps {
 export function JobApplications({}:JobApplicationsProps){
 const qc = useQueryClient();
 const { userId:user_id } = qc.getQueryData('user') as LuciaUser;
+console.log(user_id);
 const [keyword, setKeyword] = useState("");
 const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
 const query = useSSQ(
   async (ctx) => {
+    
     return jobApplicationApi.findByField({
       user_id: user_id!,
       fields: ["job_title","description"],
@@ -32,6 +34,8 @@ const query = useSSQ(
     refetchOnMount: true,
   }
 );
+
+
 
 if (query.error || (query.data && "error" in query.data)) {
   return <ReturnedUseQueryEror data={query.data} error={query.error} />;
@@ -83,7 +87,9 @@ return (
     <div className="flex h-full w-full flex-wrap items-center justify-center gap-2">
       {data &&
         data.map((item) => {
-          return <JobApplicationCard item={item} refetch={refetch}/>;
+          if(item.id){
+            return <JobApplicationCard item={{...item,id:item.id}} refetch={refetch}/>;
+            }
         })}
     </div>
   {/* </Suspense> */}

@@ -28,19 +28,19 @@ export function TheTextInput<T>({
       : undefined
   );
   const default_input_tw = error_message
-    ? " input input-bordered input-sm w-full border-error border-2"
-    : "input input-bordered input-sm w-full border-accent";
+    ? " input  input-sm w-full border-error border-2"
+    : "input  input-sm w-full border-accent";
   return (
     <div
       key={field_key as string}
       className={twMerge(
-        "flex w-full flex-col justify-center gap-1.5",
+        "flex w-full flex-col justify-center gap-1",
         props.container_classname
       )}
     >
       <Label
         htmlFor={field_key as string}
-        className={twMerge("text  font-serif font-bold", props.label_classname)}
+        className={twMerge("font-serif text-sm", props.label_classname)}
       >
         {field_name as string}
       </Label>

@@ -32,7 +32,7 @@ export function MainJobApplicationForm({
 
     const update_mutation = useSSM<
         Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
-        TJobApplicationInputType
+        TJobApplicationInputType&{id:string}
     >((ctx, vars) => {
         return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
     });

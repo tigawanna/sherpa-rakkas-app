@@ -1,6 +1,7 @@
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { jobApplicationApi } from "@/routes/api/helpers/prisma/job-application";
 import { PageProps, useQueryClient, useSSQ } from "rakkasjs"
+import { MainJobApplicationForm } from "./components/MainJobApplicationForm";
 
 export default function JobApplicationPage({params}:PageProps) {
     const qc = useQueryClient();
@@ -32,9 +33,7 @@ export default function JobApplicationPage({params}:PageProps) {
   
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex w-[95%] flex-col gap-3 p-1  md:p-5 lg:w-[80%]">
-        {/* <JobApplicationForm default_value={query.data} updating={true} /> */}
-      </div>
+        <MainJobApplicationForm default_value={query.data} updating={true} />
     </div>
   );
 }

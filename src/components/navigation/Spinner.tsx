@@ -11,7 +11,7 @@ return (
   <div className="flex h-full w-full items-center justify-center p-2">
     <span
       style={{ width: size ?? "50px" }}
-      className={clsx("loading loading-spinner loading-accent", variant)}
+      className={clsx("loading loading-spinner text-accent", variant)}
     ></span>
   </div>
 );

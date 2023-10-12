@@ -28,20 +28,20 @@ export function TheTextAreaInput<T>({
       : undefined
   );
   const default_textarea_tw = error_message
-    ? " textarea textarea-bordered textarea-sm w-full border-error border-2"
-    : "textarea textarea-bordered textarea-sm w-full border border-accent";
+    ? " textarea  textarea-sm w-full border-error border-2"
+    : "textarea  textarea-sm w-full border border-accent";
   return (
     <div
       key={field_key as string}
       className={twMerge(
-        "flex w-full flex-col justify-center",
+        "flex w-full flex-col justify-center gap-1",
         props.container_classname
       )}
     >
       <Label
         htmlFor={field_key as string}
         className={twMerge(
-          "px-2 font-serif text-sm font-bold",
+          "px-2 font-serif text-sm ",
           props.label_classname
         )}
       >

@@ -1,11 +1,14 @@
+import { Spinner } from "@/components/navigation/Spinner";
 import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
-import ReactDOMServer from "react-dom/server";
-import { ResumeFields } from "./ResumeMutiStepForm";
+import { ClientSuspense } from "rakkasjs";
 import { lazy } from "react";
+import ReactDOMServer from "react-dom/server";
+
+
+
+import { ResumeFields } from "./ResumeMutiStepForm";
 import { ResumeTemplatesTab } from "./compoents/resume-templates/ResumeTemplatesTab";
 import { SingleViewResumeTemplate } from "./compoents/resume-templates/SingleViewResumeTemplate";
-import { Spinner } from "@/components/navigation/Spinner";
-import { ClientSuspense } from "rakkasjs";
 
 
 const ResumeEditor = lazy(() => import('./compoents/editor/ResumeEditor'));
@@ -22,7 +25,10 @@ interface FinalResumeProps {
 }
 
 export function FinalResume({resume_fields,setInput,setResume,application_input}:FinalResumeProps){
-const component_html = ReactDOMServer.renderToString(<SingleViewResumeTemplate resume_fields={resume_fields} />);
+const component_html = ReactDOMServer.renderToString(
+  <SingleViewResumeTemplate resume_fields={resume_fields} />,
+);
+// console.log('input inside finally resume', application_input);
 return (
  <div className='w-full h-full flex flex-col items-center justify-center'>
     {/* <ResumeTemplate resume={input}/> */}

@@ -42,9 +42,9 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
   e.stopPropagation();
 
   if (editing) {
-    if (updating) {
+    if (updating && input?.id) {
       update_mutation
-        .mutateAsync(input)
+        .mutateAsync({...input,id:input.id})
         .then((res) => {
           handleMutationResponse({
             res,
