@@ -1,11 +1,10 @@
-import { useFormHook } from '@/components/form/useForm';
 import { Button } from '@/components/shadcn/ui/button';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { TResumeInputType, resumeApi } from '@/routes/api/helpers/prisma/resume';
 import { useMutationFetcher } from '@/utils/async';
 import Cherry from 'cherry-markdown/dist/cherry-markdown.core';
 import { Printer, Save } from 'lucide-react';
-import { useMutation, usePageContext, useQueryClient, useSSM } from 'rakkasjs';
+import { useMutation, usePageContext} from 'rakkasjs';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
@@ -49,18 +48,7 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
         return useMutationFetcher(page_ctx,'/api/job', { input: vars, user_id: userId! },"PUT");
   });
 
-
-  const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<TResumeInputType>({
-      initialValues: {
-        id: default_value?.id,
-        userId: default_value?.userId ?? userId!,
-        body: default_value?.body ?? '',
-        jobAplicationId: default_value?.id ?? (application_input.id as string),
-      },
-    });
-
-    useEffect(() => {
+  useEffect(() => {
         if (!cherry.current) {
             cherry.current = new Cherry({
                 id: 'cherry-markdown',

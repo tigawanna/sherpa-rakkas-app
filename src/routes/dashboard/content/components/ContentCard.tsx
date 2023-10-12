@@ -47,8 +47,13 @@ export function ContentCard({ item, refetch }: ContentCardProps) {
       className="flex w-full flex-col justify-center gap-1 rounded-md border p-2 shadow-sm
       shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
-        <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-bold">{item.title}</h3>
+      <div className="flex justify-between items-start">
+        <Link
+        href={`/dashboard/content/${item?.id}`}
+        className="hover:bg-base-300 hover:text-accent w-full rounded-lg ">
+        <h3 className="text-2xl font-bold">{item.title}</h3>
+        <h3 className="border border-accent rounded-lg px-2 w-fit">{item.type}</h3>
+      </Link>
           <DeleteConfirm
             is_loading={delete_mutation.isLoading}
             handleDelete={() => handleDelete(item?.id!)}
@@ -56,14 +61,9 @@ export function ContentCard({ item, refetch }: ContentCardProps) {
           />
         </div>
 
-      <Link
-        href={`/dashboard/content/${item?.id}`}
-        className="hover:bg-base-300 hover:text-accent"
-      >
-        <h3 className="text-lg">{item.type}</h3>
-      </Link>
 
-      <div className=" flex items-center justify-between text-sm">
+
+      <div className=" flex items-center justify-between text-sm border-t">
         <h3>{item?.createdAt?.toISOString().split("T")[0]}</h3>
       </div>
     </div>

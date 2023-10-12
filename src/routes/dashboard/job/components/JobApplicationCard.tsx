@@ -51,11 +51,11 @@ export function JobApplicationCard({ item, refetch }: JobApplicationCardProps) {
         <Link
           href={`/dashboard/job/${item.id}`}
           key={item.id}
-          about='view job application'
+          about="view job application"
           className="flex w-full flex-col justify-center gap-1 rounded-md hover:brightness-75
             p-2  "
         >
-          <h3  className="text-2xl font-bold">{item.job_title}</h3>
+          <h3 className="text-2xl font-bold">{item.job_title}</h3>
           <p className="line-clamp-2">{item.description}</p>
         </Link>
         <div className="flex items-start h-full">
@@ -69,14 +69,14 @@ export function JobApplicationCard({ item, refetch }: JobApplicationCardProps) {
 
       <Link
         href={item.job_posting_url ?? ''}
- 
-        target='_blank'
-        prefetch={"never"}
-        className="hover:brightness-75 hover:text-blue-600 flex gap-2 items-center w-full "
+        target="_blank"
+        prefetch={'never'}
+        className="hover:brightness-75 hover:text-blue-600 flex gap-2 items-center w-full overflow-clip hover:overflow-visible"
       >
-        {item.job_posting_url}<ExternalLink className='w-4 h-4'/>
+        {item.job_posting_url}
+        <ExternalLink className="w-4 h-4" />
       </Link>
-      <div className=" flex items-center justify-between text-sm">
+      <div className=" flex items-center justify-between text-sm border-t">
         <h3>On : {item.createdAt?.toISOString().split('T')[0]}</h3>
       </div>
     </div>

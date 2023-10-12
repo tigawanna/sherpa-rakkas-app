@@ -45,33 +45,28 @@ export function ExperienceCard({item,refetch}:ExperienceCardProps){
       className="flex w-full flex-col justify-center gap-1 rounded-md border p-2 shadow-sm
       shadow-accent hover:border-accent sm:w-[45%] lg:w-[30%] "
     >
-      <div className="flex items-center justify-between">
+      <div className="flex gap-2 items-start justify-between">
+        <Link
+        href={`/dashboard/experience/${item?.id}`}
+         className="hover:bg-base-300 hover:text-accent w-full rounded-lg"
+      >
         <h3 className="text-2xl font-bold">{item?.company}</h3>
-        <DeleteConfirm
+        <h3 className="text-lg">{item?.position}</h3>
+        <p className="line-clamp-3">{item?.description}</p>
+      </Link>
+          <DeleteConfirm
           is_loading={delete_mutation.isLoading}
           handleDelete={() => handleDelete(item?.id!)}
           modal_id={modal_id}
         />
       </div>
 
-      <Link
-        href={`/dashboard/experience/${item?.id}`}
-        className="hover:bg-base-300 hover:text-accent"
-      >
-        <h3 className="text-2xl font-bold">{item?.company}</h3>
-        <h3 className="text-lg">{item?.position}</h3>
-        <p className="line-clamp-3">{item?.description}</p>
-      </Link>
-
-      <div className=" flex items-center justify-between text-sm">
-        <h3>From : {item.from.toISOString().split("T")[0]}</h3>
-        <h3>To : {item.to.toISOString().split("T")[0]}</h3>
-      </div>
 
       <div className=" flex w-[90%] items-center justify-between border-t border-t-accent text-sm">
-        <h3>From : {item?.from?.toISOString().split("T")[0]}</h3>
-        <h3>To : {item?.to?.toISOString().split("T")[0]}</h3>
+        <h3>From : {new Date(item?.from)?.toISOString().split("T")[0]}</h3>
+        <h3>To : {new Date(item?.to)?.toISOString().split("T")[0]}</h3>
       </div>
+
     </div>
   );
 }

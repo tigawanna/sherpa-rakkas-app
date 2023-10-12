@@ -18,7 +18,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
       { name: "content", href: "/dashboard/content", icon:Bookmark },
       { name: "education", href: "/dashboard/education", icon:GraduationCap },
       { name: "job application", href: "/dashboard/job", icon:FileSearch2 },
-      { name: "editor", href: "/dashboard/editor", icon:Pencil },
+
     ];
 return (
   <div className="h-full">

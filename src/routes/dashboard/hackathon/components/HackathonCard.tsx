@@ -45,19 +45,20 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       p-2 hover:border-accent sm:w-[45%] lg:w-[30%] "
       >
       <div className="flex justify-between items-center">
-      <h3 className="text-2xl font-bold w-full">{item?.name}</h3>
+      <Link
+        href={`/dashboard/hackathon/${item?.id}`}
+        className="hover:bg-base-300 hover:text-accent"
+      >
+        <h3 className="text-2xl font-bold w-full">{item?.name}</h3>
+        <h3 className="line-clamp-2">{item?.description}</h3>
+      </Link>
       <DeleteConfirm
         is_loading={delete_mutation.isLoading}
         handleDelete={() => handleDelete(item?.id!)}
         modal_id={modal_id}
       />
       </div>
-      <Link
-        href={`/dashboard/hackathon/${item?.id}`}
-        className="hover:bg-base-300 hover:text-accent"
-      >
-        <h3 className="">{item?.description}</h3>
-      </Link>
+
 
       <div className="flex w-full flex-wrap gap-2 p-1">
         {item?.technologies &&
@@ -69,8 +70,8 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       </div>
 
       <div className=" flex w-[90%] items-center justify-between border-t border-t-accent text-sm">
-        <h3>From : {item?.from?.toISOString().split("T")[0]}</h3>
-        <h3>To : {item?.to?.toISOString().split("T")[0]}</h3>
+        <h3>From : {new Date(item?.from)?.toISOString().split("T")[0]}</h3>
+        <h3>To : {new Date(item?.to)?.toISOString().split("T")[0]}</h3>
       </div>
     </div>
   );
