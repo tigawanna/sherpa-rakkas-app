@@ -5,7 +5,8 @@ import { lazy } from "react";
 import ReactDOMServer from "react-dom/server";
 import { ResumeFields } from "./ResumeMutiStepForm";
 import { SingleViewResumeTemplate } from "@/routes/dashboard/job/components/resume/components/resume-templates/SingleViewResumeTemplate";
-import { SplitViewResumeTemplate } from "../components/resume-templates/SplitViewResumeTemplate";
+
+
 const ResumeEditor = lazy(() => import('@/routes/dashboard/job/components/resume/components/editor/ResumeEditor'));
 
 interface FinalResumeProps {

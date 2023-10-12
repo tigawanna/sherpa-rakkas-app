@@ -34,7 +34,7 @@ export function ResumeForm({
 
   const update_mutation = useSSM<
     Awaited<ReturnType<typeof resumeApi.updateOne>>,
-    TResumeInputType
+    TResumeInputType&{id:string}
   >((ctx, vars) => {
     return resumeApi.updateOne({ input: vars, user_id: userId! });
   });
@@ -57,7 +57,7 @@ export function ResumeForm({
     if (editing) {
       if (updating) {
         update_mutation
-          .mutateAsync(input)
+          .mutateAsync({...input,id:input.id!})
           .then((res) => {
             handleMutationResponse({
               res,
