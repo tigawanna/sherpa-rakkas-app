@@ -1,4 +1,5 @@
-import { ResumeFields } from "../../ResumeMutiStepForm";
+import { ResumeFields } from "../../steps/ResumeMutiStepForm";
+
 
 
 interface SplitViewResumeTemplateProps {
@@ -7,7 +8,7 @@ interface SplitViewResumeTemplateProps {
 
 export function SplitViewResumeTemplate({resume_fields}:SplitViewResumeTemplateProps){
   function getMonthAndYear(date: Date) {
-    return date.toLocaleDateString();
+    return new Date(date)?.toLocaleDateString();
   }
 return (
     <div className="w-full h-full flex p-5 gap-1">
@@ -106,6 +107,7 @@ return (
         )}
 
         {/* references div */}
+        {resume_fields?.references.length>0&&
         <div className="flex flex-col">
           <h3 className="font-bold">References</h3>
           <ul className="list-disc">
@@ -119,7 +121,25 @@ return (
               );
             })}
           </ul>
-        </div>
+        </div>}
+
+                {/* references div */}
+        {resume_fields?.hackathons.length > 0 &&
+        <div className="flex flex-col">
+          <h3 className="font-bold">Hackathons</h3>
+          <ul className="list-disc">
+            {resume_fields.hackathons.map((hack) => {
+              return (
+                <li key={hack.name} className="">
+                  {/* <h5> {hack.name}</h5>
+                  <h5> {hack.contact}</h5> */}
+                  **{hack.name}** : {hack.description}
+                </li>
+              );
+            })}
+          </ul>
+        </div>}
+
       </div>
     </div>
 );

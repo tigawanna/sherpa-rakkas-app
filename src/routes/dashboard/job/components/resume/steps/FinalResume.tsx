@@ -3,15 +3,10 @@ import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-applic
 import { ClientSuspense } from "rakkasjs";
 import { lazy } from "react";
 import ReactDOMServer from "react-dom/server";
-
-
-
 import { ResumeFields } from "./ResumeMutiStepForm";
-import { ResumeTemplatesTab } from "./compoents/resume-templates/ResumeTemplatesTab";
-import { SingleViewResumeTemplate } from "./compoents/resume-templates/SingleViewResumeTemplate";
-
-
-const ResumeEditor = lazy(() => import('./compoents/editor/ResumeEditor'));
+import { SingleViewResumeTemplate } from "@/routes/dashboard/job/components/resume/components/resume-templates/SingleViewResumeTemplate";
+import { SplitViewResumeTemplate } from "../components/resume-templates/SplitViewResumeTemplate";
+const ResumeEditor = lazy(() => import('@/routes/dashboard/job/components/resume/components/editor/ResumeEditor'));
 
 interface FinalResumeProps {
     user_id: string;
@@ -26,6 +21,7 @@ interface FinalResumeProps {
 
 export function FinalResume({resume_fields,setInput,setResume,application_input}:FinalResumeProps){
 const component_html = ReactDOMServer.renderToString(
+  // <SplitViewResumeTemplate resume_fields={resume_fields} />,
   <SingleViewResumeTemplate resume_fields={resume_fields} />,
 );
 // console.log('input inside finally resume', application_input);

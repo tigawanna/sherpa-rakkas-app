@@ -1,4 +1,5 @@
-import { ResumeFields } from "../../ResumeMutiStepForm";
+import { ResumeFields } from "../../steps/ResumeMutiStepForm";
+
 
 interface SingleViewResumeTemplateProps {
   resume_fields: ResumeFields;
@@ -6,7 +7,7 @@ interface SingleViewResumeTemplateProps {
 
 export function SingleViewResumeTemplate({resume_fields}:SingleViewResumeTemplateProps){
 function getMonthAndYear(date: Date){
-    return new Date(date).toLocaleDateString();
+    return new Date(date)?.toLocaleDateString();
 }
     return (
     <div className="w-full h-full flex items-center justify-center p-5">
@@ -108,7 +109,9 @@ function getMonthAndYear(date: Date){
           </div>
         )}
 
+   
         {/* references div */}
+        {resume_fields?.references.length>0&&
         <div className="flex flex-col">
           <h3 className="font-bold">References</h3>
           <ul className="list-disc">
@@ -122,7 +125,25 @@ function getMonthAndYear(date: Date){
               );
             })}
           </ul>
-        </div>
+        </div>}
+
+                {/* references div */}
+        {resume_fields?.hackathons.length > 0 &&
+        <div className="flex flex-col">
+          <h3 className="font-bold">Hackathons</h3>
+          <ul className="list-disc">
+            {resume_fields.hackathons.map((hack) => {
+              return (
+                <li key={hack.name} className="">
+                  {/* <h5> {hack.name}</h5>
+                  <h5> {hack.contact}</h5> */}
+                  **{hack.name}** : {hack.description}
+                </li>
+              );
+            })}
+          </ul>
+        </div>}
+
       </div>
     </div>
 );
