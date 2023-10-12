@@ -103,7 +103,7 @@ export async function put(ctx: RequestContext) {
 export async function del(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.userId) {
+    if (!body.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -111,7 +111,7 @@ export async function del(ctx: RequestContext) {
         },
       });
     }
-    if (!body.id) {
+    if (!body?.input?.id) {
       return json({
         error: {
           message: 'job apllication id is required',
@@ -121,7 +121,7 @@ export async function del(ctx: RequestContext) {
     }
 
     const res = await educationApi.removeOne({
-      item_id: body?.id,
+      item_id: body?.input?.id,
       user_id: body?.user_id,
     });
     return json(res);

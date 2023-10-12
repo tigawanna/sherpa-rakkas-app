@@ -43,7 +43,7 @@ export async function get(ctx: RequestContext) {
 export async function post(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    const new_job_apllication = HackathonSchema.parse(body);
+    const new_job_apllication = HackathonSchema.parse(body?.input);
     const res = await hackathonApi.addNew({
       input: new_job_apllication,
     });
@@ -65,7 +65,7 @@ export async function post(ctx: RequestContext) {
 export async function put(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.userId) {
+    if (!body.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -73,7 +73,7 @@ export async function put(ctx: RequestContext) {
         },
       });
     }
-    if (!body.id) {
+    if (!body?.input?.id) {
       return json({
         error: {
           message: 'job apllication id is required',
@@ -84,8 +84,8 @@ export async function put(ctx: RequestContext) {
     const new_job_apllication = HackathonSchema.parse(body);
 
     const res = await hackathonApi.updateOne({
-      input: { ...new_job_apllication, id: body?.id },
-      user_id: body?.userId,
+      input: { ...new_job_apllication, id: body?.input?.id },
+      user_id: body?.user_id,
     });
     return json(res, { status: 200 });
   } catch (error: any) {
@@ -106,7 +106,7 @@ export async function put(ctx: RequestContext) {
 export async function del(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.userId) {
+    if (!body?.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -124,7 +124,7 @@ export async function del(ctx: RequestContext) {
     }
 
     const res = await hackathonApi.removeOne({
-      item_id: body?.id,
+      item_id: body?.input?.id,
       user_id: body?.user_id,
     });
     return json(res);

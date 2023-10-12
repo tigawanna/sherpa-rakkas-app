@@ -1,15 +1,15 @@
 import { json } from '@hattip/response';
 import { RequestContext } from 'rakkasjs';
+import { ResumeSchema, resumeApi } from '../helpers/prisma/resume';
 
-import {
-  JobApplicationSchema,
-  jobApplicationApi,
-} from '@/routes/api/helpers/prisma/job-application';
+
 
 export async function get(ctx: RequestContext) {
   try {
     const params = ctx.url.searchParams
-      const user_id = params.get('user_id');
+    // console.log("=======   CTX PARAMS =============\n",params);
+    // console.log("=======   CTX =============\n",ctx);
+    const user_id = params.get('user_id');
     const keyword = params.get('keyword');
     if (!user_id) {
       return json({
@@ -19,9 +19,9 @@ export async function get(ctx: RequestContext) {
         },
       });
     }
-    const res = await jobApplicationApi.findByField({
+    const res = await resumeApi.findByField({
       user_id:user_id,
-      fields: ['job_title', 'description'],
+      fields: ['body'],
       keyword: keyword ?? '',
     });
     return json(res, { status: 200 });
@@ -41,8 +41,9 @@ export async function get(ctx: RequestContext) {
 export async function post(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    const new_job_apllication = JobApplicationSchema.parse(body);
-    const res = await jobApplicationApi.addNew({
+    const new_job_apllication = ResumeSchema.parse(body?.input);
+
+    const res = await resumeApi.addNew({
       input: new_job_apllication,
     });
     return json(res, { status: 200 });
@@ -61,12 +62,9 @@ export async function post(ctx: RequestContext) {
   }
 }
 export async function put(ctx: RequestContext) {
-
   try {
     const body = await ctx.request.json();
-    // console.log("=======   CTX BODY =============\n",body);
-    // console.log("=======   CTX =============\n",ctx);
-    if (!body?.user_id) {
+    if (!body.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -82,9 +80,9 @@ export async function put(ctx: RequestContext) {
         },
       });
     }
-    const new_job_apllication = body?.input
+    const new_job_apllication = ResumeSchema.parse(body?.input);
 
-    const res = await jobApplicationApi.updateOne({
+    const res = await resumeApi.updateOne({
       input: { ...new_job_apllication, id: body?.input?.id },
       user_id: body?.user_id,
     });
@@ -107,7 +105,7 @@ export async function put(ctx: RequestContext) {
 export async function del(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.user_id) {
+    if (!body?.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -124,7 +122,7 @@ export async function del(ctx: RequestContext) {
       });
     }
 
-    const res = await jobApplicationApi.removeOne({
+    const res = await resumeApi.removeOne({
       item_id: body?.input?.id,
       user_id: body?.user_id,
     });

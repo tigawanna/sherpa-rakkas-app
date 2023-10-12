@@ -1,11 +1,17 @@
-import { Plus, X } from "lucide-react";
-import { ResumeFields } from "./ResumeMutiStepForm";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
+import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { THackathonInputType, hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
-import { Link, useSSQ } from "rakkasjs";
-import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { useState } from "react";
+import { Plus, X } from "lucide-react";
+import { Link, useQuery, useSSQ } from "rakkasjs";
+import { Suspense, useState } from "react";
+
+
+
+import { ResumeFields } from "./ResumeMutiStepForm";
+import { useQueryFetcher } from "@/utils/async";
+import { Spinner } from "@/components/navigation/Spinner";
+
 
 interface ResumeHackathonsProps {
   user_id: string;
@@ -24,16 +30,15 @@ export function ResumeHackathons({
   const [keyword, setKeyword] = useState("");
   const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
-  const query = useSSQ(
-    async (ctx) => {
-      return hackathonApi.findByName({
+  const query = useQuery<Awaited<ReturnType<typeof hackathonApi.findByName>>>(
+    'hackathons' + debouncedValue,
+    (ctx) => {
+      return useQueryFetcher(ctx, '/api/hackathon', {
         user_id,
-        item_name: debouncedValue,
+        keyword: debouncedValue,
       });
     },
-    {
-      refetchOnWindowFocus: true,
-    }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 
   if (query.error || (query.data && "error" in query.data)) {
@@ -112,6 +117,7 @@ export function ResumeHackathons({
         </Link>
       </div>
       {/*  hackathons list */}
+       <Suspense fallback={<Spinner   size="100px"/>}>
       <div className="flex w-full flex-wrap items-center justify-center gap-2">
         {thons&&thons.map((item) => {
           return (
@@ -148,13 +154,14 @@ export function ResumeHackathons({
               </div>
 
               <div className=" flex w-[90%] items-center justify-between border-t border-t-accent text-sm">
-                <h3>From : {item.from.toISOString().split("T")[0]}</h3>
-                <h3>To : {item.to.toISOString().split("T")[0]}</h3>
+               <h3>From : {new Date(item.from).toISOString().split("T")[0]}</h3>
+                <h3>To : {new Date(item.to).toISOString().split("T")[0]}</h3>
               </div>
             </div>
           );
         })}
       </div>
+       </Suspense>
     </div>
   );
 }

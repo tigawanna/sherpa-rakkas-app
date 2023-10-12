@@ -41,7 +41,7 @@ export async function get(ctx: RequestContext) {
 export async function post(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    const new_job_apllication = ContentSchema.parse(body);
+    const new_job_apllication = ContentSchema.parse(body?.input);
     const res = await contentApi.addNew({
       input: new_job_apllication,
     });
@@ -63,7 +63,7 @@ export async function post(ctx: RequestContext) {
 export async function put(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.userId) {
+    if (!body.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -71,7 +71,7 @@ export async function put(ctx: RequestContext) {
         },
       });
     }
-    if (!body.id) {
+    if (!body?.input?.id) {
       return json({
         error: {
           message: 'job apllication id is required',
@@ -82,7 +82,7 @@ export async function put(ctx: RequestContext) {
     const new_job_apllication = ContentSchema.parse(body);
 
     const res = await contentApi.updateOne({
-      input: { ...new_job_apllication, id: body?.id },
+      input: { ...new_job_apllication, id: body?.input?.id },
       user_id: body?.userId,
     });
     return json(res, { status: 200 });
@@ -104,7 +104,7 @@ export async function put(ctx: RequestContext) {
 export async function del(ctx: RequestContext) {
   try {
     const body = await ctx.request.json();
-    if (!body.userId) {
+    if (!body.user_id) {
       return json({
         error: {
           message: 'user id is required',
@@ -112,7 +112,7 @@ export async function del(ctx: RequestContext) {
         },
       });
     }
-    if (!body.id) {
+    if (!body?.input?.idd) {
       return json({
         error: {
           message: 'job apllication id is required',
@@ -122,7 +122,7 @@ export async function del(ctx: RequestContext) {
     }
 
     const res = await contentApi.removeOne({
-      item_id: body?.id,
+      item_id: body?.iinput?.id,
       user_id: body?.user_id,
     });
     return json(res);

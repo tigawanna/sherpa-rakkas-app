@@ -40,7 +40,7 @@ return (
        /> <br />
     </ClientSuspense>
     {/* <ResumePartsContainer resume_fields={resume_fields} /> */}
-    <ResumeTemplatesTab resume_fields={resume_fields}/>
+    {/* <ResumeTemplatesTab resume_fields={resume_fields}/> */}
 
  </div>
 );

@@ -1,12 +1,17 @@
-import { Plus, X } from "lucide-react";
-import { ResumeFields } from "./ResumeMutiStepForm";
-import { Link, useSSQ } from "rakkasjs";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
-import { TExperienceInputType, experienceApi } from "@/routes/api/helpers/prisma/experience";
-import { useDebouncedValue } from "@/utils/hooks/debounce";
-import { Suspense, useState } from "react";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { Spinner } from "@/components/navigation/Spinner";
+import { TExperienceInputType, experienceApi } from "@/routes/api/helpers/prisma/experience";
+import { useDebouncedValue } from "@/utils/hooks/debounce";
+import { Plus, X } from "lucide-react";
+import { Link, useQuery, useSSQ } from "rakkasjs";
+import { Suspense, useState } from "react";
+
+
+
+import { ResumeFields } from "./ResumeMutiStepForm";
+import { useQueryFetcher } from "@/utils/async";
+
 
 interface ResumeExperienceProps {
   user_id: string;
@@ -20,19 +25,16 @@ export function ResumeExperience({user_id,input,setInput}:ResumeExperienceProps)
 
  const [keyword, setKeyword] = useState("");
  const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
-
- const query = useSSQ(
-   async (ctx) => {
-     return experienceApi.findByField({
-       user_id: user_id!,
-       fields: ["company", "description"],
+ 
+ const query = useQuery<Awaited<ReturnType<typeof experienceApi.findByName>>>(
+   'experience' + debouncedValue,
+   (ctx) => {
+     return useQueryFetcher(ctx, '/api/experience', {
+       user_id,
        keyword: debouncedValue,
      });
    },
-   {
-     refetchOnWindowFocus: true,
-     refetchOnMount: true,
-   }
+   { refetchOnWindowFocus: true, refetchOnMount: true },
  );
 
  if (query.error || (query.data && "error" in query.data)) {
@@ -134,8 +136,8 @@ return (
             <h3 className="text-lg">{item?.position}</h3>
             <p className="line-clamp-3">{item?.description}</p>
             <div className=" flex items-center justify-between text-sm">
-              <h3>From : {item.from.toISOString().split("T")[0]}</h3>
-              <h3>To : {item.to.toISOString().split("T")[0]}</h3>
+                     <h3>From : {new Date(item.from).toISOString().split("T")[0]}</h3>
+                <h3>To : {new Date(item.to).toISOString().split("T")[0]}</h3>
             </div>
           </div>
         );

@@ -3,12 +3,14 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TProjectInputType, projectApi } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { Plus, X } from "lucide-react";
-import { Link, useSSQ } from "rakkasjs";
-import { useState } from "react";
+import { Link, useQuery, useSSQ } from "rakkasjs";
+import { Suspense, useState } from "react";
 
 
 
 import { ResumeFields } from "./ResumeMutiStepForm";
+import { useQueryFetcher } from "@/utils/async";
+import { Spinner } from "@/components/navigation/Spinner";
 
 
 interface ResumeProjectsProps {
@@ -20,19 +22,13 @@ interface ResumeProjectsProps {
   ) => void;
 }
 export function ResumeProjects({user_id,input,setInput}:ResumeProjectsProps){
-
-
-
   const [keyword, setKeyword] = useState("");
   const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
-  const query = useSSQ(
+  const query = useQuery<Awaited<ReturnType<typeof projectApi.findByName>>>("projects"+debouncedValue,
     (ctx) => {
-      return projectApi.findByName({
-        user_id: user_id!,
-        item_name: debouncedValue,
-      });
-    },
+     return useQueryFetcher(ctx,"/api/project", {user_id,keyword:debouncedValue});
+   },
     { refetchOnWindowFocus: true, refetchOnMount: true }
   );
 
@@ -116,6 +112,7 @@ return (
         <div className="rounded-lg border p-2 text-info">no matches found</div>
       </div>
     )}
+    <Suspense fallback={<Spinner   size="100px"/>}>
     <div className="flex w-full flex-wrap items-center justify-center gap-2">
       {projects &&
         projects.map((item) => {
@@ -148,6 +145,7 @@ return (
           );
         })}
     </div>
+    </Suspense>
   </div>
 );
 }

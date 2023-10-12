@@ -2,9 +2,10 @@ import { useFormHook } from '@/components/form/useForm';
 import { Button } from '@/components/shadcn/ui/button';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { TResumeInputType, resumeApi } from '@/routes/api/helpers/prisma/resume';
+import { useMutationFetcher } from '@/utils/async';
 import Cherry from 'cherry-markdown/dist/cherry-markdown.core';
 import { Printer, Save } from 'lucide-react';
-import { useQueryClient, useSSM } from 'rakkasjs';
+import { useMutation, usePageContext, useQueryClient, useSSM } from 'rakkasjs';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
@@ -19,28 +20,35 @@ interface ResumeEditorProps {
 
 export default function ResumeEditor({ html_string,setResume,default_value,application_input,updating=false }: ResumeEditorProps) {
   const cherry = useRef<Cherry | null>(null);
-  const qc = useQueryClient();
+  const page_ctx= usePageContext()
+  const qc = page_ctx.queryClient
   const { userId } = qc.getQueryData('user') as LuciaUser;
 
-  const create_mutation = useSSM<
+  const create_mutation = useMutation<
     Awaited<ReturnType<typeof resumeApi.addNew>>,
     TResumeInputType
-  >((ctx, vars) => {
-    return resumeApi.addNew({ input: vars });
+  >((vars) => {
+    // return resumeApi.addNew({ input: vars });
+      return useMutationFetcher(page_ctx,'/api/resume', { input: vars, user_id: userId! },"POST");
   });
 
-  const update_mutation = useSSM<
+  const update_mutation = useMutation<
     Awaited<ReturnType<typeof resumeApi.updateOne>>,
     TResumeInputType&{id:string}
-  >((ctx, vars) => {
-    return resumeApi.updateOne({ input: vars, user_id: userId! });
+  >((vars) => {
+    // resumeApi.updateOne({ input: vars, user_id: userId! });
+    return useMutationFetcher(page_ctx,'/api/resume', { input: vars, user_id: userId! },"PUT");
+
   });
-  const update_job_application_mutation = useSSM<
+  
+  const update_job_application_mutation = useMutation<
     Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
     Partial<TJobApplicationInputType> & { id: string }
-  >((ctx, vars) => {
-    return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
+  >((vars) => {
+    // return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
+        return useMutationFetcher(page_ctx,'/api/job', { input: vars, user_id: userId! },"PUT");
   });
+
 
   const { handleChange, input, setError, setInput, validateInputs } =
     useFormHook<TResumeInputType>({

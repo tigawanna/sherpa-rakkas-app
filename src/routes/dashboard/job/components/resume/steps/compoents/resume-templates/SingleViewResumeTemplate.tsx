@@ -6,7 +6,7 @@ interface SingleViewResumeTemplateProps {
 
 export function SingleViewResumeTemplate({resume_fields}:SingleViewResumeTemplateProps){
 function getMonthAndYear(date: Date){
-    return date.toLocaleDateString();
+    return new Date(date).toLocaleDateString();
 }
     return (
     <div className="w-full h-full flex items-center justify-center p-5">

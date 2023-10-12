@@ -1,13 +1,18 @@
-import { Plus, X } from "lucide-react";
-import { ResumeFields } from "./ResumeMutiStepForm";
-import { Education } from "@prisma/client";
-import { Link, useSSQ } from "rakkasjs";
-import { TEducationInputType, educationApi } from "@/routes/api/helpers/prisma/education";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { Spinner } from "@/components/navigation/Spinner";
+import { TEducationInputType, educationApi } from "@/routes/api/helpers/prisma/education";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
-import { useState, Suspense } from "react";
+import { Education } from "@prisma/client";
+import { Plus, X } from "lucide-react";
+import { Link, useQuery, useSSQ } from "rakkasjs";
+import { Suspense, useState } from "react";
+
+
+
+import { ResumeFields } from "./ResumeMutiStepForm";
+import { useQueryFetcher } from "@/utils/async";
+
 
 interface ResumeEducationProps {
   user_id: string;
@@ -22,18 +27,15 @@ export function ResumeEducation({user_id,input,setInput}:ResumeEducationProps){
 const [keyword, setKeyword] = useState("");
 const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
-const query = useSSQ(
-  async (ctx) => {
-    return educationApi.findByField({
-      user_id: user_id!,
-      fields: ["field", "school"],
+const query = useQuery<Awaited<ReturnType<typeof educationApi.findByName>>>(
+  'education' + debouncedValue,
+  (ctx) => {
+    return useQueryFetcher(ctx, '/api/education', {
+      user_id,
       keyword: debouncedValue,
     });
   },
-  {
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
-  }
+  { refetchOnWindowFocus: true, refetchOnMount: true },
 );
 
 if (query.error || (query.data && "error" in query.data)) {
@@ -132,9 +134,13 @@ return (
               <h3 className="text-2xl font-bold">{item.school}</h3>
               <h3 className="text-lg">{item.field}</h3>
               <h3 className="">{item.qualification}</h3>
-              <div className=" flex items-center justify-between text-sm">
+              {/* <div className=" flex items-center justify-between text-sm">
                 <h3>From : {item.from.toISOString().split("T")[0]}</h3>
                 <h3>To : {item.to.toISOString().split("T")[0]}</h3>
+              </div> */}
+              <div className=" flex items-center justify-between text-sm">
+                <h3>From : {new Date(item.from).toISOString().split("T")[0]}</h3>
+                <h3>To : {new Date(item.to).toISOString().split("T")[0]}</h3>
               </div>
             </div>
           );
