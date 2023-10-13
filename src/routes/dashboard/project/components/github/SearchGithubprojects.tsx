@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GithubGeneratedProjectForm } from "./GithubGeneratedProject";
-import { TProjectInputType, projectApi } from "@/routes/api/helpers/prisma/projects";
+import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useQuery, useSSM } from "rakkasjs";

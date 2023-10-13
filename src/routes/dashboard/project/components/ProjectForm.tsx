@@ -32,7 +32,7 @@ const create_mutation = useSSM<
   return await projectApi.addNew({input:vars});
 });
 const update_mutation = useSSM<
-Awaited<ReturnType<typeof projectApi.updateOne>>,TProjectInputType>(async(ctx,vars)=>{
+Awaited<ReturnType<typeof projectApi.updateOne>>,TProjectInputType&{id:string}>(async(ctx,vars)=>{
   return await projectApi.updateOne({input:vars,user_id:user.userId!});
 
 })
@@ -65,7 +65,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
   if (editing) {
     if (updating) {
       update_mutation
-        .mutateAsync(input)
+        .mutateAsync({...input,id:project?.id!})
         .then((res) =>{ 
           handleMutationResponse({
             res,

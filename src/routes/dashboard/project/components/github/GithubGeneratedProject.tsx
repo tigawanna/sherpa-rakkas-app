@@ -1,7 +1,7 @@
 import { Check, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { TProjectInputType, addNewProject } from "@/routes/api/helpers/prisma/projects";
+import { TProjectInputType, projectApi} from "@/routes/api/helpers/prisma/projects";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheListInput } from "@/components/form/inputs/ListInput";
@@ -31,9 +31,9 @@ export function GithubGeneratedProjectForm({
   const page_ctx = usePageContext();
   const qc = page_ctx.queryClient;
 
-  const create_mutation = useSSM<void,TProjectInputType>(async(ctx,vars)=>{
-    await addNewProject(vars)
-    qc.invalidateQueries("projects");
+  const create_mutation = useSSM<
+  Awaited<ReturnType<typeof projectApi.addNew>>,TProjectInputType>(async(ctx,vars)=>{
+    return await projectApi.addNew({input:vars});
   })
 
   function handleCreateproject() {
@@ -45,6 +45,7 @@ export function GithubGeneratedProjectForm({
           toast(error.message, { type: "error", autoClose: false })
         );
     }
+    qc.invalidateQueries("projects");
     setProject((prev) => {
       return generatedProject;
     });
