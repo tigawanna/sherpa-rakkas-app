@@ -20,6 +20,7 @@ import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-applic
 interface MultiStepResumeFormProps {
     setResume(values: string): void;
     application_input: TJobApplicationInputType;
+    
 }
 
 export interface ResumeFields {

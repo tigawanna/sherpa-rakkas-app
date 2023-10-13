@@ -1,8 +1,9 @@
 import { Button } from '@/components/shadcn/ui/button';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { useMutationFetcher } from '@/utils/async';
+import { copytoClipBoard } from '@/utils/helpers/copy-to-clipboard';
 import Cherry from 'cherry-markdown';
-import { Printer, Save } from 'lucide-react';
+import { Copy, Printer, Save } from 'lucide-react';
 import { useMutation, usePageContext } from 'rakkasjs';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -58,7 +59,7 @@ setCoverLetter,
   }, [cherry.current, application_input?.cover_letter]);
 
   function exportMarkdown() {
-    cherry.current?.export('pdf', 'resume.md');
+    cherry.current?.export('pdf', 'cover-letter.md');
   }
 
   function setMarkdownToResume() {
@@ -109,6 +110,20 @@ setCoverLetter,
           <Save className="w-6 h-6" />
           save
         </Button>
+
+            <Button className="btn btn-outline btn-sm" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+                const markdown = cherry.current?.getMarkdown();
+                if(markdown){
+                  copytoClipBoard(markdown);
+                }}
+              }>
+              <Copy className="w-6 h-6" />
+              copy
+            </Button>
       </div>
       {/* <APIs cherry={cherry} /> */}
 

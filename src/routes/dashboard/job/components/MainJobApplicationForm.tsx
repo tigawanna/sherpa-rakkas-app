@@ -1,5 +1,7 @@
 import { useFormHook } from '@/components/form/useForm';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
+import { resumeApi } from '@/routes/api/helpers/prisma/resume';
+import { narrowOutError } from '@/utils/async';
 import { useMultiStepForm } from '@/utils/hooks/useMultiStepForm';
 import { useQueryClient, useSSM, useSSQ } from 'rakkasjs';
 
@@ -8,10 +10,8 @@ import { useQueryClient, useSSM, useSSQ } from 'rakkasjs';
 import { JobBasicInfoForm } from './JobBasicInfoForm';
 import { CoverLetterForm } from './cover-letter/CoverLetterForm';
 import { handleJobApplicationSubmit } from './helpers/submit';
-import { ResumeMultiStepForm } from './resume/steps/ResumeMutiStepForm';
-import { resumeApi } from '@/routes/api/helpers/prisma/resume';
-import { narrowOutError } from '@/utils/async';
 import { ResumeForm } from './resume/ResumeForm';
+import { ResumeMultiStepForm } from './resume/steps/ResumeMutiStepForm';
 
 
 interface MainJobApplicationFormProps {
@@ -91,55 +91,74 @@ export function MainJobApplicationForm({
     const resume_input = narrowOutError(query.data);
 
       const {
-          steps,
-          currentStepIndex,
-          step,
-          isFirstStep,
-          isLastStep,
-          back,
-          next,
-          goTo,
+        steps,
+        currentStepIndex,
+        step,
+        isFirstStep,
+        isLastStep,
+        back,
+        next,
+        goTo,
       } = useMultiStepForm([
-          {
-              title: 'Job Basic Info',
-              component: (
-                  <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%] border rounded-md shadow shadow-accent">
-                  <JobBasicInfoForm
-                      editing={editing}
-                      input={input}
-                      updating={updating}
-                      isLoading={
-                          create_mutation.isLoading || update_mutation.isLoading
-                      }
-                      setInput={setInput}
-                      handleSubmit={(e) =>
-                          handleJobApplicationSubmit({
-                              create_mutation,
-                              update_mutation,
-                              editing,
-                              input,
-                              updating,
-                          })
-                      }
-                      handleChange={handleChange}
-                  />
-                </div>
-              ),
-          },
-          {
-              title: 'Resume',
-              component: <>
-                {resume_input ?
-                <ResumeForm resume_input={resume_input} application_input={input} setResume={setResume} />:
-              <ResumeMultiStepForm setResume={setResume} application_input={input}/>}
-              </>
-          },
-          {
-            title:"Cover Letter",
-            component:<>
-            <CoverLetterForm application_input={input} setCoverLetter={setCoverLetter} />
+        {
+          title: 'Job Basic Info',
+          component: (
+            <div className="flex w-[95%] flex-col gap-3 p-1 md:w-[80%] md:p-5 lg:w-[60%] border rounded-md shadow shadow-accent">
+              <JobBasicInfoForm
+                editing={editing}
+                input={input}
+                updating={updating}
+                isLoading={
+                  create_mutation.isLoading || update_mutation.isLoading
+                }
+                setInput={setInput}
+                handleSubmit={(e) =>
+                  handleJobApplicationSubmit({
+                    create_mutation,
+                    update_mutation,
+                    editing,
+                    input,
+                    updating,
+                  })
+                }
+                handleChange={handleChange}
+              />
+            </div>
+          ),
+        },
+        {
+          title: 'Resume',
+          component: (
+            <>
+              {resume_input ? (
+                <ResumeForm
+                  resume_input={resume_input}
+                  application_input={input}
+                  setResume={setResume}
+                  updating={updating}
+                />
+              ) : (
+                <ResumeMultiStepForm
+                  setResume={setResume}
+                  application_input={input}
+                 
+                />
+              )}
             </>
-          }
+          ),
+        },
+        {
+          title: 'Cover Letter',
+          component: (
+            <>
+              <CoverLetterForm
+                application_input={input}
+                setCoverLetter={setCoverLetter}
+                updating={updating}
+              />
+            </>
+          ),
+        },
       ]);
 
 
