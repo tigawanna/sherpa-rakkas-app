@@ -1,4 +1,4 @@
-import { ResumeFields } from "../../steps/ResumeMutiStepForm";
+import { ResumeFields } from "../steps/ResumeMutiStepForm";
 
 
 interface SingleViewResumeTemplateProps {

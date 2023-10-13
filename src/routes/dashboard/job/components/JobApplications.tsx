@@ -88,7 +88,7 @@ return (
       {data &&
         data.map((item) => {
           if(item.id){
-            return <JobApplicationCard item={{...item,id:item.id}} refetch={refetch}/>;
+            return <JobApplicationCard key={item.id} item={{...item,id:item.id}} refetch={refetch}/>;
             }
         })}
     </div>

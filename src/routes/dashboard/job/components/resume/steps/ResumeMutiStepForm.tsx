@@ -1,6 +1,6 @@
 import { useFormHook } from "@/components/form/useForm";
 import { useMultiStepForm } from "@/utils/hooks/useMultiStepForm";
-import { useQueryClient } from "rakkasjs";
+import { usePageContext, useQuery, useQueryClient, useSSQ } from "rakkasjs";
 
 
 
@@ -13,6 +13,7 @@ import { ResumeProjects } from "./ResumeProjects";
 import { ResumeReference } from "./ResumeReference";
 import { ResumeTechnologies } from "./ResumeTechnologies";
 import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+
 
 
 
@@ -77,9 +78,13 @@ export interface ResumeFields {
 
 
 export function ResumeMultiStepForm({setResume,application_input}: MultiStepResumeFormProps) {
-const qc = useQueryClient()
+const page_ctx = usePageContext()  
+const qc = page_ctx.queryClient
 const {userId} = qc.getQueryData("user") as LuciaUser
 const user_id=userId??""
+
+
+
 
 
 const { handleChange, input, setError, setInput, validateInputs } =
@@ -198,16 +203,26 @@ const { handleChange, input, setError, setInput, validateInputs } =
       title: "Finally",
       component: (
         <FinalResume
-          user_id={user_id}
           resume_fields={input}
           application_input={application_input}
-          setInput={setInput}
           setResume={setResume}
         />
       ),
     },
     // <StepTwo<typeof input> input={input} setInput={setInput} />,
   ]);
+
+
+//   useEffect(() => {
+//  if(!query.data) return
+//  if(query?.data && !("error" in query.data)){
+//    const resume = query?.data
+//     application_input.resume=resume.body 
+//   }
+ 
+
+//   }, [query.data]);
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();

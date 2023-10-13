@@ -12,12 +12,14 @@ import { toast } from 'react-toastify';
 interface ResumeEditorProps {
   html_string?: string;
   setResume: (resume: string) => void;
-  default_value?: TResumeInputType;
+  resume_input?: TResumeInputType;
   application_input: TJobApplicationInputType;
   updating?: boolean;
 }
 
-export default function ResumeEditor({ html_string,setResume,default_value,application_input,updating=false }: ResumeEditorProps) {
+export default function ResumeEditor({
+   html_string,setResume,resume_input,application_input,updating=false
+  }: ResumeEditorProps) {
   const cherry = useRef<Cherry | null>(null);
   const page_ctx= usePageContext()
   const qc = page_ctx.queryClient
@@ -77,7 +79,7 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
       cherry.current&&setResume(markdown);
       if(updating){
         update_mutation.mutateAsync({
-          id:default_value?.id!,
+          id:resume_input?.id!,
           body: markdown,
           userId: userId!,
           jobAplicationId: application_input.id,
@@ -94,14 +96,15 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
             id:application_input?.id??"",
             resume:res.body,
             resumeId: res?.id,
-           }).then((res)=>{
+           })
+           .then((res)=>{
             if(res&&"error" in res){
               toast(`Adding Resume to Job application failed`, { type: 'error' });
               return
             }
              toast(`Resume added to Job application ${res.id} successfully`, { type: 'success' });
            })
-            }
+          }
       
    
           }
@@ -110,17 +113,14 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
         }
       }).catch((error)=>{
         toast(`Creating Resume  failed`, { type: 'error' });
-      })
-
-
-
-    }
+      })}
 
     return (
-        <div className="flex flex-col h-full w-full items-center justify-center">
-          <div className='flex w-full gap-2 sticky top-10 z-50 p-1'>
+        <div className="flex min-h-[200px] flex-col h-full w-full items-center justify-center gap-1">
+          <div className='flex w-full gap-5 sticky top-10 z-50 p-1'>
             <Button className="btn btn-outline btn-sm" 
               type='button'
+              size={'sm'}
             onClick={(e) =>{
               e.stopPropagation();
               exportMarkdown()}}>
@@ -128,6 +128,7 @@ export default function ResumeEditor({ html_string,setResume,default_value,appli
               print
             </Button>
             <Button className="btn btn-outline btn-sm" 
+                size={'sm'}
             type='button'
             onClick={(e) =>{
               e.stopPropagation();

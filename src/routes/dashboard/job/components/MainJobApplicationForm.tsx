@@ -1,22 +1,27 @@
 import { useFormHook } from '@/components/form/useForm';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { useMultiStepForm } from '@/utils/hooks/useMultiStepForm';
-import { useQueryClient, useSSM } from 'rakkasjs';
+import { useQueryClient, useSSM, useSSQ } from 'rakkasjs';
+
+
+
 import { JobBasicInfoForm } from './JobBasicInfoForm';
+import { CoverLetterForm } from './cover-letter/CoverLetterForm';
 import { handleJobApplicationSubmit } from './helpers/submit';
 import { ResumeMultiStepForm } from './resume/steps/ResumeMutiStepForm';
+import { resumeApi } from '@/routes/api/helpers/prisma/resume';
+import { narrowOutError } from '@/utils/async';
+import { ResumeForm } from './resume/ResumeForm';
 
 
 interface MainJobApplicationFormProps {
     default_value?: TJobApplicationInputType;
     updating?: boolean;
-    refetch?: () => void;
     editing?: boolean;
 }
 
 export function MainJobApplicationForm({
     default_value,
-    refetch,
     editing = true,
     updating = false,
 }: MainJobApplicationFormProps) {
@@ -31,11 +36,25 @@ export function MainJobApplicationForm({
     });
 
     const update_mutation = useSSM<
-        Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
-        TJobApplicationInputType&{id:string}
+      Awaited<ReturnType<typeof jobApplicationApi.updateOne>>,
+      TJobApplicationInputType & { id: string }
     >((ctx, vars) => {
-        return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
+      return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
     });
+
+    const query = useSSQ(
+      (ctx) => {
+        return resumeApi.getOne({
+          user_id: userId!,
+          item_id: default_value?.resumeId!,
+        });
+      },
+      {
+        enabled: !!default_value?.resumeId && !!userId,
+      },
+    );
+
+ 
 
     const { handleChange, input, setError, setInput, validateInputs } =
         useFormHook<TJobApplicationInputType>({
@@ -60,6 +79,16 @@ export function MainJobApplicationForm({
             };
         });
     }
+    function setCoverLetter(letter: string) {
+        setInput((prev) => {
+            return {
+                ...prev,
+                cover_letter:letter,
+            };
+        });
+    }
+
+    const resume_input = narrowOutError(query.data);
 
       const {
           steps,
@@ -99,16 +128,25 @@ export function MainJobApplicationForm({
           },
           {
               title: 'Resume',
-              component: <ResumeMultiStepForm setResume={setResume} application_input={input}/>,
+              component: <>
+                {resume_input ?
+                <ResumeForm resume_input={resume_input} application_input={input} setResume={setResume} />:
+              <ResumeMultiStepForm setResume={setResume} application_input={input}/>}
+              </>
           },
+          {
+            title:"Cover Letter",
+            component:<>
+            <CoverLetterForm application_input={input} setCoverLetter={setCoverLetter} />
+            </>
+          }
       ]);
 
 
 
     return (
-        <div className="w-full h-full flex items-center justify-center gap-3 p-3">
-
-      <div className='card card-bordered w-full p-5  min-h-[70vh] flex flex-col gap-3 items-stretch justify-between '>
+      <div className="w-full h-full flex items-center justify-center gap-3 p-3">
+    <div className='card card-bordered w-full p-5  min-h-[70vh] flex flex-col gap-3 items-stretch justify-between '>
         {/* multistep tabs */}
         <div className="flex w-full flex-wrap items-center gap-3 ">
         {steps.map((item, index) => {

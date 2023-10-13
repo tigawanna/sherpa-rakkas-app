@@ -1,96 +1,54 @@
-import { useFormHook } from "@/components/form/useForm";
-import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
+import { Spinner } from '@/components/navigation/Spinner';
+import {
+  TJobApplicationInputType,
+  jobApplicationApi,
+} from '@/routes/api/helpers/prisma/job-application';
 import {
   TResumeInputType,
   resumeApi,
-} from "@/routes/api/helpers/prisma/resume";
-import { handleMutationResponse } from "@/utils/async";
-import { useQueryClient, useSSM } from "rakkasjs";
-import { useState } from "react";
-import { toast } from "react-toastify";
+} from '@/routes/api/helpers/prisma/resume';
+import { narrowOutError } from '@/utils/async';
+import { ClientSuspense, useSSQ } from 'rakkasjs';
+import { lazy, useEffect, useState } from 'react';
+import ReactDOMServer from 'react-dom/server';
 
+import { SingleViewResumeTemplate } from './resume-templates/SingleViewResumeTemplate';
+import { ResumeFields } from './steps/ResumeMutiStepForm';
+
+const ResumeEditor = lazy(
+  () => import('@/routes/dashboard/job/components/resume/ResumeEditor'),
+);
 interface ResumeFormProps {
-  job: TJobApplicationInputType;
-  default_value?: TResumeInputType;
+  resume_fields?: ResumeFields;
+  resume_input?: TResumeInputType;
+  application_input: TJobApplicationInputType;
   updating?: boolean;
-  refetch?: () => void;
+  setResume: (resume: string) => void;
 }
 
 export function ResumeForm({
-  default_value,
-  job,
-  updating,
-  refetch,
+  resume_fields,
+  resume_input,
+  application_input,
+  setResume,
+  updating = false,
 }: ResumeFormProps) {
-  const qc = useQueryClient();
-  const { userId } = qc.getQueryData("user") as LuciaUser;
-
-  const create_mutation = useSSM<
-    Awaited<ReturnType<typeof resumeApi.addNew>>,
-    TResumeInputType
-  >((ctx, vars) => {
-    return resumeApi.addNew({ input: vars });
-  });
-
-  const update_mutation = useSSM<
-    Awaited<ReturnType<typeof resumeApi.updateOne>>,
-    TResumeInputType&{id:string}
-  >((ctx, vars) => {
-    return resumeApi.updateOne({ input: vars, user_id: userId! });
-  });
-
-  const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<TResumeInputType>({
-      initialValues: {
-        id: default_value?.id,
-        userId: default_value?.userId ?? userId!,
-        body: default_value?.body ?? "",
-        jobAplicationId: default_value?.id ?? (job.id as string),
-      },
-    });
-
-  const [editing, setEditing] = useState(!updating);
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (editing) {
-      if (updating) {
-        update_mutation
-          .mutateAsync({...input,id:input.id!})
-          .then((res) => {
-            handleMutationResponse({
-              res,
-              successMessage(res) {
-                return "Resume entry updated successfully";
-              },
-            });
-            refetch?.();
-          })
-          .catch((error) =>
-            toast(error.message, { type: "error", autoClose: false })
-          );
-      } else {
-        create_mutation
-          .mutateAsync(input)
-          .then((res) => {
-            handleMutationResponse({
-              res,
-              successMessage(res) {
-                return "Resume entry updated successfully";
-              },
-            });
-          })
-          .catch((error) =>
-            toast(error.message, { type: "error", autoClose: false })
-          );
-      }
-    }
-  }
+  const component_html =resume_fields? ReactDOMServer.renderToString(
+    // <SplitViewResumeTemplate resume_fields={resume_fields} />,
+    <SingleViewResumeTemplate resume_fields={resume_fields} />,
+  ):""
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-5">
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2"></div>
+      <ClientSuspense fallback={<Spinner size="100px" />}>
+        <ResumeEditor
+          html_string={resume_input?.body ?? component_html}
+          setResume={setResume}
+          application_input={application_input}
+          updating={updating}
+          resume_input={resume_input}
+        />
+      </ClientSuspense>
     </div>
   );
 }

@@ -82,3 +82,20 @@ export async function useMutationFetcher(ctx:PageContext,pathname:string,body:Re
     }
   }
 }
+
+export interface ErrorNotData {
+  error: {
+    message: any;
+    original_error: any;
+  }
+}
+
+export type DataOrError<T> = T | ErrorNotData
+
+export function narrowOutError<T = unknown>(data?:DataOrError<T>) {
+  // @ts-expect-error
+  if (data && !('error' in data)) {
+    return data;
+  }
+
+}
