@@ -1,4 +1,3 @@
-import { FormHeader } from "@/components/form/inputs/FormHeader";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TJobApplicationInputType, jobApplicationApi } from "@/routes/api/helpers/prisma/job-application";

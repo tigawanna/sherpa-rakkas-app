@@ -36,7 +36,7 @@ export function HackathonForm({
 
   const update_mutation = useSSM<
     Awaited<ReturnType<typeof hackathonApi.updateOne>>,
-    THackathonInputType
+    THackathonInputType&{id:string}
   >((ctx, vars) => {
     return hackathonApi.updateOne({ input: vars, user_id: user.userId! });
   });
@@ -62,7 +62,7 @@ export function HackathonForm({
     if (editing) {
       if (updating) {
         update_mutation
-          .mutateAsync(input)
+          .mutateAsync({ ...input, id: input.id! })
           .then((res) => {
             handleMutationResponse({
               res,

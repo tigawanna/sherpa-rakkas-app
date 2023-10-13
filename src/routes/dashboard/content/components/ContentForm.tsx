@@ -38,7 +38,7 @@ export function ContentForm({
 
     const update_mutation = useSSM<
       Awaited<ReturnType<typeof contentApi.updateOne>>,
-      TContentInputType
+      TContentInputType&{id:string}
     >((ctx, vars) => {
       return contentApi.updateOne({ input: vars, user_id: userId! });
     });
@@ -62,7 +62,7 @@ export function ContentForm({
     if (editing) {
       if (updating) {
         update_mutation
-          .mutateAsync(input)
+          .mutateAsync({...input,id:input.id!})
           .then((res) => {
                  handleMutationResponse({
                    res,

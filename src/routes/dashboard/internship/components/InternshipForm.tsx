@@ -32,7 +32,7 @@ export function InternshipForm({ default_value, updating,refetch }: InternshipFo
 
     const update_mutation = useSSM<
       Awaited<ReturnType<typeof internshipApi.updateOne>>,
-      TInternshipInputType
+      TInternshipInputType&{id:string}
     >((ctx, vars) => {
       return internshipApi.updateOne({ input: vars, user_id: userId! });
     });
@@ -59,7 +59,7 @@ export function InternshipForm({ default_value, updating,refetch }: InternshipFo
     if (editing) {
       if (updating) {
       update_mutation
-          .mutateAsync(input)
+          .mutateAsync({...input,id:input.id!})
           .then((res) => {
                    handleMutationResponse({
                      res,

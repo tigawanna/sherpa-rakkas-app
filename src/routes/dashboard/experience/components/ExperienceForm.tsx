@@ -35,7 +35,7 @@ export function ExperienceForm({
 
   const update_mutation = useSSM<
     Awaited<ReturnType<typeof experienceApi.updateOne>>,
-    TExperienceInputType
+    TExperienceInputType&{id:string}
   >((ctx, vars) => {
     return experienceApi.updateOne({ input: vars, user_id:userId! });
   });
@@ -61,7 +61,7 @@ export function ExperienceForm({
     if (editing) {
       if (updating) {
         update_mutation
-          .mutateAsync(input)
+          .mutateAsync({...input,id:input.id!})
           .then((res) => {
                handleMutationResponse({
                  res,

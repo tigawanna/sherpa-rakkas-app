@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/ui/tabs";
-import { ResumeFields } from "../../ResumeMutiStepForm";
 import { SingleViewResumeTemplate } from "./SingleViewResumeTemplate";
 import { SplitViewResumeTemplate } from "./SplitViewResumeTemplate";
+import { ResumeFields } from "../../steps/ResumeMutiStepForm";
 
 
 interface ResumeTemplatesTabProps {
