@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import{ PrismaClient, type Prisma } from "@prisma/client";
+import async from "react-select/dist/declarations/src/async/index";
 
 const model_keys = [
   "education",
@@ -51,6 +52,24 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
         })) as T;
       } catch (error: any) {
         console.log("error getting one \n VARS ===== ", { item_id, user_id });
+        console.log("===== ERROR mESSAGE======", error.message);
+        console.log("==== FULL ERROR ======", error);
+        return {
+          error: {
+            message: error.message,
+            original_error: error,
+          },
+        };
+      }
+    },
+    getCount: async({user_id}:{user_id:string})=>{
+      try {
+        // @ts-expect-error
+        return (await prisma_model.count({
+          where: {userId: user_id },
+        })) as number
+      } catch (error: any) {
+        console.log("error counting records \n VARS ===== ", {user_id });
         console.log("===== ERROR mESSAGE======", error.message);
         console.log("==== FULL ERROR ======", error);
         return {
