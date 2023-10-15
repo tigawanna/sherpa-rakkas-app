@@ -1,18 +1,18 @@
 import { Toolbar } from "@/components/navigation/Toolbar";
 import { Nprogress } from "@/components/navigation/nprogress/Nprogress";
 import "cherry-markdown/dist/cherry-markdown.css";
-import { LayoutProps, useLocation } from "rakkasjs";
+import { Head, LayoutProps, useLocation } from "rakkasjs";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
 import './index.css';
 
 
-export default function Layout({ children }: LayoutProps) {
+ function Layout({ children }: LayoutProps) {
   const location = useLocation();
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center ">
-      <Nprogress isAnimating={location && location?.pending ? true : false} />
+
+    <Nprogress isAnimating={location && location?.pending ? true : false} />
       <Toolbar />
       {children}
       <ToastContainer
@@ -30,3 +30,17 @@ export default function Layout({ children }: LayoutProps) {
     </div>
   );
 }
+// Layout.preload = () => {
+//   return {
+//     head: (
+//       <Head title="Rakkas bio"/>
+
+
+
+
+//     ),
+
+//   };
+// };
+
+export default Layout;
