@@ -2,11 +2,13 @@ import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { internshipApi } from "@/routes/api/helpers/prisma/internship";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
-import {  Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Link, useQueryClient, useSSQ } from "rakkasjs";
 import { useState } from "react";
-import { InternshipCard } from "./InternshipCard";
 
+
+
+import { InternshipCard } from "./InternshipCard";
 
 
 interface InternshipsProps {
@@ -25,12 +27,13 @@ export function Internships({}:InternshipsProps){
       return internshipApi.findByField({
         user_id: userId!,
         keyword: debouncedValue,
-        fields:["company","description","role"]
+        fields: ['company', 'description', 'role'],
       });
     },
     {
       refetchOnWindowFocus: true,
-    }
+      refetchOnMount: true,
+    },
   );
 
   if (query.error || (query.data && "error" in query.data)) {

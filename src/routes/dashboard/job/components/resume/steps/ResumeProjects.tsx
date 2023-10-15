@@ -137,7 +137,7 @@ return (
               </div>
               <div className="flex w-full flex-col gap-1 p-2">
                 <h2 className="card-title">{item.name}</h2>
-                <p className="line-clamp-1 text-sm">{item.description}</p>
+                <p className="line-clamp-3 text-sm">{item.description}</p>
 
 
               </div>

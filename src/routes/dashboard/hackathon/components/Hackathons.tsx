@@ -1,15 +1,16 @@
-import { Link2, Plus } from "lucide-react";
-import { HackathonCard } from "./HackathonCard";
-import { Link, useQueryClient, useSSQ } from "rakkasjs";
-import {
-  THackathonInputType,
-  hackathonApi,
-} from "@/routes/api/helpers/prisma/hackathon";
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { useDebouncedValue } from "@/utils/hooks/debounce";
-import { Suspense, useState } from "react";
 import { Spinner } from "@/components/navigation/Spinner";
+import { THackathonInputType, hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
+import { useDebouncedValue } from "@/utils/hooks/debounce";
+import { Link2, Plus } from "lucide-react";
+import { Link, useQueryClient, useSSQ } from "rakkasjs";
+import { Suspense, useState } from "react";
+
+
+
+import { HackathonCard } from "./HackathonCard";
+
 
 interface HackathonsProps {}
 
@@ -28,7 +29,8 @@ export function Hackathons({}: HackathonsProps) {
     },
     {
       refetchOnWindowFocus: true,
-    }
+      refetchOnMount: true,
+    },
   );
 
   if (query.error || (query.data && "error" in query.data)) {

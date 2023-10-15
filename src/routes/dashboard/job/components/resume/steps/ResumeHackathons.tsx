@@ -140,7 +140,7 @@ export function ResumeHackathons({
                 )}
               </div>
               <h3 className="text-2xl font-bold">{item.name}</h3>
-              <h3 className="">{item.description}</h3>
+              <h3 className="line-clamp-3">{item.description}</h3>
               <div className="flex w-full flex-wrap gap-2 p-1">
                 {item?.technologies &&
                   item?.technologies.map((tech) => (
