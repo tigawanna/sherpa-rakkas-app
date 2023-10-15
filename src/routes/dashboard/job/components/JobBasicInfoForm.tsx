@@ -108,9 +108,9 @@ const isLoading = create_mutation.isLoading || update_mutation.isLoading;
         value={input["description"] ?? ""}
         // input={input}
         field_name={"Job Description"}
-        className="min-h-[10px]"
+        className="min-h-[200px]"
         description="copy-paste in your job description"
-        label_classname="text-base capitalize"
+        label_classname="text-base capitalize gap-2"
         onChange={handleChange}
         editing={editing}
       />

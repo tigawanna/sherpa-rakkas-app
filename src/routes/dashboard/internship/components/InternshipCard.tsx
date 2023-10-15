@@ -51,7 +51,7 @@ export function InternshipCard({ item, refetch }: InternshipCardProps) {
       <div className="flex gap-2 items-start justify-between">
         <Link
           href={`/dashboard/internship/${item?.id}`}
-          className="hover:bg-base-300 hover:text-accent w-full rounded-lg"
+          className=" hover:text-accent w-full rounded-lg"
         >
           <h3 className="text-2xl font-bold">{item.company}</h3>
           <h3 className="">{item.role}</h3>

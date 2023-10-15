@@ -52,7 +52,7 @@ export function JobApplicationCard({ item, refetch }: JobApplicationCardProps) {
           href={`/dashboard/job/${item.id}`}
           key={item.id}
           about="view job application"
-          className="flex w-full flex-col justify-center gap-1 rounded-md hover:brightness-75
+          className="flex w-full flex-col justify-center gap-1 rounded-md hover:text-accent
             p-2  "
         >
           <h3 className="text-2xl font-bold">{item.job_title}</h3>

@@ -35,7 +35,7 @@ export function Projects({}: ProjectsProps) {
   const projects = query.data;
 
   return (
-    <div className="relative flex h-full w-full flex-col gap-2 pb-5">
+    <div className="relative flex justify-center h-full w-full flex-col gap-2 p-5">
       {/* header+ search bar + add new project link */}
       <div className="sticky top-[5%] flex flex-wrap w-full items-center justify-evenly p-2 gap-3">
         <h2 className="text-2xl font-bold">Projects</h2>

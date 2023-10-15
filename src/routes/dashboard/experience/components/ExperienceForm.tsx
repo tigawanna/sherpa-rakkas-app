@@ -138,6 +138,7 @@ export function ExperienceForm({
           // input={input}
           field_name={"Job Description"}
           label_classname="text-base capitalize"
+          className="min-h-[200px]"
           onChange={handleChange}
           editing={editing}
         />

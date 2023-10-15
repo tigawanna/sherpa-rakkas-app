@@ -50,7 +50,7 @@ export function ContentCard({ item, refetch }: ContentCardProps) {
       <div className="flex justify-between items-start">
         <Link
         href={`/dashboard/content/${item?.id}`}
-        className="hover:bg-base-300 hover:text-accent w-full rounded-lg ">
+        className="hover:text-accent w-full rounded-lg ">
         <h3 className="text-2xl font-bold">{item.title}</h3>
         <h3 className="border border-accent rounded-lg px-2 w-fit">{item.type}</h3>
       </Link>
