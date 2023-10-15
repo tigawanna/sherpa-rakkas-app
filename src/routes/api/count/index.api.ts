@@ -9,7 +9,7 @@ export async function get(ctx: RequestContext) {
         const user_id = params.get('user_id');
         const model = params.get('model');
      
-        console.log({model,user_id})
+        // console.log({model,user_id})
         if (!user_id) {
             return json({
                 error: {

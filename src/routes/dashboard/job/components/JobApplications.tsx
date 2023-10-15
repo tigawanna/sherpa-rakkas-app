@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { Link, useQueryClient, useSSQ } from "rakkasjs";
 import { Suspense, useState } from "react";
 import { JobApplicationCard } from "./JobApplicationCard";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 
 

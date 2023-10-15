@@ -1,8 +1,8 @@
 import { artificialDelay } from "@/utils/async";
 import { useQueryClient, useMutation, Link, useLocation } from "rakkasjs";
-import { Button } from "../shadcn/ui/button";
+import { Button } from "../../shadcn/ui/button";
 import { Loader, LogOut } from "lucide-react";
-import { Avatar, AvatarFallback } from "../shadcn/ui/avatar";
+import { Avatar, AvatarFallback } from "../../shadcn/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 
 

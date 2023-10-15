@@ -6,7 +6,7 @@ import { educationApi } from "@/routes/api/helpers/prisma/education";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { Link, useQueryClient, useSSQ } from "rakkasjs";
 import { Suspense, useState } from "react";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 interface EducationsProps {
 

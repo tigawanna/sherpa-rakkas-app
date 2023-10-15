@@ -1,5 +1,5 @@
 import { Link, StyledLink } from "rakkasjs";
-import { MiniSettingsModal } from "./MiniSettings";
+import { MiniSettingsModal } from "./mini-settings/MiniSettings";
 
 interface ToolbarProps {}
 

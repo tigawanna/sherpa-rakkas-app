@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import { ProjectCard } from "./ProjectCard";
 import { Link, usePageContext, useSSQ } from "rakkasjs";
 import { projectApi } from "@/routes/api/helpers/prisma/projects";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 import { Suspense, useState } from "react";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";

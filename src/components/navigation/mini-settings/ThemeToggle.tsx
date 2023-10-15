@@ -8,8 +8,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../shadcn/ui/select";
-import { Label } from "../shadcn/ui/label";
+} from "../../shadcn/ui/select";
+import { Label } from "../../shadcn/ui/label";
 
 interface ThemeToggleModalProps {}
 

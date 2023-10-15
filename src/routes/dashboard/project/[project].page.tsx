@@ -2,7 +2,7 @@ import { PageProps,useQueryClient, useSSQ } from "rakkasjs";
 import { ProjectForm } from "./components/ProjectForm";
 import { projectApi } from "@/routes/api/helpers/prisma/projects";
 import { Suspense } from "react";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 
 export default function OneProject({ meta, url,params}: PageProps) {

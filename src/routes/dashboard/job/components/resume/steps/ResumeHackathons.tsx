@@ -10,7 +10,7 @@ import { Suspense, useState } from "react";
 
 import { ResumeFields } from "./ResumeMutiStepForm";
 import { useQueryFetcher } from "@/utils/async";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 
 interface ResumeHackathonsProps {

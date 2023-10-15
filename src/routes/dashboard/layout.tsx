@@ -2,7 +2,7 @@ import { LayoutProps } from "rakkasjs";
 import { DashboardSidebar } from "./components/LayoutDrawer";
 import { DashBoardLinks } from "./components/DashBoardLinks";
 import { Suspense } from "react";
-import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
+import { SkeletonLoader } from "@/components/navigation/loaders/SkeletonLoader";
 import { Loader } from "lucide-react";
 export default function DashboardLayout({ children,url }: LayoutProps) {
   return (

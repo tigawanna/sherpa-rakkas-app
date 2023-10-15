@@ -23,11 +23,11 @@ export function ProfileStatsCards({
   }
   return (
     <div
-      className="flex w-full flex-col justify-center gap-1 rounded-md border shadow-sm
-       hover:border-accent sm:w-[30%] lg:w-[20%] p-2">
-      <div className="w-full h-full flex justify-between">
+      className="flex w-full flex-col justify-center gap-1 rounded-md border
+       hover:border-accent sm:w-[30%] lg:w-[20%] p-2 shadow-lg">
+      <div className="w-full h-full flex justify-between items-center">
         <h3 className=''>{model}</h3>
-        <div className="text-lg font-bold border-2 border-accent w-10 h-10 rounded-full flex items-center justify-center aspect-square p-2">
+        <div className=" font-bold shadow rounded-full flex items-center justify-center aspect-square p-2">
           {data}
         </div>
       </div>

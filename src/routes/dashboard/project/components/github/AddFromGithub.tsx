@@ -8,7 +8,7 @@ import { Suspense, useState } from "react";
 
 import { TUserProfileInputType } from "../../../components/profile/api";
 import { SearchGithubprojects } from "./SearchGithubprojects";
-import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
+import { SkeletonLoader } from "@/components/navigation/loaders/SkeletonLoader";
 
 
 interface AddFromGithubProps {

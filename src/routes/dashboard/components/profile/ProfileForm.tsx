@@ -95,7 +95,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-secondary/5 p-5">
-      <h2 className="text-2xl font-bold p-1 sticky top-10">Profile</h2>
+      {/* <h2 className="text-2xl font-bold p-1 sticky top-10 ">{user?.name}</h2> */}
       <form
         onSubmit={handleSubmit}
         className="m-1 flex h-full w-full flex-col items-center justify-center"

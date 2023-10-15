@@ -3,9 +3,9 @@ import { PageProps,useQueryClient} from "rakkasjs";
 import { AddFromGithub } from "./components/github/AddFromGithub";
 import { ProjectForm } from "./components/ProjectForm";
 import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
-import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
-import { SpinnerLoader } from "@/components/navigation/SpinnerLoader";
-import { Spinner } from "@/components/navigation/Spinner";
+import { SkeletonLoader } from "@/components/navigation/loaders/SkeletonLoader";
+import { SpinnerLoader } from "@/components/navigation/loaders/SpinnerLoader";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 export default function NewProject({params}: PageProps) {
  const user = useQueryClient().getQueryData("user")

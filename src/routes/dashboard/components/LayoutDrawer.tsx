@@ -1,8 +1,8 @@
 import { MenuIcon } from "lucide-react";
 import { DashBoardLinks } from "./DashBoardLinks";
 import { Link } from "rakkasjs";
-import { CurrentUserSection } from "@/components/navigation/CurrentUserSection";
-import { ThemeToggle } from "@/components/navigation/ThemeToggle";
+import { CurrentUserSection } from "@/components/navigation/mini-settings/CurrentUserSection";
+import { ThemeToggle } from "@/components/navigation/mini-settings/ThemeToggle";
 
 interface LayoutDrawerProps {
 

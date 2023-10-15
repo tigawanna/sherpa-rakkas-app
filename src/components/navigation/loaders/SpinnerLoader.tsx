@@ -1,5 +1,5 @@
 import { Loader } from "lucide-react";
-import { cn } from "../shadcn/lib/utils";
+import { cn } from "../../shadcn/lib/utils";
 
 interface SpinnerLoaderProps {
 className?:string

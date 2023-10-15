@@ -6,7 +6,7 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useQuery, useSSM } from "rakkasjs";
 import { githubApi } from "@/routes/api/helpers/github/github";
 import { RepositoryResponse } from "@/routes/api/helpers/github/types";
-import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
+import { SkeletonLoader } from "@/components/navigation/loaders/SkeletonLoader";
 
 
 interface SearchGithubprojectsProps {

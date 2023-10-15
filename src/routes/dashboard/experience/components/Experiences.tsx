@@ -1,6 +1,6 @@
 import { ReturnedUseQueryEror } from "@/components/error/ReturnedUseQueryEror";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 import { experienceApi } from "@/routes/api/helpers/prisma/experience";
 import { hackathonApi } from "@/routes/api/helpers/prisma/hackathon";
 import { useDebouncedValue } from "@/utils/hooks/debounce";

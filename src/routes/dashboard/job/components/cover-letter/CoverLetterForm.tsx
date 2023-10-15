@@ -1,4 +1,4 @@
-import { Spinner } from "@/components/navigation/Spinner";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
 import { ClientSuspense } from "rakkasjs";
 import { lazy, useEffect } from "react";

@@ -1,4 +1,4 @@
-import { Spinner } from '@/components/navigation/Spinner';
+import { Spinner } from '@/components/navigation/loaders/Spinner';
 import {
   TJobApplicationInputType,
   jobApplicationApi,
