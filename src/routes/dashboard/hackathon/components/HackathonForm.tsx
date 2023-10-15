@@ -110,7 +110,7 @@ export function HackathonForm({
       </div>
       <form
         onSubmit={handleSubmit}
-        className="flex h-full w-full flex-col items-center justify-center gap-2"
+        className="flex h-full w-full flex-col items-center justify-center gap-4"
       >
         <FormHeader editing={editing} updating={updating} name="Hackathon" />
         <TheTextInput<THackathonInputType>
@@ -128,6 +128,7 @@ export function HackathonForm({
           value={input["description"]}
           // input={input}
           field_name={"Brief description"}
+          className="min-h-[200px]"
           label_classname="text-base capitalize"
           onChange={handleChange}
           editing={editing}
@@ -186,7 +187,7 @@ export function HackathonForm({
         </div>
         {editing && (
           <div className="flex w-full items-center justify-center">
-            <button className="btn btn-sm  mt-2 w-[80%] sm:w-[70%] md:w-[40%] ">
+            <button className="btn btn-sm btn-outline  mt-2 w-[80%] sm:w-[70%] md:w-[40%] ">
               {create_mutation.isLoading || update_mutation.isLoading ? (
                 <Loader className="h-6 w-6 animate-spin" />
               ) : (

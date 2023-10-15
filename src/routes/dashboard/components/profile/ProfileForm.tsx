@@ -94,7 +94,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
   const text_area_fields: Array<keyof TUserProfileInputType> = ["about_me"];
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-secondary/5">
+    <div className="flex h-full w-full flex-col items-center justify-center bg-secondary/5 p-5">
       <h2 className="text-2xl font-bold p-1 sticky top-10">Profile</h2>
       <form
         onSubmit={handleSubmit}
@@ -150,6 +150,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
               {text_area_fields.map((field) => {
                 return (
                   <TheTextAreaInput
+                    className="min-h-[200px]"
                     field_key={field}
                     key={field}
                     value={input[field]}

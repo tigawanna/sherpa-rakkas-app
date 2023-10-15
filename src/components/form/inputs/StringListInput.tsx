@@ -67,15 +67,14 @@ export function TheStringListInput<T>({
   const items = input[field_key].split(",") as string[]
   return (
     <div className="flex h-full  w-full flex-col gap-3 ">
-      <div className="flex  w-full flex-wrap gap-2 ">
-        <h1 className="font bold gap- border-b border-b-accent p-1 font-bold">
+      <div className="flex  w-full flex-wrap ietms-center gap-2 ">
+        <h1 className="font bold gap- border-b border-b-accent  font-bold">
           {field_name}
         </h1>
         {items.map((item, idx) => (
           <div
             key={item + idx}
-            className="flex items-center justify-between gap-2 rounded-xl 
-           border border-accent px-2 hover:bg-base-300"
+            className="flex items-center justify-between gap-2 btn btn-xs btn-outline"
           >
             {item}
             {editing && (

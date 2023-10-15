@@ -87,7 +87,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
           }else{
             toast("Project added successfully", { type: "success" })
             qc.invalidateQueries("projects");
-            navigate("/dashboard/project/" + res?.id);
+            navigate("/dashboard/project");
           }
         })
         .catch((error) =>
@@ -107,7 +107,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="flex h-full w-full flex-col items-center justify-center gap-3"
+        className="flex h-full w-full flex-col items-center justify-center gap-4"
       >
         <FormHeader editing={editing} updating={updating} name="Project" />
 
@@ -122,6 +122,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
           field_name={"Description"}
           field_key="description"
           value={input["description"]}
+          className="min-h-[200px]"
           onChange={handleChange}
           editing={editing}
         />
@@ -189,7 +190,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
         {editing && (
           <div className="flex w-full items-center justify-center">
-            <button className="btn btn-sm  mt-2 w-[80%] text-accent sm:w-[70%] md:w-[40%]">
+            <button className="btn btn-sm btn-outline mt-2 w-[80%] text-accent sm:w-[70%] md:w-[40%]">
               {create_mutation.isLoading || update_mutation.isLoading ? (
                 <Loader className="h-6 w-6 animate-spin" />
               ) : (

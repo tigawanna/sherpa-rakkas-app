@@ -1,6 +1,9 @@
 import { LayoutProps } from "rakkasjs";
 import { DashboardSidebar } from "./components/LayoutDrawer";
 import { DashBoardLinks } from "./components/DashBoardLinks";
+import { Suspense } from "react";
+import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
+import { Loader } from "lucide-react";
 export default function DashboardLayout({ children,url }: LayoutProps) {
   return (
     <div className="w-full h-full min-h-screen  flex">
@@ -10,8 +13,13 @@ export default function DashboardLayout({ children,url }: LayoutProps) {
       <div className="fixed top-10 left-1 z-50  md:hidden bg-base-300">
         <DashboardSidebar />
       </div>
-
+    <Suspense fallback={
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <Loader className="animate-spin "/>
+      </div>
+    }>
       {children}
+    </Suspense>
     </div>
   );
 }

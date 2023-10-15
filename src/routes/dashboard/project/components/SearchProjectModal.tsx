@@ -1,5 +1,5 @@
 import {  Plus, X } from "lucide-react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { TProjectInputType, projectApi } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
@@ -31,6 +31,7 @@ const [keyword, setKeyword] = useState("");
 const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 const qc = useQueryClient()
 const user = qc.getQueryData("user") as LineUser
+
 
 const query = useSSQ(async() =>{
     try {
@@ -85,7 +86,8 @@ const query = useSSQ(async() =>{
         )}
       </div>
 
-      <div className="flex h-full w-full flex-wrap items-center justify-center gap-2 p-2">
+<Suspense fallback={<div>Loading...</div>}>
+  <div className="flex h-full w-full flex-wrap items-center justify-center gap-2 p-2">
         {project_search_results && !("error" in project_search_results) &&
           project_search_results.map((project_search) => {
             return (
@@ -162,6 +164,7 @@ const query = useSSQ(async() =>{
             );
           })}
       </div>
+      </Suspense>
     </div>
   );
 }

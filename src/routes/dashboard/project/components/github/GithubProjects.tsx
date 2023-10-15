@@ -1,6 +1,6 @@
 import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { useQuery } from "rakkasjs";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { githubApi } from "@/routes/api/helpers/github/github";
 
@@ -23,13 +23,7 @@ const query = useQuery("github-projects",()=>{
   return githubApi.searchRepoByName({owner:"tigawanna",keyword:debouncedValue})
 })
 
-// if (query.isLoading) {
-//     return (
-//       <div className="flex h-full  w-full items-center justify-center p-2">
-//         <span className="loading loading-infinity loading-lg text-warning"></span>
-//       </div>
-//     );
-//   }
+
   if (query?.error) {
     return (
       <div className="flex h-full  w-full items-center justify-center p-2">
@@ -39,14 +33,8 @@ const query = useQuery("github-projects",()=>{
       </div>
     );
   }
-  // if (!query.data) {
-  //   return (
-  //     <div className="flex h-full w-full flex-col items-center justify-center gap-1 p-2">
-  //       <div className="rounded-lg border p-2">Nothing here</div>
-  //   </div>
-  //   );
-  // }
-  const random_number = Math.floor(Math.random() * 1000);
+
+
   
   function handleChange(e: any) {
     setKeyword(e.target.value);
@@ -67,6 +55,7 @@ return (
         </div>
       )}
     </div>
+<Suspense fallback={<div>Loading...</div>}>
 
     <div className="flex h-full w-full flex-wrap  items-center justify-center gap-2">
       {query.data&&query.data.items.map((project) => {
@@ -101,6 +90,7 @@ return (
         );
       })}
     </div>
+    </Suspense>
   </div>
 );
 }

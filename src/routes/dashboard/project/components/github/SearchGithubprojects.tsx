@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { GithubGeneratedProjectForm } from "./GithubGeneratedProject";
 import { TProjectInputType } from "@/routes/api/helpers/prisma/projects";
 import { useDebouncedValue } from "@/utils/hooks/debounce";
@@ -6,10 +6,12 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useQuery, useSSM } from "rakkasjs";
 import { githubApi } from "@/routes/api/helpers/github/github";
 import { RepositoryResponse } from "@/routes/api/helpers/github/types";
+import { SkeletonLoader } from "@/components/navigation/SkeletonLoader";
 
 
 interface SearchGithubprojectsProps {
   github_username: string;
+  keyword:string;
   modal_id: string;
   setProject: React.Dispatch<React.SetStateAction<TProjectInputType>>;
   project: TProjectInputType;
@@ -20,47 +22,25 @@ interface SearchGithubprojectsProps {
 export function SearchGithubprojects({
   github_username,
   setProject,
+  keyword,
   project,
   addProjectTList,
   modal_id,
   direct_create = false,
 }: SearchGithubprojectsProps) {
-  const [keyword, setKeyword] = useState("");
+
   const [projectToGenerate, setProjectToGenerate] = useState("");
   const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 
 
-
-  // const query = api.github.searchRepoByName.useQuery({
-  //   owner: github_username,
-  //   keyword: debouncedValue,
-  // });
-
-    const query = useQuery("github-projects"+debouncedValue, () =>
+ const query = useQuery("github-projects"+debouncedValue, () =>
       githubApi.searchRepoByName({
         owner: github_username,
         keyword: debouncedValue,
       })
     );
   
-  // const project_query = api.github.getProjectFromGithub.useQuery(
-  //   {
-  //     owner: github_username,
-  //     repo: projectToGenerate,
-  //   },
-  //   {
-  //     enabled: projectToGenerate.length > 2,
-  //     retry: false,
-  //   }
-  // );
-//   const project_query = useQuery("projects", () =>{
-//   return githubApi.getProjectFromGithub({
-//     owner: github_username,
-//     repo: projectToGenerate,
-//   })
-// },{
-//     enabled: projectToGenerate.length > 2,
-// })
+
 
 const create_project_from_github_mutation = useSSM<
   Awaited<ReturnType<typeof githubApi.getProjectFromGithub>>,
@@ -79,9 +59,7 @@ const create_project_from_github_mutation = useSSM<
     create_project_from_github_mutation.mutateAsync(repo);
   }
 
-  function handleChange(e: any) {
-    setKeyword(e.target.value);
-  }
+
 
 
   if (create_project_from_github_mutation.data) {
@@ -102,12 +80,7 @@ const create_project_from_github_mutation = useSSM<
   return (
     <div className="flex h-full w-full flex-col  items-center justify-center gap-2">
       <div className=" relative flex w-full items-center justify-center">
-        <TheTextInput
-          value={keyword}
-          field_key={"keyword"}
-          field_name="Search"
-          onChange={handleChange}
-        />
+
         {(isDebouncing || query.isRefetching) && (
           <div className="absolute top-[20%] flex w-full items-center justify-center p-2">
             <span className="loading loading-infinity loading-lg text-warning"></span>
@@ -125,7 +98,7 @@ const create_project_from_github_mutation = useSSM<
 
 
 
-      <div className="flex w-full flex-wrap  items-center justify-center gap-2">
+    <div className="flex w-full flex-wrap  items-center justify-center gap-2">
         
         {query.data &&
           query.data?.items?.map((project) => {
@@ -161,6 +134,7 @@ const create_project_from_github_mutation = useSSM<
             );
           })}
       </div>
+
     </div>
   );
 }

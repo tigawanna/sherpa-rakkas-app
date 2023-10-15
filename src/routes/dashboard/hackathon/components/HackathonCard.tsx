@@ -47,7 +47,7 @@ export function HackathonCard({ item,refetch }: HackathonCardProps) {
       <div className="flex justify-between items-center">
       <Link
         href={`/dashboard/hackathon/${item?.id}`}
-        className="hover:bg-base-300 hover:text-accent"
+        className="hover:text-accent"
       >
         <h3 className="text-2xl font-bold w-full">{item?.name}</h3>
         <h3 className="line-clamp-2">{item?.description}</h3>
