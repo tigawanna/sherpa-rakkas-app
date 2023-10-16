@@ -1,7 +1,7 @@
 import { Toolbar } from "@/components/navigation/Toolbar";
 import { Nprogress } from "@/components/navigation/nprogress/Nprogress";
 import "cherry-markdown/dist/cherry-markdown.css";
-import { Head, LayoutProps, useLocation } from "rakkasjs";
+import { Head, LayoutProps, PageContext, useLocation } from "rakkasjs";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
@@ -11,7 +11,7 @@ import './index.css';
   const location = useLocation();
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center ">
-
+    {/* <Head description={"Resume building assistant"} /> */}
     <Nprogress isAnimating={location && location?.pending ? true : false} />
       <Toolbar />
       {children}
@@ -30,17 +30,13 @@ import './index.css';
     </div>
   );
 }
-// Layout.preload = () => {
-//   return {
-//     head: (
-//       <Head title="Rakkas bio"/>
-
-
-
-
-//     ),
-
-//   };
-// };
+Layout.preload = (ctx:PageContext) => {
+  return {
+    head:{
+      title: "Sherpa Rakkas",
+      description:"Resume building assistant",
+    }
+  }
+}
 
 export default Layout;
