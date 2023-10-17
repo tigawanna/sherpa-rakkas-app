@@ -38,6 +38,7 @@
     "zod-prisma-types": "^2.7.9"
   },
   "dependencies": {
+    "@google-ai/generativelanguage": "^1.1.0",
     "@hattip/cookie": "^0.0.35",
     "@hattip/response": "^0.0.35",
     "@hookform/resolvers": "^3.3.1",
@@ -66,6 +67,7 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
+    "google-auth-library": "^9.1.0",
     "lucia": "^2.7.1",
     "lucide-react": "^0.279.0",
     "radash": "^11.0.0",

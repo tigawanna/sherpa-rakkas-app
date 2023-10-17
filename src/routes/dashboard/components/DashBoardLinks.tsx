@@ -22,7 +22,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
 
     ];
     
-const drawer = document?.getElementById('my-drawer') as HTMLInputElement
+
     return (
   <div className="h-full">
     <nav className="h-full p-2 flex flex-col items-center gap-4">
@@ -36,7 +36,7 @@ const drawer = document?.getElementById('my-drawer') as HTMLInputElement
             className="p-1 hover:text-accent w-full bg-base-100 rounded group "
             activeClass="text-accent border border-b-accent"
             onClick={() => {
-              drawer?.click();
+           document&&document?.getElementById('my-drawer',)?.click()
             }}
           >
             <div className="flex gap-1 w-full justify-between x">
