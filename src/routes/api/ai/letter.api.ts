@@ -81,11 +81,7 @@ Please submit your resume and a cover letter to [email protected]
 tailor it to the specific needs of your company and the role you are hiring for.**
 `
 
-const promptString = `craft a cover letter for a 
-         software developer using rich text and ATS-friendly 
-        formatting for an applicant with the following resume ${resume_input} 
-        with the following job description ${job_description_input}`;
-const stopSequences: string[] = [];
+
 
 
 
@@ -94,7 +90,64 @@ export async function post(ctx:RequestContext){
     try{
         const MODEL_NAME = "models/text-bison-001";
         const API_KEY = import.meta.env.RAKKAS_PALM_API_KEY;
-    
+
+        const body = await ctx.request.json()
+
+        const job_description_input = body?.input?.job
+        const resume_input = body?.input?.resume;
+
+
+        if (!resume_input) {
+            return json({
+                error: {
+                    message: 'resume is required',
+                    original_error: new Error('resume is required'),
+                },
+            });
+        }
+        if (!job_description_input) {
+            return json({
+                error: {
+                    message: 'job description is required',
+                    original_error: new Error('job description is required'),
+                },
+            });
+        }
+        if (!body?.input?.user_id) {
+            return json({
+                error: {
+                    message: 'user_id is required',
+                    original_error: new Error('resume is required'),
+                },
+            });
+        }
+        const rate_limit_api = new URL(ctx.url.origin)
+        rate_limit_api.pathname = "/api/auth/rate-limit"
+        const is_approved = await ctx.fetch(rate_limit_api.toString(), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: body?.input?.user_id,
+            }),
+        }).then((res) => res.json())
+            .then((res) => res as LuciaUser | ReturnedError)
+
+        if ('error' in is_approved) {
+            return json({
+                error: {
+                    message: is_approved.error.message,
+                    original_error: is_approved.error.original_error,
+                },
+            });
+        }
+        const promptString = `craft a cover letter for a 
+         software developer using rich text and ATS-friendly 
+        formatting for an applicant with the following resume ${resume_input} 
+        with the following job description ${job_description_input}`;
+        const stopSequences: string[] = [];
+
         const client = new TextServiceClient({
             authClient: new GoogleAuth().fromAPIKey(API_KEY),
         });

@@ -27,6 +27,7 @@ export const auth = lucia({
     city,
     phone,
     skills,
+    last_proompted_on,
     name,
   }) => {
     return {
@@ -42,6 +43,7 @@ export const auth = lucia({
       phone,
       skills,
       name,
+      last_proompted_on
     };
   },
 });

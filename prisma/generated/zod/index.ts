@@ -1,4 +1,3 @@
-// @ts-nocheck 
 import { z } from 'zod';
 import type { Prisma } from '@prisma/client';
 
@@ -13,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','username','email','avatar','name','about_me','github_username','linkedin_username','country','city','phone','skills']);
+export const UserScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','username','email','avatar','name','about_me','github_username','linkedin_username','country','city','phone','skills','last_proompted_on']);
 
 export const SessionScalarFieldEnumSchema = z.enum(['id','user_id','active_expires','idle_expires']);
 
@@ -72,6 +71,7 @@ export const UserSchema = z.object({
   city: z.string().nullable(),
   phone: z.string().nullable(),
   skills: z.string().nullable(),
+  last_proompted_on: z.string().nullable(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -301,6 +301,7 @@ export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
   city: z.boolean().optional(),
   phone: z.boolean().optional(),
   skills: z.boolean().optional(),
+  last_proompted_on: z.boolean().optional(),
   auth_session: z.union([z.boolean(),z.lazy(() => SessionFindManyArgsSchema)]).optional(),
   key: z.union([z.boolean(),z.lazy(() => KeyFindManyArgsSchema)]).optional(),
   Project: z.union([z.boolean(),z.lazy(() => ProjectFindManyArgsSchema)]).optional(),
@@ -574,6 +575,7 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.object({
   city: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   phone: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   skills: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  last_proompted_on: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   auth_session: z.lazy(() => SessionListRelationFilterSchema).optional(),
   key: z.lazy(() => KeyListRelationFilterSchema).optional(),
   Project: z.lazy(() => ProjectListRelationFilterSchema).optional(),
@@ -601,6 +603,7 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
   city: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   phone: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   skills: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  last_proompted_on: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   auth_session: z.lazy(() => SessionOrderByRelationAggregateInputSchema).optional(),
   key: z.lazy(() => KeyOrderByRelationAggregateInputSchema).optional(),
   Project: z.lazy(() => ProjectOrderByRelationAggregateInputSchema).optional(),
@@ -659,6 +662,7 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   city: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   phone: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   skills: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  last_proompted_on: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   auth_session: z.lazy(() => SessionListRelationFilterSchema).optional(),
   key: z.lazy(() => KeyListRelationFilterSchema).optional(),
   Project: z.lazy(() => ProjectListRelationFilterSchema).optional(),
@@ -686,6 +690,7 @@ export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderBy
   city: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   phone: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   skills: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  last_proompted_on: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => UserCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => UserMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => UserMinOrderByAggregateInputSchema).optional()
@@ -709,6 +714,7 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
   city: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   phone: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   skills: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  last_proompted_on: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
 export const SessionWhereInputSchema: z.ZodType<Prisma.SessionWhereInput> = z.object({
@@ -1443,6 +1449,7 @@ export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -1470,6 +1477,7 @@ export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreat
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -1497,6 +1505,7 @@ export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.object
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -1524,6 +1533,7 @@ export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdat
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -1550,7 +1560,8 @@ export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = 
   country: z.string().optional().nullable(),
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
-  skills: z.string().optional().nullable()
+  skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable()
 }).strict();
 
 export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyMutationInput> = z.object({
@@ -1568,6 +1579,7 @@ export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyM
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedUpdateManyInput> = z.object({
@@ -1585,6 +1597,7 @@ export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedU
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const SessionCreateInputSchema: z.ZodType<Prisma.SessionCreateInput> = z.object({
@@ -2486,7 +2499,8 @@ export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrd
   country: z.lazy(() => SortOrderSchema).optional(),
   city: z.lazy(() => SortOrderSchema).optional(),
   phone: z.lazy(() => SortOrderSchema).optional(),
-  skills: z.lazy(() => SortOrderSchema).optional()
+  skills: z.lazy(() => SortOrderSchema).optional(),
+  last_proompted_on: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderByAggregateInput> = z.object({
@@ -2503,7 +2517,8 @@ export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderBy
   country: z.lazy(() => SortOrderSchema).optional(),
   city: z.lazy(() => SortOrderSchema).optional(),
   phone: z.lazy(() => SortOrderSchema).optional(),
-  skills: z.lazy(() => SortOrderSchema).optional()
+  skills: z.lazy(() => SortOrderSchema).optional(),
+  last_proompted_on: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderByAggregateInput> = z.object({
@@ -2520,7 +2535,8 @@ export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderBy
   country: z.lazy(() => SortOrderSchema).optional(),
   city: z.lazy(() => SortOrderSchema).optional(),
   phone: z.lazy(() => SortOrderSchema).optional(),
-  skills: z.lazy(() => SortOrderSchema).optional()
+  skills: z.lazy(() => SortOrderSchema).optional(),
+  last_proompted_on: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggregatesFilter> = z.object({
@@ -4395,6 +4411,7 @@ export const UserCreateWithoutAuth_sessionInputSchema: z.ZodType<Prisma.UserCrea
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4421,6 +4438,7 @@ export const UserUncheckedCreateWithoutAuth_sessionInputSchema: z.ZodType<Prisma
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4463,6 +4481,7 @@ export const UserUpdateWithoutAuth_sessionInputSchema: z.ZodType<Prisma.UserUpda
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4489,6 +4508,7 @@ export const UserUncheckedUpdateWithoutAuth_sessionInputSchema: z.ZodType<Prisma
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4515,6 +4535,7 @@ export const UserCreateWithoutKeyInputSchema: z.ZodType<Prisma.UserCreateWithout
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4541,6 +4562,7 @@ export const UserUncheckedCreateWithoutKeyInputSchema: z.ZodType<Prisma.UserUnch
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4583,6 +4605,7 @@ export const UserUpdateWithoutKeyInputSchema: z.ZodType<Prisma.UserUpdateWithout
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4609,6 +4632,7 @@ export const UserUncheckedUpdateWithoutKeyInputSchema: z.ZodType<Prisma.UserUnch
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4635,6 +4659,7 @@ export const UserCreateWithoutProjectInputSchema: z.ZodType<Prisma.UserCreateWit
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4661,6 +4686,7 @@ export const UserUncheckedCreateWithoutProjectInputSchema: z.ZodType<Prisma.User
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4703,6 +4729,7 @@ export const UserUpdateWithoutProjectInputSchema: z.ZodType<Prisma.UserUpdateWit
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4729,6 +4756,7 @@ export const UserUncheckedUpdateWithoutProjectInputSchema: z.ZodType<Prisma.User
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Education: z.lazy(() => EducationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4755,6 +4783,7 @@ export const UserCreateWithoutEducationInputSchema: z.ZodType<Prisma.UserCreateW
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4781,6 +4810,7 @@ export const UserUncheckedCreateWithoutEducationInputSchema: z.ZodType<Prisma.Us
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4823,6 +4853,7 @@ export const UserUpdateWithoutEducationInputSchema: z.ZodType<Prisma.UserUpdateW
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4849,6 +4880,7 @@ export const UserUncheckedUpdateWithoutEducationInputSchema: z.ZodType<Prisma.Us
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4875,6 +4907,7 @@ export const UserCreateWithoutExperienceInputSchema: z.ZodType<Prisma.UserCreate
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4901,6 +4934,7 @@ export const UserUncheckedCreateWithoutExperienceInputSchema: z.ZodType<Prisma.U
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -4943,6 +4977,7 @@ export const UserUpdateWithoutExperienceInputSchema: z.ZodType<Prisma.UserUpdate
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4969,6 +5004,7 @@ export const UserUncheckedUpdateWithoutExperienceInputSchema: z.ZodType<Prisma.U
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -4995,6 +5031,7 @@ export const UserCreateWithoutContentInputSchema: z.ZodType<Prisma.UserCreateWit
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5021,6 +5058,7 @@ export const UserUncheckedCreateWithoutContentInputSchema: z.ZodType<Prisma.User
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5063,6 +5101,7 @@ export const UserUpdateWithoutContentInputSchema: z.ZodType<Prisma.UserUpdateWit
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5089,6 +5128,7 @@ export const UserUncheckedUpdateWithoutContentInputSchema: z.ZodType<Prisma.User
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5115,6 +5155,7 @@ export const UserCreateWithoutHackathonInputSchema: z.ZodType<Prisma.UserCreateW
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5141,6 +5182,7 @@ export const UserUncheckedCreateWithoutHackathonInputSchema: z.ZodType<Prisma.Us
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5183,6 +5225,7 @@ export const UserUpdateWithoutHackathonInputSchema: z.ZodType<Prisma.UserUpdateW
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5209,6 +5252,7 @@ export const UserUncheckedUpdateWithoutHackathonInputSchema: z.ZodType<Prisma.Us
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5235,6 +5279,7 @@ export const UserCreateWithoutInternshipInputSchema: z.ZodType<Prisma.UserCreate
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5261,6 +5306,7 @@ export const UserUncheckedCreateWithoutInternshipInputSchema: z.ZodType<Prisma.U
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5303,6 +5349,7 @@ export const UserUpdateWithoutInternshipInputSchema: z.ZodType<Prisma.UserUpdate
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5329,6 +5376,7 @@ export const UserUncheckedUpdateWithoutInternshipInputSchema: z.ZodType<Prisma.U
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5355,6 +5403,7 @@ export const UserCreateWithoutResumeInputSchema: z.ZodType<Prisma.UserCreateWith
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5381,6 +5430,7 @@ export const UserUncheckedCreateWithoutResumeInputSchema: z.ZodType<Prisma.UserU
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5423,6 +5473,7 @@ export const UserUpdateWithoutResumeInputSchema: z.ZodType<Prisma.UserUpdateWith
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5449,6 +5500,7 @@ export const UserUncheckedUpdateWithoutResumeInputSchema: z.ZodType<Prisma.UserU
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5475,6 +5527,7 @@ export const UserCreateWithoutJobApplicationInputSchema: z.ZodType<Prisma.UserCr
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5501,6 +5554,7 @@ export const UserUncheckedCreateWithoutJobApplicationInputSchema: z.ZodType<Pris
   city: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   skills: z.string().optional().nullable(),
+  last_proompted_on: z.string().optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
@@ -5543,6 +5597,7 @@ export const UserUpdateWithoutJobApplicationInputSchema: z.ZodType<Prisma.UserUp
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUpdateManyWithoutUserNestedInputSchema).optional(),
@@ -5569,6 +5624,7 @@ export const UserUncheckedUpdateWithoutJobApplicationInputSchema: z.ZodType<Pris
   city: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   phone: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   skills: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  last_proompted_on: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   auth_session: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   key: z.lazy(() => KeyUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   Project: z.lazy(() => ProjectUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),

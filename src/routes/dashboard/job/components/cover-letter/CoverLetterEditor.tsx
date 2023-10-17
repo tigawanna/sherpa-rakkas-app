@@ -41,6 +41,16 @@ setCoverLetter,
   });
 
 
+  const ai_mutation= useMutation(
+  (vars) => {
+        return useMutationFetcher(
+      page_ctx,
+      '/api/ai/letter',
+      { input: vars, user_id: userId! },
+      'POST',
+    );
+  }
+)
 
 
    const { height, width } = useWindowSize();
