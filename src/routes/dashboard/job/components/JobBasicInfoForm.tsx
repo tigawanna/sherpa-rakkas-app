@@ -78,7 +78,7 @@ const isLoading = create_mutation.isLoading || update_mutation.isLoading;
   return (
   <form
     onSubmit={handleSubmit}
-    className="flex h-full w-full flex-col items-center justify-center gap-3 "
+    className="flex h-full w-full flex-col items-center justify-center gap-3 p-1"
   >
     {/* <FormHeader editing={editing} updating={updating} name="Job Application" /> */}
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">

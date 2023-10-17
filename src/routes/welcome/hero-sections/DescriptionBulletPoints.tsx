@@ -12,7 +12,7 @@ return (
 				<div className="w-full flex justify-start">
             	<div className="mb-10 w-full lg:w-[60%]">
 					<h3 className="text-3xl font-bold">
-                        Tailor your application with a variable-driven approachh</h3>
+                        Tailor your application with a variable-driven approach</h3>
 					<p className="mt-3 text-lg">
                     Consolidate and reuse important information from your past experience, projects, 
                     internships, hackathons, and open source contributions to create a tailored resume and cover letter
@@ -39,7 +39,7 @@ return (
 								</div>
 							</div>
 							<div className="ml-4">
-								<h4 className="text-lg font-medium leadi dark:text-gray-50 ">
+								<h4 className="text-lg font-medium leadi  ">
                                   Highlight your skills and experience in a central place
                                 </h4>
 								<p className="mt-2 dark:text-gray-400">

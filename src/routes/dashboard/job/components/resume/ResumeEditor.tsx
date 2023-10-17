@@ -51,7 +51,8 @@ export default function ResumeEditor({
     // return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
         return useMutationFetcher(page_ctx,'/api/job', { input: vars, user_id: userId! },"PUT");
   });
- const {height,width} = useWindowSize()
+ 
+  const {height,width} = useWindowSize()
   useEffect(() => {
         if (!cherry.current) {
             cherry.current = new Cherry({
@@ -132,7 +133,7 @@ export default function ResumeEditor({
       <div className='flex gap-2'>
         <Button
             size={'sm'}
-          className="btn btn-outline btn-sm"
+          className="btn btn-outline btn-sm "
           type="button"
           onClick={(e) => {
             e.stopPropagation();

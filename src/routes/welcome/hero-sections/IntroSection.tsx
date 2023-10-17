@@ -11,7 +11,7 @@ return (
 		<div className="w-full flex flex-col  p-6 mx-auto  lg:flex-row lg:justify-between">
 			<div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
 				<h1 className="text-6xl font-bold sm:text-6xl">Sherpa</h1>
-				<p className="mt-6 mb-8 text-lg font-normal sm:mb-12">Scafold out a job specific resume and cover letter ,
+				<p className="mt-6 mb-8 text-lg font-normal sm:mb-12">Scaffold out a job specific resume and cover letter ,
                 <br />
                 Easily create tailored resumes and cover letters for every job application
                     </p>

@@ -1,16 +1,17 @@
 import { Loader } from "lucide-react";
 import { cn } from "../../shadcn/lib/utils";
+import { Spinner } from "./Spinner";
 
 interface SpinnerLoaderProps {
 className?:string
 size?:string
 }
 
-export function SpinnerLoader({className,size}:SpinnerLoaderProps){
+export function SpinnerLoader({className,size="100px"}:SpinnerLoaderProps){
   
 return (
     <div className={cn("w-full flex items-center justify-center",className)}>
-      <Loader className={cn("animate-spin",size)}/>
+      <Spinner size={size} />
     </div>
 );
 }
