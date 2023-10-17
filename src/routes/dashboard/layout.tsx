@@ -3,6 +3,7 @@ import { DashboardSidebar } from "./components/LayoutDrawer";
 import { DashBoardLinks } from "./components/DashBoardLinks";
 import { Suspense } from "react";
 import { Loader } from "lucide-react";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 export default function DashboardLayout({ children,url }: LayoutProps) {
   return (
     <div className="w-full h-full min-h-screen  flex">
@@ -14,7 +15,7 @@ export default function DashboardLayout({ children,url }: LayoutProps) {
       </div>
     <Suspense fallback={
     <div className="min-h-screen w-full flex items-center justify-center">
-      <Loader className="animate-spin "/>
+      <Spinner size="100px"/>
       </div>
     }>
       {children}

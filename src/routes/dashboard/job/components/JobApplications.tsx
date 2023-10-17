@@ -82,8 +82,8 @@ return (
         </div>
       )}
     {/* contents */}
-{/* 
-    <Suspense fallback={<Spinner size="100px"/>}> */}
+
+  <Suspense fallback={<Spinner size="100px"/>}>
     <div className="flex h-full w-full flex-wrap items-center justify-center gap-2">
       {data &&
         data.map((item) => {
@@ -92,7 +92,7 @@ return (
             }
         })}
     </div>
-  {/* </Suspense> */}
+  </Suspense> 
   </div>
 );
 }

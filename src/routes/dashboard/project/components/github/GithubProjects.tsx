@@ -3,6 +3,7 @@ import { useQuery } from "rakkasjs";
 import { Suspense, useState } from "react";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { githubApi } from "@/routes/api/helpers/github/github";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 
 
@@ -55,7 +56,7 @@ return (
         </div>
       )}
     </div>
-<Suspense fallback={<div>Loading...</div>}>
+<Suspense fallback={<Spinner size="100px"/>}>
 
     <div className="flex h-full w-full flex-wrap  items-center justify-center gap-2">
       {query.data&&query.data.items.map((project) => {

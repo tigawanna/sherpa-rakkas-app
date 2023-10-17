@@ -6,6 +6,7 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useQuery, useQueryClient, useSSQ } from "rakkasjs";
 import { prisma } from "@/lib/db/prisma";
 import { LineUser } from "@lucia-auth/oauth/providers";
+import { Spinner } from "@/components/navigation/loaders/Spinner";
 
 
 interface SearchProjectModalProps {
@@ -86,7 +87,7 @@ const query = useSSQ(async() =>{
         )}
       </div>
 
-<Suspense fallback={<div>Loading...</div>}>
+<Suspense fallback={ <Spinner size="100px"/>}>
   <div className="flex h-full w-full flex-wrap items-center justify-center gap-2 p-2">
         {project_search_results && !("error" in project_search_results) &&
           project_search_results.map((project_search) => {
