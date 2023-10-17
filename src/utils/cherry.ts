@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Copyright (C) 2021 THL A29 Limited, a Tencent company.
  *
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import cloneDeep from 'lodash/cloneDeep';
 
 const callbacks = {
     /**
@@ -388,7 +388,7 @@ const defaultConfig = {
     // 外层容器不存在时，是否强制输出到body上
     forceAppend: true,
     // The locale Cherry is going to use. Locales live in /src/locales/
-    locale: 'zh_CN',
+    locale: 'en_US',
 };
 
-export default cloneDeep(defaultConfig);
+
