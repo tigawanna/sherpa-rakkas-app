@@ -127,7 +127,7 @@ export function ProfileForm({ user, updating }: ProfileFormProps) {
             }
           />
 
-          <div className="flex h-full w-full sm:w-[60%] sm:min-w-[60%] flex-col items-center gap-5">
+          <div className="flex h-full min-w-[90%] sm:min-w-[50%] flex-col items-center gap-5">
             {/* text fields */}
             <div className="flex w-full flex-col items-center justify-center gap-2 ">
               {text_fields.map((field) => {
