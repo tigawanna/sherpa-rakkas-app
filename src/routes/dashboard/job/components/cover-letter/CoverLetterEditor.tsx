@@ -2,6 +2,7 @@ import { Button } from '@/components/shadcn/ui/button';
 import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helpers/prisma/job-application';
 import { useMutationFetcher } from '@/utils/async';
 import { copytoClipBoard } from '@/utils/helpers/copy-to-clipboard';
+import { useWindowSize } from '@/utils/hooks/useWindowSize';
 import Cherry from 'cherry-markdown';
 import { Copy, Printer, Save } from 'lucide-react';
 import { useMutation, usePageContext } from 'rakkasjs';
@@ -39,15 +40,27 @@ setCoverLetter,
     );
   });
 
-  useEffect(() => {
-    if (!cherry.current) {
-      cherry.current = new Cherry({
-        id: 'cherry-markdown',
-        value: '',
-        locale: 'en_US',
-      });
-    }
-  }, []);
+
+
+
+   const { height, width } = useWindowSize();
+   useEffect(() => {
+     if (!cherry.current) {
+       cherry.current = new Cherry({
+         id: 'cherry-markdown',
+         value: '',
+         locale: 'en_US',
+         editor: {
+           // defaultModel The default mode of the editor after initialization. There are three modes: 1. Double column edit preview mode; 2. Pure editing mode; 3. Preview mode
+           // edit&preview: Double column edit preview mode
+           // editOnly: Pure editing mode (without preview, you can switch to double column or preview mode through toolbar)
+           // previewOnly: Preview mode (there is no edit box, the toolbar only displays the "return to edit" button, which can be switched to edit mode through the toolbar)
+           defaultModel: width > 850 ? 'edit&preview' : 'editOnly',
+         },
+       });
+     }
+   }, []);
+
   useEffect(() => {
     const html_as_markdwon = cherry.current?.engine.makeMarkdown(
       application_input?.cover_letter,
@@ -57,6 +70,10 @@ setCoverLetter,
       // cherry.current?.setMarkdown(html_as_markdwon);
     }
   }, [cherry.current, application_input?.cover_letter]);
+  
+   useEffect(() => {
+     cherry.current?.switchModel(width > 850 ? 'edit&preview' : 'editOnly');
+   }, [width]);
 
   function exportMarkdown() {
     cherry.current?.export('pdf', 'cover-letter.md');
@@ -85,7 +102,9 @@ setCoverLetter,
 
   return (
     <div className="flex flex-col h-full w-full items-center justify-center gap-1">
-      <div className="flex w-full gap-2 sticky top-10 z-50 p-1">
+      
+      <div className="flex flex-wrap items-center justify-center w-full gap-2 sticky top-10 z-50 p-1">
+      <div className='flex gap-2'>
         <Button
             size={'sm'}
           className="btn btn-outline btn-sm"
@@ -125,9 +144,45 @@ setCoverLetter,
               copy
             </Button>
       </div>
+        <div className='flex gap-2'>
+           <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("edit&preview")
+              }
+              }>
+              Split view
+            </Button>
+
+            <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("editOnly")
+              }
+              }>
+              Edit view
+            </Button>
+
+            <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("previewOnly")
+              }
+              }>
+              Preview view
+            </Button>
+      </div>
+ 
+      </div>
       {/* <APIs cherry={cherry} /> */}
 
-      <div id="cherry-markdown" />
+      <div id="cherry-markdown" className='w-full'/>
     </div>
   );
 }

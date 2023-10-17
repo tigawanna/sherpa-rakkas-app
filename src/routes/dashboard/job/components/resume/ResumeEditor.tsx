@@ -3,6 +3,7 @@ import { TJobApplicationInputType, jobApplicationApi } from '@/routes/api/helper
 import { TResumeInputType, resumeApi } from '@/routes/api/helpers/prisma/resume';
 import { useMutationFetcher } from '@/utils/async';
 import { copytoClipBoard } from '@/utils/helpers/copy-to-clipboard';
+import { useWindowSize } from '@/utils/hooks/useWindowSize';
 import Cherry from 'cherry-markdown/dist/cherry-markdown.core';
 import { Copy, Printer, Save } from 'lucide-react';
 import { useMutation, usePageContext } from 'rakkasjs';
@@ -50,17 +51,24 @@ export default function ResumeEditor({
     // return jobApplicationApi.updateOne({ input: vars, user_id: userId! });
         return useMutationFetcher(page_ctx,'/api/job', { input: vars, user_id: userId! },"PUT");
   });
-
+ const {height,width} = useWindowSize()
   useEffect(() => {
         if (!cherry.current) {
             cherry.current = new Cherry({
-                id: 'cherry-markdown',
-                value: '',
-                locale: 'en_US',
+              id: 'cherry-markdown',
+              value: '',
+              locale: 'en_US',
+              editor: {
+                // defaultModel The default mode of the editor after initialization. There are three modes: 1. Double column edit preview mode; 2. Pure editing mode; 3. Preview mode
+                // edit&preview: Double column edit preview mode
+                // editOnly: Pure editing mode (without preview, you can switch to double column or preview mode through toolbar)
+                // previewOnly: Preview mode (there is no edit box, the toolbar only displays the "return to edit" button, which can be switched to edit mode through the toolbar)
+                defaultModel:width>850?"edit&preview":"editOnly",
+              },
             });
         }
     }, []);
-    useEffect(() => {
+  useEffect(() => {
         const html_as_markdwon = cherry.current?.engine.makeMarkdown(html_string);
         if (html_as_markdwon) {
             cherry.current?.setMarkdown(html_as_markdwon);
@@ -68,7 +76,9 @@ export default function ResumeEditor({
         }
    
     }, [cherry.current,html_string]);
-
+  useEffect(()=>{
+  cherry.current?.switchModel(width>850?"edit&preview":"editOnly")
+  },[width])
 
     function exportMarkdown(){
       cherry.current?.export('pdf', 'resume.md');
@@ -119,25 +129,31 @@ export default function ResumeEditor({
     return (
         <div className="flex min-h-[200px] flex-col h-full w-full items-center justify-center gap-1">
           <div className='flex w-full gap-5 sticky top-10 z-50 p-1'>
-            <Button className="btn btn-outline btn-sm" 
-              type='button'
-              size={'sm'}
-             onClick={(e) =>{
-              e.stopPropagation();
-              exportMarkdown()}}>
-              <Printer className="w-6 h-6" />
-              print
-            </Button>
-            
-            <Button className="btn btn-outline btn-sm" 
-                size={'sm'}
-            type='button'
-            onClick={(e) =>{
-              e.stopPropagation();
-              setMarkdownToResume()}}>
-              <Save className="w-6 h-6" />
-              save
-            </Button>
+      <div className='flex gap-2'>
+        <Button
+            size={'sm'}
+          className="btn btn-outline btn-sm"
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            exportMarkdown();
+          }}
+        >
+          <Printer className="w-6 h-6" />
+          print
+        </Button>
+        <Button
+            size={'sm'}
+          className="btn btn-outline btn-sm"
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setMarkdownToResume();
+          }}
+        >
+          <Save className="w-6 h-6" />
+          save
+        </Button>
 
             <Button className="btn btn-outline btn-sm" 
             size={'sm'}
@@ -152,11 +168,46 @@ export default function ResumeEditor({
               <Copy className="w-6 h-6" />
               copy
             </Button>
+      </div>
+        <div className='flex gap-2'>
+           <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("edit&preview")
+              }
+              }>
+              Split view
+            </Button>
+
+            <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("editOnly")
+              }
+              }>
+              Edit view
+            </Button>
+
+            <Button className="btn btn-outline btn-sm text-xs font-normal" 
+            size={'sm'}
+            type='button'
+            onClick={(e) =>{
+              e.stopPropagation();
+               cherry.current?.switchModel("previewOnly")
+              }
+              }>
+              Preview view
+            </Button>
+      </div>
             
           </div>
             {/* <APIs cherry={cherry} /> */}
 
-            <div id="cherry-markdown" />
+            <div id="cherry-markdown" className='w-full'/>
         </div>
     );
 }
