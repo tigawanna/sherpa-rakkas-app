@@ -66,7 +66,7 @@ export function TheStringListInput<T>({
   // @ts-expect-error
   const items = input[field_key].split(",") as string[]
   return (
-    <div className="flex h-full  w-full flex-col gap-3 ">
+    <div className="flex h-full  flex-col gap-3 ">
       <div className="flex  w-full flex-wrap ietms-center gap-2 ">
         <h1 className="font bold gap- border-b border-b-accent  font-bold">
           {field_name}

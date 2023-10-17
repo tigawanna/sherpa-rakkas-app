@@ -58,7 +58,7 @@ export function TheCountryFields({
   // console.log("country query  === ",country_query)
   const handleChange = (e: any) => {
     const { value } = e.target;
-    console.log("searching ", e?.target?.id);
+    // console.log("searching ", e?.target?.id);
     setFinishedSearch(false);
     setKeyword({ ...keyword, [e.target.id]: value });
   };
@@ -87,7 +87,7 @@ export function TheCountryFields({
   }
 
   return (
-    <div className="min-h-sm flex w-full cursor-pointer flex-wrap items-center  gap-2 ">
+    <div className="min-h-sm flex cursor-pointer flex-wrap items-center  gap-2 ">
       {editing && (
         <div className="flex items-center justify-center">
           <div className="flex flex-col gap-[1px]">
