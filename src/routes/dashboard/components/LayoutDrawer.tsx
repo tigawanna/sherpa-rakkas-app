@@ -1,8 +1,7 @@
 import { MenuIcon } from "lucide-react";
 import { DashBoardLinks } from "./DashBoardLinks";
 import { Link } from "rakkasjs";
-import { CurrentUserSection } from "@/components/navigation/mini-settings/CurrentUserSection";
-import { ThemeToggle } from "@/components/navigation/mini-settings/ThemeToggle";
+
 
 interface LayoutDrawerProps {
 
@@ -25,7 +24,7 @@ return (
         aria-label="close sidebar"
         className="drawer-overlay "
       ></label>
-      <div className="h-full flex flex-col gap-1 z-50 bg-base-100/80">
+      <div className="h-full min-w-[60%] flex flex-col gap-1 z-50 bg-base-100/80">
         <Link href="/" className="text-2xl font-bold bg-primary p-1">
           Home
         </Link>

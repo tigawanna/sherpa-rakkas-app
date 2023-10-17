@@ -1,6 +1,7 @@
 import { isLinkCurrentPathname } from "@/utils/async";
 import { Bookmark, ClipboardCheck, FileSearch2, GraduationCap, HelpingHand, LayoutDashboard, Pencil, Presentation, Trophy, UserCircle } from "lucide-react";
-import { usePageContext, StyledLink } from "rakkasjs";
+import { StyledLink, usePageContext } from "rakkasjs";
+
 
 interface DashBoardLinksProps {
 
@@ -20,7 +21,9 @@ export function DashBoardLinks({}:DashBoardLinksProps){
       { name: "job application", href: "/dashboard/job", icon:FileSearch2 },
 
     ];
-return (
+    
+const drawer = document?.getElementById('my-drawer') as HTMLInputElement
+    return (
   <div className="h-full">
     <nav className="h-full p-2 flex flex-col items-center gap-4">
       {links.map((link) => {
@@ -32,6 +35,9 @@ return (
             href={isLinkCurrentPathname(link.href, url)?"":link.href}
             className="p-1 hover:text-accent w-full bg-base-100 rounded group "
             activeClass="text-accent border border-b-accent"
+            onClick={() => {
+              drawer?.click();
+            }}
           >
             <div className="flex gap-1 w-full justify-between x">
               <button

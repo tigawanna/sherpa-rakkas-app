@@ -1,15 +1,11 @@
 import { useQueryClient } from 'rakkasjs';
 import { useState } from 'react';
-
 import { Avatar, AvatarFallback, AvatarImage } from '../../shadcn/ui/avatar';
 import { Button } from '../../shadcn/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '../../shadcn/ui/dropdown-menu';
 import { CurrentUserSection } from './CurrentUserSection';
