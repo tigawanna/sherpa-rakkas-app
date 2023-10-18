@@ -1,12 +1,6 @@
 import { Spinner } from '@/components/navigation/loaders/Spinner';
-import {
-  TJobApplicationInputType,
-  jobApplicationApi,
-} from '@/routes/api/helpers/prisma/job-application';
-import {
-  TResumeInputType,
-  resumeApi,
-} from '@/routes/api/helpers/prisma/resume';
+import { TJobApplicationInputType,jobApplicationApi,} from '@/routes/api/helpers/prisma/job-application';
+import { TResumeInputType, resumeApi} from '@/routes/api/helpers/prisma/resume';
 import { useMutationFetcher } from '@/utils/async';
 import Cherry from 'cherry-markdown';
 import { Save } from 'lucide-react';

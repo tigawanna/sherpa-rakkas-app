@@ -1,17 +1,9 @@
 import { Spinner } from '@/components/navigation/loaders/Spinner';
-import {
-  TJobApplicationInputType,
- 
-} from '@/routes/api/helpers/prisma/job-application';
-import {
-  TResumeInputType,
-
-} from '@/routes/api/helpers/prisma/resume';
-
+import { TJobApplicationInputType } from '@/routes/api/helpers/prisma/job-application';
+import { TResumeInputType } from '@/routes/api/helpers/prisma/resume';
 import Cherry from 'cherry-markdown';
 import { ClientSuspense} from 'rakkasjs';
 import { lazy } from 'react';
-
 import { ResumeEditorControls } from './ResumeEditorControls';
 
 interface ResumeEditorProps {
