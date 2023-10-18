@@ -22,7 +22,7 @@ export async function post(ctx: RequestContext) {
       const this_hour= new Date().getHours();
       console.log({last_proompted_on,last_proompted_on_hour, this_hour});
 
-      if (last_proompted_on_hour + 3 > this_hour) {
+      if (last_proompted_on_hour > this_hour) {
         console.log("TO BE RATE LIMITED");
         return json({
           error: {

@@ -1,6 +1,5 @@
 
 import { TextServiceClient, } from "@google-ai/generativelanguage";
-import { google } from "@google-ai/generativelanguage/build/protos/protos";
 import { json } from "@hattip/response";
 import { GoogleAuth } from "google-auth-library"
 import { RequestContext } from "rakkasjs";
@@ -92,6 +91,7 @@ export async function post(ctx: RequestContext) {
     try {
    
         const body = await ctx.request.json()
+        console.log(" ============ ai resume body ============ ",body)
         const job_description_input = body?.input?.job
         const resume_input = body?.input?.resume
 

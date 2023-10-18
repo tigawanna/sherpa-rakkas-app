@@ -13,7 +13,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
     const links = [
       { name: "dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "projects", href: "/dashboard/project", icon: Presentation },
-      { name: "hacakthons", href: "/dashboard/hackathon", icon:Trophy },
+      { name: "hackathons", href: "/dashboard/hackathon", icon:Trophy },
       { name: "experience", href: "/dashboard/experience", icon:ClipboardCheck },
       { name: "internship", href: "/dashboard/internship", icon:HelpingHand },
       { name: "content", href: "/dashboard/content", icon:Bookmark },
@@ -30,7 +30,7 @@ export function DashBoardLinks({}:DashBoardLinksProps){
         return (
           <StyledLink
             key={link.name}
-            about={link.name}
+            // about={link.name}
             // hidden={isLinkCurrentPathname(link.href, url)}
             href={isLinkCurrentPathname(link.href, url)?"":link.href}
             className="p-1 hover:text-accent w-full bg-base-100 rounded group "
