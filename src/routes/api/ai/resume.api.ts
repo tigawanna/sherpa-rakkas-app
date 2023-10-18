@@ -128,6 +128,7 @@ export async function post(ctx: RequestContext) {
             },
             body: JSON.stringify({
                 user_id: body?.input?.user_id,
+                type:"resume"
             }),
         }).then((res) => res.json())
         .then((res) => res as LuciaUser|ReturnedError)

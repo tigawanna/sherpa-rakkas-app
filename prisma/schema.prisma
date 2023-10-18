@@ -42,7 +42,8 @@ model User {
   skills            String?
 
   // last ai session date for rae limiting
-  last_proompted_on String?
+  last_resume_on String?
+  last_letter_on String?
 
   // this is require for lucia auth
   auth_session   Session[]

@@ -20,7 +20,8 @@ declare interface LuciaUser{
     city?: string;
     phone?: string;
     skills?: string;
-    last_proompted_on?:string
+    last_resume_on?:string
+    last_letter_on?:string
 }
 
 declare class CustomError extends Error {
