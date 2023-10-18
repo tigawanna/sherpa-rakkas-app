@@ -187,7 +187,7 @@ export async function post(ctx:RequestContext){
 
   
         return json({
-            resume:cover_letter_response,
+            output:cover_letter_response,
             original_response:result
         }, { status: 200 });
         

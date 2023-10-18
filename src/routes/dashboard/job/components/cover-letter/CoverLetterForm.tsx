@@ -1,10 +1,9 @@
-import { Spinner } from "@/components/navigation/loaders/Spinner";
 import { TJobApplicationInputType } from "@/routes/api/helpers/prisma/job-application";
-import { ClientSuspense } from "rakkasjs";
-import { lazy, useEffect } from "react";
+import { useEffect } from "react";
+import { CoverLetterEditor } from "./editor/CoverLetterEditor";
 
 
-const CoverletterEditor = lazy(() => import("./CoverLetterEditor"));
+
 
 interface CoverLetterFormProps {
   setCoverLetter: (letter: string) => void;
@@ -28,10 +27,8 @@ export function CoverLetterForm({application_input,setCoverLetter,updating}:Cove
   },[])
 return (
  <div className='w-full h-full min-h-[200px] flex items-center justify-center'>
-    <ClientSuspense fallback={<Spinner size="100px"/>}>
-        <CoverletterEditor application_input={application_input} 
+    <CoverLetterEditor application_input={application_input} 
         setCoverLetter={setCoverLetter} updating={updating}/>
-    </ClientSuspense>
- </div>
+</div>
 );
 }

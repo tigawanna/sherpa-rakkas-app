@@ -21,7 +21,7 @@ export interface AiGeneratorInput {
   resume: string;
 }
 export interface AiGeneratorResponse {
-  resume: string;
+  output: string;
   original_response: any;
 }
 export type AiResumeResponse = AiGeneratorResponse | ReturnedError;
@@ -105,23 +105,23 @@ export function ResumeEditorControls({
       .then((res) => {
         //    if mutaio errored
         if (res && 'error' in res) {
-          toast(`Creating Resume  failed : ${res.error.message}`, {
+          toast(`Generating Resume  failed : ${res.error.message}`, {
             type: 'error',
           });
           return;
         }
         // succefull response
-        cherry?.setMarkdown(res?.resume);
-        toast(`Resume added to Job application successfully`, {
+        cherry?.setMarkdown(res?.output);
+        toast(`AI Resume generated`, {
           type: 'success',
         });
       })
       .catch((error: any) => {
-        toast(`Creating Resume  failed : ${error.message}`, { type: 'error' });
+        toast(`Generating Resume  failed : ${error.message}`, { type: 'error' });
       });
   }
 
-  function setMarkdownToResume() {
+  function saveResume() {
     const markdown = cherry?.getMarkdown();
     if (!markdown) return;
     cherry && setResume(markdown);
@@ -179,6 +179,7 @@ export function ResumeEditorControls({
     update_mutation.isLoading;
   return (
     <div className="w-full flex gap-1">
+      
       <button
         className="btn btn-outline btn-sm text-xs font-normal rounded-full hover:text-accent"
         about={'save content'}
@@ -186,10 +187,10 @@ export function ResumeEditorControls({
         type="button"
         onClick={(e) => {
           e.stopPropagation();
-          setMarkdownToResume();
+          saveResume();
         }}
       >
-        {is_saving ? <Spinner size="20px" /> : <Save className="w-5 h-5" />}
+        {is_saving ? <Spinner size="30px" /> : <Save className="w-5 h-5" />}
       </button>
 
       <button

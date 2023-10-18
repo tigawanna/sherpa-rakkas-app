@@ -187,7 +187,7 @@ export async function post(ctx: RequestContext) {
 
 
         return json({
-            resume: resume_response,
+            output: resume_response,
             original_response: result
         }, { status: 200 });
 
