@@ -101,7 +101,29 @@ return (
 						</div>
                       </div>
                     </div>
+             {/* import from github */}
+                <div className="flex w-full h-full flex-col lg:flex-row justify-between items-center gap-10">
+						<div className="flex lg:w-[50%] gap-5 bg-base-200 h-full p-5 rounded-md">
+							<div className="flex-shrink-0">
+								<div className="flex items-center justify-center w-12 h-12 rounded-md bg-accent text-accent-content">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+									</svg>
+								</div>
+							</div>
+							<div className="ml-4">
+								<h4 className="text-lg font-medium leadi dark:text-gray-50 ">AI generation</h4>
+								<p className="mt-2 dark:text-gray-400">
+AI generate your resume and cover letter
 
+                            </p>
+							</div>
+						</div>
+                  
+                 	 <div className="w-full lg:w-[40%]" >
+                             <img src="/svg/robot.svg" />
+                        </div>
+                    </div>
 	
 		</div>
 	</section>
