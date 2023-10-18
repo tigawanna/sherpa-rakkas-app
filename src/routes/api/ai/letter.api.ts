@@ -193,7 +193,7 @@ export async function post(ctx:RequestContext){
         }, { status: 200 });
         
     }catch(err:any){
-        console.log("error creating cover letter ========= ",err)
+        // console.log("error creating cover letter ========= ",err)
         return json({message:"error creating cover letter",original_error:err}, { status: 400 });
     }
 }

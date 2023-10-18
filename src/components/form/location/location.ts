@@ -34,7 +34,7 @@ export function getCountries() {
         })
       )
       .catch((err) => {
-        console.log("error getting countries ", err.message);
+        // console.log("error getting countries ", err.message);
         throw err;
       })
   );

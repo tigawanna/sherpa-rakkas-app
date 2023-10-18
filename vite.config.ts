@@ -3,7 +3,11 @@ import rakkas from "rakkasjs/vite-plugin";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), rakkas()],
+  plugins: [tsconfigPaths(), 
+    rakkas({
+    adapter:"vercel"
+  })
+],
   
   server: {
     port: 3000,

@@ -12,7 +12,7 @@ export async function fetchLangauges() {
           return { ...item, value: item.name, label: item.name };
         })
       );
-    console.log(languages);
+    // console.log(languages);
     return languages;
   } catch (error) {
     throw error;

@@ -47,7 +47,7 @@ export const action: ActionHandler = async (
     };
   } catch (error: any) {
     if (error instanceof ZodError) {
-      console.log("ZOD ACTION ERROR ==>", error);
+      // console.log("ZOD ACTION ERROR ==>", error);
       return {
         data: {
           error: {
@@ -64,7 +64,7 @@ export const action: ActionHandler = async (
     }
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.log("PRISMA ACTION ERROR ==>", error);
+      // console.log("PRISMA ACTION ERROR ==>", error);
       return {
         data: {
           error: {
@@ -79,7 +79,7 @@ export const action: ActionHandler = async (
         },
       };
     }
-    console.log("UNCLASSIFIED ACTION ERROR ==>", error);
+    // console.log("UNCLASSIFIED ACTION ERROR ==>", error);
     return {
       data: {
         error: {

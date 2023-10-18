@@ -16,7 +16,7 @@ interface JobApplicationsProps {
 export function JobApplications({}:JobApplicationsProps){
 const qc = useQueryClient();
 const { userId:user_id } = qc.getQueryData('user') as LuciaUser;
-console.log(user_id);
+// console.log(user_id);
 const [keyword, setKeyword] = useState("");
 const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
 

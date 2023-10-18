@@ -27,9 +27,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           where: { userId: user_id },
         })) as T[];
       } catch (error: any) {
-        console.log("error getting all \n VARS ===== ", { user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error getting all \n VARS ===== ", { user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -51,9 +51,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           where: { id: item_id, userId: user_id },
         })) as T;
       } catch (error: any) {
-        console.log("error getting one \n VARS ===== ", { item_id, user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error getting one \n VARS ===== ", { item_id, user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -69,9 +69,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           where: {userId: user_id },
         })) as number
       } catch (error: any) {
-        console.log("error counting records \n VARS ===== ", {user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error counting records \n VARS ===== ", {user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -101,12 +101,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           take: 10,
         })) as T[];
       } catch (error: any) {
-        console.log("error lloking up by name \n VARS ===== ", {
-          item_name,
-          user_id,
-        });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error lloking up by name \n VARS ===== ", {item_name,user_id,});
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -124,7 +121,7 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
       try {
       
         // const fields_to_search = fields.reduce((acc:any, field:any) => {
-        //   console.log("field",field)
+        //   // console.log("field",field)
         //   acc[field] = {
         //     mode: "insensitive",
         //     contains: keyword,
@@ -154,12 +151,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           take: 10,
         })) as T[];
       } catch (error: any) {
-        console.log("error looking up by fields  \n VARS ===== ", {
-        fields,
-          user_id,
-        });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error looking up by fields  \n VARS ===== ", {fields,user_id,});
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -174,9 +168,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
         // @ts-expect-error
         return (await prisma_model.create({ data: input })) as T;
       } catch (error: any) {
-        console.log("error adding new \n VARS ===== ", { input });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error adding new \n VARS ===== ", { input });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -202,9 +196,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           data: input,
         })) as T;
       } catch (error: any) {
-        console.log("error updating \n VARS ===== ", { input ,user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error updating \n VARS ===== ", { input ,user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,
@@ -227,9 +221,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           where: { id: item_id, userId: user_id },
         })) as T;
       } catch (error: any) {
-        console.log("error removing one \n VARS ===== ", { item_id, user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error removing one \n VARS ===== ", { item_id, user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
 
         return {
           error: {
@@ -247,9 +241,9 @@ export function prismaApiWrapper<T>(model:keyof typeof prisma) {
           where: { userId: user_id },
         })) as Prisma.PrismaPromise<Prisma.BatchPayload>;
       } catch (error: any) {
-        console.log("error removing all \n VARS ===== ", { user_id });
-        console.log("===== ERROR mESSAGE======", error.message);
-        console.log("==== FULL ERROR ======", error);
+        // console.log("error removing all \n VARS ===== ", { user_id });
+        // console.log("===== ERROR mESSAGE======", error.message);
+        // console.log("==== FULL ERROR ======", error);
         return {
           error: {
             message: error.message,

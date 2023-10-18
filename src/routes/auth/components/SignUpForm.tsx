@@ -11,11 +11,11 @@ interface SignupFormProps {
 }
 
 export function SignUpForm({ actionData }: SignupFormProps) {
-
+const show_form =false
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center p-5 gap-5">
       <div className="w-full h-full md:w-[60%] lg:w-[40%] flex flex-col gap-4">
-        <form
+    {show_form&&<form
           className="w-full h-full  flex flex-col items-center justify-center gap-4"
           method="POST"
         >
@@ -57,16 +57,23 @@ export function SignUpForm({ actionData }: SignupFormProps) {
           >
             Sign Up
           </Button>
-        </form>
+        </form>}
+        {show_form&& <div className="w-full flex items-center justify-center">
+        <span className="w-full border-t" />
+        <span className="bg-background px-2 text-muted-foreground min-w-fit">
+          Or continue with
+        </span>
+        <span className="w-full border-t" />
+      </div>}
 
         <OAuthproviders />
       </div>
-      <p className=" text-sm">
+{show_form&&<p className=" text-sm">
         Already have an account ?{" "}
         <Link href="/auth" className="text-accent">
           Log in
         </Link>
-      </p>
+      </p>}
     </div>
   );
 }

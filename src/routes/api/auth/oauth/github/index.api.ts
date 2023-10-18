@@ -12,7 +12,7 @@ export async function get(ctx: RequestContext) {
       path: "/",
       maxAge: 60 * 60,
     });
-    console.log({ state, url });
+    // console.log({ state, url });
     return json(null, {
       status: 302,
       headers: {
@@ -21,7 +21,7 @@ export async function get(ctx: RequestContext) {
       },
     });
   } catch (error) {
-    console.log({ error });
+    // console.log({ error });
     return json(error, {
       status: 400,
     });

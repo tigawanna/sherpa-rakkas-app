@@ -63,7 +63,7 @@ export async function get(ctx: RequestContext) {
       attributes: {},
     });
     const sessionCookie = auth.createSessionCookie(session);
-    console.log({ session });
+    // console.log({ session });
     return json(session, {
       headers: {
         Location: "/",
@@ -72,7 +72,7 @@ export async function get(ctx: RequestContext) {
       status: 302,
     });
   } catch (e) {
-    console.log({ "error logging in": e });
+    // console.log({ "error logging in": e });
     if (e instanceof Error) {
       // invalid code
       return json(e, {

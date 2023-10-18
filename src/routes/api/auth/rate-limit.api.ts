@@ -26,10 +26,10 @@ export async function post(ctx: RequestContext) {
        const last_resume_on_hour = last_resume_on.getHours();
 
        const this_hour = new Date().getHours();
-       console.log({ last_resume_on, last_resume_on_hour, this_hour });
+       // console.log({ last_resume_on, last_resume_on_hour, this_hour });
 
        if (last_resume_on_hour + 3 > this_hour) {
-         console.log("TO BE RATE LIMITED");
+         // console.log("TO BE RATE LIMITED");
          return json({
            error: {
              message: `try again in ${last_resume_on_hour + 3 - this_hour} hours`,
@@ -37,12 +37,12 @@ export async function post(ctx: RequestContext) {
            },
          });
        } else {
-         console.log("WITHIN LIMITS");
+         // console.log("WITHIN LIMITS");
          return await updateLastProomptedOn(user_id,"resume");
        }
      }
      else {
-       console.log("WITHIN LIMITS");
+       // console.log("WITHIN LIMITS");
        return await updateLastProomptedOn(user_id,"resume");
 
      }
@@ -57,7 +57,7 @@ export async function post(ctx: RequestContext) {
         // console.log({ last_letter_on, last_letter_on_hour, this_hour });
       // TODO : chage back to +3 hours
         if (last_letter_on_hour + 3 > this_hour) {
-          console.log("TO BE RATE LIMITED");
+          // console.log("TO BE RATE LIMITED");
           return json({
             error: {
               message: `try again in ${last_letter_on_hour + 3 - this_hour} hours`,
@@ -65,12 +65,12 @@ export async function post(ctx: RequestContext) {
             },
           });
         } else {
-          console.log("WITHIN LIMITS");
+          // console.log("WITHIN LIMITS");
           return await updateLastProomptedOn(user_id,"letter");
         }
       }
       else {
-        console.log("WITHIN LIMITS");
+        // console.log("WITHIN LIMITS");
         return await updateLastProomptedOn(user_id,"letter");
 
       }

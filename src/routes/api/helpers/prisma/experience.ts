@@ -41,12 +41,12 @@ export type TExperienceInputType = z.infer<typeof ExperienceSchema>
 //                 take: 10,
 //             }));
 //     } catch (error: any) {
-//         console.log("error lloking up by name \n VARS ===== ", {
+//         // console.log("error lloking up by name \n VARS ===== ", {
 //             keyword,
 //             userId,
 //         });
-//         console.log("===== ERROR mESSAGE======", error.message);
-//         console.log("==== FULL ERROR ======", error);
+//         // console.log("===== ERROR mESSAGE======", error.message);
+//         // console.log("==== FULL ERROR ======", error);
 //         return {
 //             error: {
 //                 message: error.message,

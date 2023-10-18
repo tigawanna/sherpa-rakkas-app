@@ -1,6 +1,3 @@
-import { Link } from "rakkasjs";
-import { Features } from "./Features";
-import { HeroSection } from "./hero-sections/HeroSection";
 import { IntroSection } from "./hero-sections/IntroSection";
 import { DescriptionBulletPoints } from "./hero-sections/DescriptionBulletPoints";
 import { LastStep } from "./hero-sections/LastStep";

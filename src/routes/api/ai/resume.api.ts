@@ -91,7 +91,7 @@ export async function post(ctx: RequestContext) {
     try {
    
         const body = await ctx.request.json()
-        console.log(" ============ ai resume body ============ ",body)
+        // console.log(" ============ ai resume body ============ ",body)
         const job_description_input = body?.input?.job
         const resume_input = body?.input?.resume
 
@@ -193,7 +193,7 @@ export async function post(ctx: RequestContext) {
         }, { status: 200 });
 
     } catch (err: any) {
-        console.log("error creating resume ========= ", err)
+        // console.log("error creating resume ========= ", err)
         return json({ message: "error creating resume", original_error: err }, { status: 400 });
     }
 }
