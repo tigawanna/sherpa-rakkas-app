@@ -227,7 +227,7 @@ const { handleChange, input, setError, setInput, validateInputs } =
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
-    alert("Successful Account Creation");
+    // alert("Successful Account Creation");
   }
 
   // console.log("inpu == ", input); 

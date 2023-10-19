@@ -11,7 +11,8 @@
     "test:typecheck": "tsc -p tsconfig.json --noEmit",
     "test:format": "prettier --check --ignore-unknown src",
     "test:lint": "eslint . --ignore-pattern dist",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "postinstall": "prisma generate"
   },
   "devDependencies": {
     "@prisma/client": "5.4.1",
