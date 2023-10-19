@@ -8,7 +8,6 @@ export default defineConfig({
     adapter:"vercel"
   })
 ],
-  
   server: {
     port: 3000,
     host:true
