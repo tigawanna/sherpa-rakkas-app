@@ -2,7 +2,6 @@
   "name": "sherpa-rakkas-app",
   "type": "module",
   "private": true,
-  
   "scripts": {
     "dev": "rakkas",
     "build": "rakkas build",
@@ -103,5 +102,9 @@
       "prettier-plugin-tailwindcss",
       "@trivago/prettier-plugin-sort-imports"
     ]
+  },
+  "engines": {
+    "node": ">16.x",
+    "npm": ">6.x"
   }
 }
