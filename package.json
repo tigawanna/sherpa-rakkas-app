@@ -12,7 +12,9 @@
     "test:format": "prettier --check --ignore-unknown src",
     "test:lint": "eslint . --ignore-pattern dist",
     "test:unit": "vitest run",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && rakkas build",
+    "prisma:generate": "prisma generate"
   },
   "devDependencies": {
     "@prisma/client": "5.4.1",
